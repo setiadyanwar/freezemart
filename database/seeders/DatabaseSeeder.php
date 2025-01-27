@@ -85,7 +85,9 @@ class DatabaseSeeder extends Seeder
                 'slug' => Str::slug('Sosis Sapi'),
                 'price' => 40000,
                 'image' => 'products/sosis-sapi.jpg',
-                'description' => 'Sosis sapi berkualitas tinggi, cocok untuk berbagai masakan.',
+                'description' => 'Sosis sapi kami dibuat dari daging sapi berkualitas tinggi, dipilih dengan seksama untuk menghasilkan rasa yang luar biasa. Setiap potongan sosis ini diproses secara higienis dan bebas dari bahan pengawet buatan, menjadikannya pilihan sempurna untuk makanan sehat dan lezat.
+
+Dengan tekstur yang lembut dan cita rasa yang kaya, sosis sapi ini cocok untuk berbagai macam hidangan. Nikmati kelezatannya dalam sajian barbeque, tumis sayuran, atau sebagai tambahan dalam masakan pasta favorit Anda. Selain itu, sosis sapi ini juga dapat dijadikan camilan lezat saat dipanggang atau digoreng dengan sedikit minyak zaitun.',
                 'category_id' => 1,
             ],
             [

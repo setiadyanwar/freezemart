@@ -6,8 +6,19 @@
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0 pt-5">
 
             <!-- Heading & Filters -->
-            <div class="mb-4 items-end justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8 mt-8">
+            <div class="mb-4 items-center justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8 mt-8">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Produk</h2>
+                <form action="/products" method="get" class="flex w-full mx-8 items-center space-x-4">
+                    <div class="flex-grow">
+                        <input type="text" id="name" name="search" value="{{ request()->search }}"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            placeholder="Cari disini" />
+                    </div>
+                    <button type="submit"
+                        class="rounded-lg bg-primary-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">
+                        Tampilkan hasil
+                    </button>
+                </form>
                 <div class="flex items-center space-x-4">
                     <button data-modal-toggle="filterModal" data-modal-target="filterModal" type="button"
                         class="flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-500 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
@@ -153,13 +164,13 @@
                         <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
                             <ul class="-mb-px flex flex-wrap text-center text-sm font-medium" id="myTab"
                                 data-tabs-toggle="#myTabContent" role="tablist">
-                                <li class="mr-1" role="presentation">
+                                {{-- <li class="mr-1" role="presentation">
                                     <button
                                         class="inline-block px-2 pb-2 hover:text-gray-600 dark:hover:text-gray-300 border-0"
                                         id="advanced-filers-tab" data-tabs-target="#advanced-filters" type="button"
                                         role="tab" aria-controls="advanced-filters"
                                         aria-selected="false">Pencarian</button>
-                                </li>
+                                </li> --}}
                                 <li class="mr-1" role="presentation">
                                     <button class="inline-block pb-2 pr-1" id="category-tab" data-tabs-target="#category"
                                         type="button" role="tab" aria-controls="profile"
@@ -186,7 +197,7 @@
                             </div>
                         </div>
 
-                        <div class="space-y-4" id="advanced-filters" role="tabpanel"
+                        {{-- <div class="space-y-4" id="advanced-filters" role="tabpanel"
                             aria-labelledby="advanced-filters-tab">
                             <div>
                                 <input type="hidden" name="sort_by" value="{{ request()->sort_by }}">
@@ -195,9 +206,9 @@
                                     produk</label>
                                 <input type="text" id="name" name="search"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Laptop" />
+                                    placeholder="Cari disini" />
                             </div>
-                        </div>
+                        </div> --}}
 
                         <!-- Modal footer -->
                         <div class="flex items-center space-x-4 rounded-b pt-2 pb-5">
