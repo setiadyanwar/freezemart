@@ -1,7 +1,7 @@
 @extends('templates.auth')
 @section('content')
 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-    Daftar Akun BelanjaRia
+    Daftar Akun FreezeMart
 </h1>
 <form class="space-y-4 md:space-y-6" action="/register" method="POST">
     @csrf

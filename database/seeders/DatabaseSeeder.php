@@ -24,19 +24,19 @@ class DatabaseSeeder extends Seeder
 
         User::insert([
             [
-                'name' => 'Admin',
-                'password' => bcrypt('admin'),
-                'address' => 'Jl. Raya Cileungsi No. 168',
+                'name' => 'Admin FreezeMart',
                 'email' => 'admin@test.com',
+                'password' => bcrypt('admin'),
+                'address' => 'Yogyakarta',
                 'role' => 'admin',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Setiady',
-                'password' => bcrypt('setiady'),
-                'address' => 'Jl. Raya Cileungsi No. 168',
+                'name' => 'Setiady Anwar',
                 'email' => 'setiady@test.com',
+                'password' => bcrypt('password'),
+                'address' => 'Lampung',
                 'role' => 'user',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

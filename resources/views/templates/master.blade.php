@@ -29,7 +29,7 @@
             <div class="grid md:grid-cols-3 gap-8">
                 <!-- Kolom 1: Informasi Perusahaan -->
                 <div>
-                  <h5 class="text-xl font-semibold text-gray-800">FreezeMart</h5>
+                  <h5 class="text-xl font-semibold text-gray-800 dark:text-white">FreezeMart</h5>
                   <p class="text-gray-600 dark:text-gray-300 mt-2">FreezeMart adalah platform belanja online yang menawarkan berbagai produk dengan harga terjangkau dan kualitas terbaik. Belanja jadi lebih mudah dan menyenangkan di sini!</p>
                   <div class="mt-4 flex space-x-6">
                     <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">

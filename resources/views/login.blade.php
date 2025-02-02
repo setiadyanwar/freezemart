@@ -19,5 +19,20 @@
     </p>
 </form>
 
+<!-- Cek apakah ada pesan flash -->
+@if (session('message'))
+    <div class="alert alert-success">
+        {{ session('message') }}
+    </div>
+@endif
+
+<!-- Cek pesan error (misalnya login gagal) -->
+@if (session('status'))
+    <div class="alert alert-danger">
+        {{ session('status') }}
+    </div>
+@endif
+
+
 @endsection
 
