@@ -1,13 +1,22 @@
 @extends('templates.master')
 @section('content')
     {{-- hero --}}
-    <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 mt-6">
-        <div class="mx-auto grid max-w-screen-xl px-4 pb-8 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0 md:mt-6">
-            <div class="content-center justify-self-start md:col-span-7 md:text-start">
-                <h1
-                    class="mb-4 text-4xl font-extrabold leading-none tracking-tight dark:text-white md:max-w-2xl md:text-5xl xl:text-6xl">
-                    Penawaran Eksklusif untuk Anda!<br>Hemat Hingga 50%!</h1>
-                <p class="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg mb-3 lg:mb-5 lg:text-xl">Promo
+    <section class="bg-white py-24 antialiased dark:bg-gray-900 relative">
+       <!-- Background container -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden ">
+            <img src="/assets/bg-white.png" 
+                class="dark:hidden w-full h-full object-cover object-center" 
+                alt="Light background">
+            <img src="/assets/bg-dark.png" 
+                class="hidden dark:block w-full h-full object-cover object-center" 
+                alt="Dark background">
+        </div>
+        
+        <div class="mx-auto grid max-w-screen-xl px-4 pb-8 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0 md:mt-6 relative z-10">
+            <div class="content-center z-10 justify-self-start md:col-span-7 md:text-start">
+                <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-dark-black dark:text-white md:max-w-2xl md:text-5xl xl:text-6xl">
+                    Your <span class="text-primary-500"> One-Stop<br>Solution </span> for All Your Frozen Needs</br></h1>
+                <p class="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg lg:mb-5 lg:text-xl">Promo
                     Terbatas, Kesempatan Emas untuk Belanja!</p>
                 @guest
                     <a href="/login"
@@ -19,12 +28,12 @@
                         Belanja</a>
                 @endguest
             </div>
-            <div class="hidden md:col-span-5 md:mt-0 md:flex">
-                <img class="dark:hidden" src="/illustrations/shop.png" alt="shopping illustration" />
-                <img class="hidden dark:block" src="/illustrations/shop.png" alt="shopping illustration" />
+            <div class="hidden md:col-span-5 z-10 md:mt-0 md:flex">
+                <img class="dark:hidden" src="/assets/hero-shop.png" alt="hero-image" />
+                <img class="hidden dark:block" src="/assets/hero-shop.png" alt="hero-image" />
             </div>
         </div>
-        <div class="mx-auto grid max-w-screen-xl grid-cols-3 gap-8 text-gray-500 dark:text-gray-400 md:grid-cols-6 px-4">
+        <div class="relative mx-auto z-10 grid max-w-screen-xl grid-cols-3 gap-8 text-gray-500 dark:text-gray-400 md:grid-cols-6 px-4">
             <a href="#" class="flex items-center md:justify-center">
                 <svg class="h-10 hover:text-black dark:hover:text-white" viewBox="0 0 106 48" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
@@ -225,15 +234,19 @@
                                 <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
 
-                                <button type="button"
-                                    class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
-                                    <svg class="ms-0 me-0 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                    </svg>
-                                </button>
+                                    <form action="/carts/{{ $product->slug }}" method="post">
+                                        @csrf
+                                        <button type="submit"
+                                            class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
+                                            <svg class="ms-0 me-0 h-5 w-5" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                                            </svg>
+                                        </button>
+                                    </form>
                             </div>
                         </div>
                     </div>
@@ -248,4 +261,36 @@
         </div>
     </section>
     {{-- end product --}}
+
+    
+{{-- TOAST --}}
+@if (session('success'))
+<div id="toast-bottom-right"
+class="fixed flex items-center w-auto max-w-xs p-4 space-x-3 text-green-500 border-2 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800 rounded-lg right-5 bottom-5 transition-all duration-1000 ease-in-out transform translate-x-0 "
+role="alert">
+<div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center">
+    <svg aria-hidden="true" class="w-6 h-6 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"></path>
+    </svg>
+</div>
+    <div class="text-sm font-normal">
+        {{ session('success') }}
+    </div>
+</div>
+
+<script>
+    // Hilangkan toast setelah 3 detik (3000 ms)
+    setTimeout(() => {
+        const toast = document.getElementById('toast-bottom-right');
+        if (toast) {
+            toast.classList.add('translate-x-full', 'opacity-0'); // Geser ke kanan & fade out
+            setTimeout(() => toast.remove(), 1000); // Hapus elemen setelah animasi selesai
+        }
+    }, 3000);
+</script>
+@endif
 @endsection
+

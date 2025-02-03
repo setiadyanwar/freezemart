@@ -272,7 +272,7 @@ class HomeController extends Controller
     
             // Jika user adalah admin, redirect ke dashboard admin
             if (Auth::user()->role === 'admin') {
-                return redirect('/admin/dashboard'); 
+                return redirect('/admin'); 
             }
 
             // Kirim pesan sukses setelah login

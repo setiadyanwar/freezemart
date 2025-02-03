@@ -141,7 +141,7 @@
                                 <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
 
-                                <form action="/add-to-cart/{{ $product->slug }}" method="post">
+                                <form action="/carts/{{ $product->slug }}" method="post">
                                     @csrf
                                     <button type="submit"
                                         class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
@@ -158,13 +158,12 @@
                         </div>
                     </div>
                 @endforeach
-
             </div>
-
         </div>
-
     </section>
     {{-- end releated --}}
+
+    {{-- TOAST --}}
     @if (session('success'))
     <div id="toast-bottom-right"
     class="fixed flex items-center w-auto max-w-xs p-4 space-x-3 text-green-500 border-2 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800 rounded-lg right-5 bottom-5 transition-all duration-1000 ease-in-out transform translate-x-0 "

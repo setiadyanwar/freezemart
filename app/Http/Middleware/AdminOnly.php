@@ -21,8 +21,12 @@ class AdminOnly
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect()->back();
+            
+            // Tambahkan session flash message
+            return redirect()->route('filament.admin.auth.login')
+                ->with('error', 'Anda tidak memiliki akses ke halaman admin.');
         }
+
         return $next($request);
     }
 }

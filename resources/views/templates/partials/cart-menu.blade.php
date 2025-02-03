@@ -17,7 +17,7 @@
   </div>
   @endforeach
   @if( count($carts) > 0 )
-  <a href="/carts" class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-primary-800">Lihat Semua</a>
+  <a href="/carts" class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">Lihat Semua</a>
   @else
   <p class="text-gray-800 dark:text-gray-400">Belum ada produk</p>
   @endif

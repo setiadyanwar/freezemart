@@ -14,16 +14,23 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                sans: ['Poppins', ...defaultTheme.fontFamily.sans],
             },
             colors:{
+                dark:{
+                    black:'#313131'
+                },
                 primary:{
-                    400: '#3c6ff6',
-                    500: '#2254c5',
-                    600: '#1c46a6',
-                    700: '#153882',
-                    800: '#0e2760',
-                    900: '#081740',
+                    50: '#E9EFFA',
+                    100: '#BCCEEE',
+                    200: '#9CB6E6',
+                    300: '#6E95DB',
+                    400: '#5281D4',
+                    500: '#2761C9',
+                    600: '#2358B7',
+                    700: '#1C458F',
+                    800: '#15356F',
+                    900: '#102954',
                 }
             },
         },

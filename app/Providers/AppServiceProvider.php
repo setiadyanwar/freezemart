@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Auth;
+use Filament\Facades\Filament;
+use Filament\Notifications\Notification;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,6 +29,16 @@ class AppServiceProvider extends ServiceProvider
                 : collect(); // Kosong jika belum login
     
             $view->with('carts', $carts);
+        });
+
+        Filament::serving(function () {
+            if (session('error')) {
+                Notification::make()
+                    ->title('Akses Ditolak')
+                    ->body(session('error'))
+                    ->danger()
+                    ->send();
+            }
         });
     }
 }

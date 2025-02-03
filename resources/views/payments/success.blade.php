@@ -8,7 +8,7 @@
     </div>
     <p class="text-2xl font-semibold text-gray-900 dark:text-white">Pembayaran Berhasil</p>
     <p class="mb-4 text-gray-800 dark:text-gray-400">Terima kasih telah melakukan pembayaran. Pesanan Anda telah diproses.</p>
-    <a href="/checkouts" type="button" class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-500 dark:focus:ring-orange-500">Lihat Pesanan</a>
+    <a href="/checkouts" type="button" class="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-500 hover:bg-primary-600 focus:ring-4 focus:outline-none focus:ring-primary-500 dark:focus:ring-primary-500">Lihat Pesanan</a>
 </div>
 
 @endsection

@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>{{ $title }}</title>
+        <!-- Livewire Styles -->
+        @livewireStyles
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script>
             // On page load or when changing themes, best to add inline in `head` to avoid FOUC
@@ -48,8 +50,7 @@
             </div>
         </div>
     </section>
-
-
+    @livewireScripts
     </body>
     <script>
         // Hanya gunakan tema dark jika ada di localStorage

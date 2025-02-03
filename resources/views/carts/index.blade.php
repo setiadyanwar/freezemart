@@ -69,11 +69,11 @@
                             </dl>
                         </div>
 
-                        <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-orange-500 dark:hover:bg-orange-600 dark:focus:ring-orange-500">Checkout</button>
+                        <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">Checkout</button>
 
                         <div class="flex items-center justify-center gap-2">
                             <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
-                            <a href="/products" class="inline-flex items-center gap-2 text-sm font-medium text-orange-500 underline hover:no-underline dark:text-orange-500">
+                            <a href="/products" class="inline-flex items-center gap-2 text-sm font-medium text-primary-500 underline hover:no-underline dark:text-primary-500">
                             Lanjutkan belanja
                             <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />

@@ -19,7 +19,7 @@
     </p>
 </form>
 
-<!-- Cek apakah ada pesan flash -->
+{{-- <!-- Cek apakah ada pesan flash -->
 @if (session('message'))
     <div class="alert alert-success">
         {{ session('message') }}
@@ -31,7 +31,7 @@
     <div class="alert alert-danger">
         {{ session('status') }}
     </div>
-@endif
+@endif --}}
 
 
 @endsection
