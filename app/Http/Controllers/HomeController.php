@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Comment;
+use App\Models\Product;
 use App\Models\Category;
 use App\Models\Checkout;
-use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Xendit\Configuration;
-use Xendit\Invoice\CreateInvoiceRequest;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Xendit\Invoice\CreateInvoiceRequest;
 
 class HomeController extends Controller
 {
@@ -76,11 +77,23 @@ class HomeController extends Controller
 
     public function showProduct(Product $product)
     {
+        $totalComments = Comment::where('product_id', $product->id)->count();
+
+        $comments = Comment::where('product_id', $product->id)
+            ->whereNull('parent_id') // Hanya ambil komentar utama
+            ->latest()
+            ->paginate(6); // Paginate 3 komentar per halaman
+
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
             'product' => $product,
-            'products' => Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get()
+            'products' => Product::where('category_id', $product->category_id)
+                ->where('id', '!=', $product->id)
+                ->get(),
+            'comments' => $comments,
+            'totalComments' => $totalComments,
         ];
+
         if (Auth::check()) {
            // Untuk dropdown cart, batasi hanya 5 item saja
             $data['carts'] = Cart::with('product')
@@ -91,9 +104,17 @@ class HomeController extends Controller
 
             // Dapatkan total item di cart untuk badge
             $data['cartCount'] = Cart::where('user_id', request()->user()->id)->count();
+
+            $data['carts'] = Cart::with(['product'])
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(10)
+                ->get();
         }
+
         return view('products.show', $data);
     }
+
 
     public function carts()
     {
@@ -181,7 +202,7 @@ class HomeController extends Controller
             'external_id' => $externalId,
             'amount' => $amount,
             'currency' => 'IDR',
-            'description' => 'Pembelian produk sebanyak ' . $qtyAmount. ', dengan total harga Rp ' . number_format($amount, 2, ',', '.'),
+            'description' => 'Pembelian produk sebanyak ' . $qtyAmount . ', dengan total harga Rp ' . number_format($amount, 2, ',', '.'),
             'customer' => [
                 'given_names' => Auth::user()->name,
                 'email' => Auth::user()->email,
@@ -220,12 +241,9 @@ class HomeController extends Controller
 
             // redirect
             return redirect($result['invoice_url']);
-
-
         } catch (\Xendit\XenditSdkException $e) {
             return redirect("/failure/$externalId");
         }
-
     }
 
 
@@ -247,7 +265,7 @@ class HomeController extends Controller
         $checkout = Checkout::where('external_id', $checkout)->first();
         // dapetin mana yg diorder
         $orders = Order::where('checkout_id', $checkout->id)->get();
-        foreach ($orders as $order){
+        foreach ($orders as $order) {
             Cart::where('user_id', Auth::user()->id)->where('product_id', $order->product_id)->delete();
         }
 
@@ -289,18 +307,18 @@ class HomeController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-    
+
             // Jika user adalah admin, redirect ke dashboard admin
             if (Auth::user()->role === 'admin') {
-                return redirect('/admin'); 
+                return redirect('/admin');
             }
 
             // Kirim pesan sukses setelah login
             session()->flash('message', 'Selamat datang, ' . Auth::user()->name . '! Anda berhasil login.');
 
-    
+
             // Jika user biasa, redirect ke home
-            return redirect('/'); 
+            return redirect('/');
         }
 
         return back()->with('status', 'Login Gagal!. Harap periksa kembali email dan password');
@@ -362,8 +380,60 @@ class HomeController extends Controller
         return view('profile', compact('user', 'title'));
     }
 
+    public function actionComments(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'product_id' => 'required|exists:products,id',
+            'comment_text' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id' // Validasi parent_id jika ada
+        ]);
 
+        // Simpan komentar baru
+        Comment::create([
+            'user_id' => $request->user_id,
+            'product_id' => $request->product_id,
+            'comment_text' => $request->comment_text,
+            'parent_id' => $request->parent_id // Menyimpan parent_id jika ini reply
+        ]);
 
+        // Ambil slug produk berdasarkan product_id
+        $product = Product::findOrFail($request->product_id);
 
+        return redirect('/products/' . $product->slug)
+            ->with('success', 'Komentar berhasil ditambahkan!');
+    }
 
+    public function comments(Product $product)
+    {
+        $comments = Comment::where('product_id', $product->id)
+            ->latest()
+            ->get()
+            ->map(
+                function ($comment) {
+                    $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
+                    return $comment;
+                }
+            );
+
+        $data = [
+            'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
+            'product' => $product,
+            'products' => Product::where('category_id', $product->category_id)
+                ->where('id', '!=', $product->id)
+                ->get(),
+            'comments' => $comments
+        ];
+
+        if (Auth::check()) {
+            $data['carts'] = Cart::with(['product'])
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(10)
+                ->get();
+        }
+
+        return view('comments.index', $data);
+    }
 }

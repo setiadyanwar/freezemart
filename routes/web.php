@@ -26,3 +26,6 @@ Route::post('/login', [HomeController::class, 'actionLogin'])->name('login')->mi
 Route::delete('/logout', [HomeController::class, 'actionLogout'])->middleware('auth');
 Route::get('/register', [HomeController::class, 'register'])->middleware('guest');
 Route::post('/register', [HomeController::class, 'actionRegister'])->middleware('guest');
+
+// nambahin komentar
+Route::post('/comments', [HomeController::class, 'actionComments'])->name('comments.store')->middleware('auth');
