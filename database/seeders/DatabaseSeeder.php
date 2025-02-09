@@ -41,6 +41,15 @@ class DatabaseSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'name' => 'Jons',
+                'email' => 'jons@test.com',
+                'password' => bcrypt('password'),
+                'address' => 'Bogor',
+                'role' => 'user',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
 
         Category::insert([
@@ -178,7 +187,7 @@ Dengan tekstur yang lembut dan cita rasa yang kaya, sosis sapi ini cocok untuk b
                 'description' => 'Blueberry segar yang dibekukan untuk menjaga rasa dan kualitas.',
                 'category_id' => 5,
             ],
-        
+
         ]);
 
         Cart::insert([

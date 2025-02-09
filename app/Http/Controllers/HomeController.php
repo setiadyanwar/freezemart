@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Cart;
+use App\Models\User;
+use App\Models\Order;
+use App\Models\Comment;
+use App\Models\Product;
 use App\Models\Category;
 use App\Models\Checkout;
-use App\Models\Order;
-use App\Models\Product;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Xendit\Configuration;
-use Xendit\Invoice\CreateInvoiceRequest;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Xendit\Invoice\CreateInvoiceRequest;
 
 class HomeController extends Controller
 {
@@ -76,14 +77,31 @@ class HomeController extends Controller
 
     public function showProduct(Product $product)
     {
+        $comments = Comment::where('product_id', $product->id)
+            ->latest()
+            ->get()
+            ->map(function ($comment) {
+                $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
+                return $comment;
+            });
+
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
             'product' => $product,
-            'products' => Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get()
+            'products' => Product::where('category_id', $product->category_id)
+                ->where('id', '!=', $product->id)
+                ->get(),
+            'comments' => $comments
         ];
+
         if (Auth::check()) {
-            $data['carts'] = Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get();
+            $data['carts'] = Cart::with(['product'])
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(10)
+                ->get();
         }
+
         return view('products.show', $data);
     }
 
@@ -161,7 +179,7 @@ class HomeController extends Controller
             'external_id' => $externalId,
             'amount' => $amount,
             'currency' => 'IDR',
-            'description' => 'Pembelian produk sebanyak ' . $qtyAmount. ', dengan total harga Rp ' . number_format($amount, 2, ',', '.'),
+            'description' => 'Pembelian produk sebanyak ' . $qtyAmount . ', dengan total harga Rp ' . number_format($amount, 2, ',', '.'),
             'customer' => [
                 'given_names' => Auth::user()->name,
                 'email' => Auth::user()->email,
@@ -200,12 +218,9 @@ class HomeController extends Controller
 
             // redirect
             return redirect($result['invoice_url']);
-
-
         } catch (\Xendit\XenditSdkException $e) {
             return redirect("/failure/$externalId");
         }
-
     }
 
 
@@ -227,7 +242,7 @@ class HomeController extends Controller
         $checkout = Checkout::where('external_id', $checkout)->first();
         // dapetin mana yg diorder
         $orders = Order::where('checkout_id', $checkout->id)->get();
-        foreach ($orders as $order){
+        foreach ($orders as $order) {
             Cart::where('user_id', Auth::user()->id)->where('product_id', $order->product_id)->delete();
         }
 
@@ -269,18 +284,18 @@ class HomeController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-    
+
             // Jika user adalah admin, redirect ke dashboard admin
             if (Auth::user()->role === 'admin') {
-                return redirect('/admin'); 
+                return redirect('/admin');
             }
 
             // Kirim pesan sukses setelah login
             session()->flash('message', 'Selamat datang, ' . Auth::user()->name . '! Anda berhasil login.');
 
-    
+
             // Jika user biasa, redirect ke home
-            return redirect('/'); 
+            return redirect('/');
         }
 
         return back()->with('status', 'Login Gagal!. Harap periksa kembali email dan password');
@@ -342,8 +357,26 @@ class HomeController extends Controller
         return view('profile', compact('user', 'title'));
     }
 
+    public function actionComments(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'product_id' => 'required|exists:products,id',
+            'comment_text' => 'required|string'
+        ]);
 
+        // Simpan komentar
+        $comment = Comment::create([
+            'user_id' => $request->user_id,
+            'product_id' => $request->product_id,
+            'comment_text' => $request->comment_text
+        ]);
 
+        // Ambil slug produk berdasarkan product_id
+        $product = Product::findOrFail($request->product_id);
 
-
+        return redirect('/products/' . $product->slug)
+            ->with('success', 'Komentar berhasil ditambahkan!');
+    }
 }
