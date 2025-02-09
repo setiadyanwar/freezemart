@@ -118,24 +118,16 @@
                             <p class="text-sm font-semibold text-gray-900 dark:text-white">
                                 {{ $comment->user->name }}
                                 <span class="text-xs text-gray-600 dark:text-gray-400">•
-                                    {{ $comment->created_at->diffInHours() < 24 ? $comment->created_at->diffForHumans() : $comment->created_at->translatedFormat('d M Y') }}
-                                </span>
+                                    {{ $comment->created_at->diffForHumans() }}</span>
                             </p>
                         </div>
                     </footer>
 
-                    <p class="text-gray-500 dark:text-gray-400">
-                        {{ $comment->comment_text }}
-                    </p>
+                    <p class="text-gray-500 dark:text-gray-400">{{ $comment->comment_text }}</p>
 
                     {{-- Tombol Balas --}}
                     <button onclick="toggleReplyForm({{ $comment->id }})"
                         class="mt-4 flex items-center text-sm font-medium text-gray-500 hover:underline dark:text-gray-400">
-                        <svg class="mr-1.5 h-3.5 w-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="none" viewBox="0 0 20 18">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M5 5h5M5 8h2m6-3h2m-5 3h6m2-7H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h3v5l5-5h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1Z" />
-                        </svg>
                         Balas
                     </button>
 
@@ -153,35 +145,91 @@
                                 placeholder="Tulis balasan..." required></textarea>
                         </div>
                         <button type="submit"
-                            class="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600">
-                            Balas
-                        </button>
+                            class="rounded-lg bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600">Balas</button>
                     </form>
 
                     {{-- Tampilkan Reply Secara Hierarki --}}
-                    @foreach ($comment->replies as $reply)
-                        <div class="ml-6 mt-4 border-l-2 border-gray-300 pl-4">
-                            <div class="flex items-center">
-                                <img class="mr-3 h-6 w-6 rounded-full"
-                                    src="https://ui-avatars.com/api/?name={{ urlencode($reply->user->name) }}&background=random&color=fff"
-                                    alt="{{ $reply->user->name }}">
-                                <p class="text-sm font-semibold text-gray-900 dark:text-white">
-                                    {{ $reply->user->name }}
-                                    <span class="text-xs text-gray-500">•
-                                        {{ $comment->created_at->diffInHours() < 24 ? $comment->created_at->diffForHumans() : $comment->created_at->translatedFormat('d M Y') }}
-                                    </span>
-                                </p>
+                    @if ($comment->replies->count() > 0)
+                        @php
+                            $totalReplies = $comment->replies->count();
+                            $initialRepliesCount = 9; // Tampilkan 9 balasan pertama
+                            $loadMoreStep = 9; // Jumlah balasan tambahan yang ditampilkan per klik
+                            $shownReplies = $comment->replies->take($initialRepliesCount); // Ambil 9 pertama
+                            $hiddenReplies = $comment->replies->skip($initialRepliesCount); // Sisanya
+                        @endphp
+
+                        {{-- Tombol "Lihat X Balasan" --}}
+                        <button onclick="toggleReplies({{ $comment->id }})" id="show-replies-{{ $comment->id }}"
+                            class="mt-4 flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                            <span class="h-px w-8 bg-gray-300 dark:bg-gray-600"></span>
+                            <span class="ml-2">Lihat {{ $totalReplies }} balasan</span>
+                        </button>
+
+                        {{-- Wrapper Balasan --}}
+                        <div id="replies-{{ $comment->id }}" class="ml-6 mt-4 hidden border-l-2 border-gray-300 pl-4">
+                            @foreach ($shownReplies as $reply)
+                                <div class="mb-4">
+                                    <div class="flex items-center">
+                                        <img class="mr-3 h-6 w-6 rounded-full"
+                                            src="https://ui-avatars.com/api/?name={{ urlencode($reply->user->name) }}&background=random&color=fff"
+                                            alt="{{ $reply->user->name }}">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                            {{ $reply->user->name }}
+                                            <span class="text-xs text-gray-500">•
+                                                {{ $reply->created_at->diffForHumans() }}</span>
+                                        </p>
+                                    </div>
+                                    <p class="text-gray-500 dark:text-gray-400">{{ $reply->comment_text }}</p>
+                                </div>
+                            @endforeach
+
+                            {{-- Wrapper Balasan yang Tersembunyi (Awalnya Hidden) --}}
+                            <div id="hidden-replies-{{ $comment->id }}" class="hidden">
+                                @foreach ($hiddenReplies as $reply)
+                                    <div class="mb-4">
+                                        <div class="flex items-center">
+                                            <img class="mr-3 h-6 w-6 rounded-full"
+                                                src="https://ui-avatars.com/api/?name={{ urlencode($reply->user->name) }}&background=random&color=fff"
+                                                alt="{{ $reply->user->name }}">
+                                            <p class="text-sm font-semibold text-gray-900 dark:text-white">
+                                                {{ $reply->user->name }}
+                                                <span class="text-xs text-gray-500">•
+                                                    {{ $reply->created_at->diffForHumans() }}</span>
+                                            </p>
+                                        </div>
+                                        <p class="text-gray-500 dark:text-gray-400">{{ $reply->comment_text }}</p>
+                                    </div>
+                                @endforeach
                             </div>
-                            <p class="text-gray-500 dark:text-gray-400">{{ $reply->comment_text }}</p>
                         </div>
-                    @endforeach
+
+                        {{-- Tombol "Lihat X Balasan Lainnya" (Awalnya Hidden) --}}
+                        @if ($hiddenReplies->count() > 0)
+                            <div id="show-more-wrapper-{{ $comment->id }}"
+                                class="mt-2 flex hidden items-center space-x-2">
+                                <div class="h-px w-8 bg-gray-300 dark:bg-gray-600"></div>
+                                <button onclick="showMoreReplies({{ $comment->id }})"
+                                    id="show-more-replies-{{ $comment->id }}"
+                                    class="text-sm text-gray-500 hover:underline dark:text-gray-400">
+                                    Lihat {{ $hiddenReplies->count() }} balasan lainnya
+                                </button>
+                            </div>
+                        @endif
+
+                        {{-- Tombol "Sembunyikan" (Awalnya hidden) --}}
+                        <div id="hide-replies-{{ $comment->id }}" class="mt-2 flex hidden items-center space-x-2">
+                            <div class="h-px w-8 bg-gray-300 dark:bg-gray-600"></div>
+                            <button onclick="toggleReplies({{ $comment->id }})"
+                                class="text-sm text-gray-500 hover:underline dark:text-gray-400">
+                                Sembunyikan balasan
+                            </button>
+                        </div>
+                    @endif
                 </article>
             @endforeach
-
         </div>
     </section>
     {{-- End Comment --}}
-
 
     {{-- releated --}}
     <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
@@ -304,5 +352,41 @@
     function toggleReplyForm(commentId) {
         let form = document.getElementById(`reply-form-${commentId}`);
         form.classList.toggle("hidden");
+    }
+
+    function toggleReplies(commentId) {
+        let replies = document.getElementById(`replies-${commentId}`);
+        let showBtn = document.getElementById(`show-replies-${commentId}`);
+        let hideBtn = document.getElementById(`hide-replies-${commentId}`);
+        let hiddenReplies = document.getElementById(`hidden-replies-${commentId}`);
+        let showMoreWrapper = document.getElementById(`show-more-wrapper-${commentId}`);
+
+        if (replies.classList.contains("hidden")) {
+            replies.classList.remove("hidden"); // Tampilkan 2 balasan pertama
+            showBtn.classList.add("hidden"); // Sembunyikan tombol "Lihat X balasan"
+
+            if (showMoreWrapper) {
+                showMoreWrapper.classList.remove("hidden"); // Tampilkan tombol "Lihat X balasan lainnya"
+            }
+        } else {
+            replies.classList.add("hidden"); // Sembunyikan semua balasan
+            hiddenReplies.classList.add("hidden"); // Sembunyikan hidden replies
+            showBtn.classList.remove("hidden"); // Tampilkan kembali tombol "Lihat X balasan"
+            hideBtn.classList.add("hidden"); // Sembunyikan tombol "Sembunyikan"
+
+            if (showMoreWrapper) {
+                showMoreWrapper.classList.add("hidden"); // Sembunyikan tombol "Lihat X balasan lainnya"
+            }
+        }
+    }
+
+    function showMoreReplies(commentId) {
+        let hiddenReplies = document.getElementById(`hidden-replies-${commentId}`);
+        let showMoreWrapper = document.getElementById(`show-more-wrapper-${commentId}`);
+        let hideBtn = document.getElementById(`hide-replies-${commentId}`);
+
+        hiddenReplies.classList.remove("hidden"); // Tampilkan semua balasan
+        showMoreWrapper.classList.add("hidden"); // Sembunyikan tombol "Lihat X balasan lainnya"
+        hideBtn.classList.remove("hidden"); // Munculkan tombol "Sembunyikan"
     }
 </script>
