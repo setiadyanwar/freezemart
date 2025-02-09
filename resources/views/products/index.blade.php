@@ -68,7 +68,7 @@
 
             <div class="mb-4 grid gap-4 grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
 
-                @foreach ($products as $product)
+                @forelse ($products as $product)
                     <div
                         class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
                         <div class="h-56 w-full">
@@ -137,9 +137,14 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
-
+                @empty
+                    <div class="text-center">
+                        <p class="text-gray-500 dark:text-gray-400">Produk tidak ditemukan</p>
+                    </div>
+                @endforelse
             </div>
+            <!-- Menampilkan pagination links -->
+            <span class="">{{ $products->links() }}</span>
 
         </div>
 

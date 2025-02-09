@@ -13,11 +13,14 @@
         <li><a href="/checkouts" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Pembelian </a></li>
     </ul>
 
-    <div class="p-2 text-sm font-medium text-gray-900 dark:text-white">
-        <form action="/logout" method="post">
+    <div class="p-2 text-sm font-medium text-red-500 dark:text-red-400">
+        <form action="/logout" method="post" class="flex px-3 py-2 rounded-lg items-center gap-2 hover:bg-gray-100 dark:hover:bg-gray-600">
             @csrf
             @method('delete')
-            <button type="submit" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Logout </button>
+            <svg class="w-6 h-6 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3H5.25A2.25 2.25 0 0 0 3 5.25v13.5A2.25 2.25 0 0 0 5.25 21H13.5a2.25 2.25 0 0 0 2.25-2.25V15m-4.5-3h9m0 0-3-3m3 3-3 3"/>
+              </svg>
+            <button type="submit" class="inline-flex w-full items-center text-sm"> Logout </button>
         </form>
     </div>
 </div>

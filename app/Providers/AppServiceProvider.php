@@ -25,10 +25,19 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             $carts = Auth::check()
-                ? Cart::with(['product'])->where('user_id', Auth::id())->latest()->limit(10)->get()
+                ? Cart::with('product')
+                      ->where('user_id', Auth::id())
+                      ->latest()
+                      ->limit(10)
+                      ->get()
                 : collect(); // Kosong jika belum login
-    
-            $view->with('carts', $carts);
+
+            $cartCount = Auth::check()
+                ? Cart::where('user_id', Auth::id())->count()
+                : 0;
+
+            $view->with('carts', $carts)
+                 ->with('cartCount', $cartCount);
         });
 
         Filament::serving(function () {

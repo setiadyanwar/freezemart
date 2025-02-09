@@ -65,7 +65,7 @@ class HomeController extends Controller
 
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
-            'products' => $products->get(),
+            'products' => $products->paginate(8)->appends(request()->all())            ,
             'categories' => Category::all(),
         ];
         if (Auth::check()) {
@@ -82,7 +82,15 @@ class HomeController extends Controller
             'products' => Product::where('category_id', $product->category_id)->where('id', '!=', $product->id)->get()
         ];
         if (Auth::check()) {
-            $data['carts'] = Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get();
+           // Untuk dropdown cart, batasi hanya 5 item saja
+            $data['carts'] = Cart::with('product')
+            ->where('user_id', request()->user()->id)
+            ->latest()
+            ->limit(5)
+            ->get();
+
+            // Dapatkan total item di cart untuk badge
+            $data['cartCount'] = Cart::where('user_id', request()->user()->id)->count();
         }
         return view('products.show', $data);
     }
@@ -91,8 +99,20 @@ class HomeController extends Controller
     {
         $data = [
             'title' => 'FreezeMart | Produk di Keranjang Anda',
-            'carts' => Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get(),
-            'myCarts' => Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->get()
+            // Data untuk dropdown (header) batasi hanya 5 item
+            'carts'    => Cart::with('product')
+                            ->where('user_id', request()->user()->id)
+                            ->latest()
+                            ->limit(5)
+                            ->get(),
+            // Data lengkap untuk tampilan halaman cart
+            'myCarts'  => Cart::with('product')
+                            ->where('user_id', request()->user()->id)
+                            ->latest()
+                            ->get(),
+            // Total item di cart untuk badge
+            'cartCount'=> Cart::where('user_id', request()->user()->id)->count()
+
         ];
         return view('carts.index', $data);
     }
