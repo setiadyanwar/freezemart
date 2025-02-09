@@ -80,10 +80,12 @@ class HomeController extends Controller
         $comments = Comment::where('product_id', $product->id)
             ->latest()
             ->get()
-            ->map(function ($comment) {
-                $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
-                return $comment;
-            });
+            ->map(
+                function ($comment) {
+                    $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
+                    return $comment;
+                }
+            );
 
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
