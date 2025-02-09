@@ -21,6 +21,10 @@ return new class extends Migration
                 table: 'products',
                 indexName: 'comments_product_id'
             );
+            $table->foreignId('parent_id')->nullable()->constrained(
+                table: 'comments',
+                indexName: 'comments_parent_id'
+            )->onDelete('cascade'); // Kalau komentar induk dihapus, reply ikut kehapus
             $table->text('comment_text');
             $table->timestamps();
         });
