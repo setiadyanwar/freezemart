@@ -363,14 +363,16 @@ class HomeController extends Controller
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
-            'comment_text' => 'required|string'
+            'comment_text' => 'required|string',
+            'parent_id' => 'nullable|exists:comments,id' // Validasi parent_id jika ada
         ]);
 
-        // Simpan komentar
-        $comment = Comment::create([
+        // Simpan komentar baru
+        Comment::create([
             'user_id' => $request->user_id,
             'product_id' => $request->product_id,
-            'comment_text' => $request->comment_text
+            'comment_text' => $request->comment_text,
+            'parent_id' => $request->parent_id // Menyimpan parent_id jika ini reply
         ]);
 
         // Ambil slug produk berdasarkan product_id
