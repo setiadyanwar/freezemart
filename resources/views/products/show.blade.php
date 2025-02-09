@@ -103,8 +103,9 @@
                 </button>
             </form>
 
-            @forelse ($comments as $comment)
-                <article class="rounded-lg bg-white p-6 text-base dark:bg-gray-900">
+            @forelse ($comments as $index => $comment)
+                <article
+                    class="@if ($comments->count() > 1 && $index !== $comments->count() - 1) border-b border-gray-200 dark:border-gray-700 @endif rounded-lg bg-white p-6 text-base dark:bg-gray-900">
                     <footer class="mb-2 flex items-center justify-between">
                         <div class="flex items-center">
                             <p class="mr-3 inline-flex items-center text-sm font-semibold text-gray-900 dark:text-white">
@@ -124,7 +125,7 @@
                     <p class="text-gray-500 dark:text-gray-400">
                         {{ $comment->comment_text }}
                     </p>
-                    <div class="mt-4 flex items-center space-x-4">
+                    {{-- <div class="mt-4 flex items-center space-x-4">
                         <button type="button"
                             class="flex items-center text-sm font-medium text-gray-500 hover:underline dark:text-gray-400">
                             <svg class="mr-1.5 h-3.5 w-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -135,11 +136,12 @@
                             </svg>
                             Reply
                         </button>
-                    </div>
+                    </div> --}}
                 </article>
             @empty
                 <p class="text-gray-500 dark:text-gray-400">Belum ada komentar.</p>
             @endforelse
+
         </div>
     </section>
     {{-- end comment --}}
