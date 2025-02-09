@@ -77,15 +77,12 @@ class HomeController extends Controller
 
     public function showProduct(Product $product)
     {
+        $totalComments = Comment::where('product_id', $product->id)->count();
+
         $comments = Comment::where('product_id', $product->id)
+            ->whereNull('parent_id') // Hanya ambil komentar utama
             ->latest()
-            ->get()
-            ->map(
-                function ($comment) {
-                    $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
-                    return $comment;
-                }
-            );
+            ->paginate(6); // Paginate 3 komentar per halaman
 
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
@@ -93,7 +90,8 @@ class HomeController extends Controller
             'products' => Product::where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->get(),
-            'comments' => $comments
+            'comments' => $comments,
+            'totalComments' => $totalComments,
         ];
 
         if (Auth::check()) {
@@ -106,6 +104,7 @@ class HomeController extends Controller
 
         return view('products.show', $data);
     }
+
 
     public function carts()
     {
@@ -382,5 +381,37 @@ class HomeController extends Controller
 
         return redirect('/products/' . $product->slug)
             ->with('success', 'Komentar berhasil ditambahkan!');
+    }
+
+    public function comments(Product $product)
+    {
+        $comments = Comment::where('product_id', $product->id)
+            ->latest()
+            ->get()
+            ->map(
+                function ($comment) {
+                    $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
+                    return $comment;
+                }
+            );
+
+        $data = [
+            'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
+            'product' => $product,
+            'products' => Product::where('category_id', $product->category_id)
+                ->where('id', '!=', $product->id)
+                ->get(),
+            'comments' => $comments
+        ];
+
+        if (Auth::check()) {
+            $data['carts'] = Cart::with(['product'])
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(10)
+                ->get();
+        }
+
+        return view('comments.index', $data);
     }
 }

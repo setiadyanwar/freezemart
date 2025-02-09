@@ -77,13 +77,12 @@
         </div>
     </section>
 
-
     {{-- Start Comment --}}
     <section class="bg-white py-8 antialiased dark:bg-gray-900 lg:py-16">
         <div class="mx-auto max-w-4xl px-4">
             <div class="mb-6 flex items-center justify-between">
                 <h2 class="text-lg font-bold text-gray-900 dark:text-white lg:text-2xl">
-                    Komentar ({{ $comments->count() }})
+                    Komentar ({{ $totalComments }})
                 </h2>
             </div>
 
@@ -227,9 +226,18 @@
                     @endif
                 </article>
             @endforeach
+
+            {{-- Pagination --}}
+            <div class="mt-6">
+                {{ $comments->links() }}
+            </div>
         </div>
     </section>
     {{-- End Comment --}}
+
+
+
+
 
     {{-- releated --}}
     <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
