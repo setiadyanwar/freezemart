@@ -228,9 +228,11 @@
             @endforeach
 
             {{-- Pagination --}}
-            <div class="mt-6">
-                {{ $comments->links() }}
-            </div>
+            @if ($comments->hasPages())
+                <div class="mt-6">
+                    {{ $comments->links() }}
+                </div>
+            @endif
         </div>
     </section>
     {{-- End Comment --}}
