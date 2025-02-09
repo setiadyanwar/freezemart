@@ -118,7 +118,8 @@
                             <p class="text-sm font-semibold text-gray-900 dark:text-white">
                                 {{ $comment->user->name }}
                                 <span class="text-xs text-gray-600 dark:text-gray-400">•
-                                    {{ $comment->created_at->translatedFormat('d M Y') }}</span>
+                                    {{ $comment->created_at->diffInHours() < 24 ? $comment->created_at->diffForHumans() : $comment->created_at->translatedFormat('d M Y') }}
+                                </span>
                             </p>
                         </div>
                     </footer>
@@ -167,7 +168,8 @@
                                 <p class="text-sm font-semibold text-gray-900 dark:text-white">
                                     {{ $reply->user->name }}
                                     <span class="text-xs text-gray-500">•
-                                        {{ $reply->created_at->translatedFormat('d M Y') }}</span>
+                                        {{ $comment->created_at->diffInHours() < 24 ? $comment->created_at->diffForHumans() : $comment->created_at->translatedFormat('d M Y') }}
+                                    </span>
                                 </p>
                             </div>
                             <p class="text-gray-500 dark:text-gray-400">{{ $reply->comment_text }}</p>
