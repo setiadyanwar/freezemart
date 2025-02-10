@@ -3,15 +3,15 @@
 @section('content')
     {{-- product --}}
     <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0 pt-5">
+        <div class="mx-auto max-w-screen-xl px-4 pt-5 2xl:px-0">
 
             <!-- Heading & Filters -->
-            <div class="mb-4 items-center justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8 mt-8">
+            <div class="mb-4 mt-8 items-center justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Produk</h2>
-                <form action="/products" method="get" class="flex w-full mx-8 items-center space-x-4">
+                <form action="/products" method="get" class="mx-8 flex w-full items-center space-x-4">
                     <div class="flex-grow">
-                        <input type="text" id="name" name="search" value="{{ request()->search }}"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        <input type="text" id="search" name="search"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                             placeholder="Cari disini" />
                     </div>
                     <button type="submit"
@@ -19,6 +19,7 @@
                         Tampilkan hasil
                     </button>
                 </form>
+
                 <div class="flex items-center space-x-4">
                     <button data-modal-toggle="filterModal" data-modal-target="filterModal" type="button"
                         class="flex w-full items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-500 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 sm:w-auto">
@@ -52,7 +53,7 @@
                         class="z-50 hidden w-40 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
                         data-popper-placement="bottom">
                         <select
-                            class="bg-gray-50 border border-primary-500 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-primary-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            class="block w-full rounded-lg border border-primary-500 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-primary-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                             id="sort">
                             <option value="">Urutkan</option>
                             <option value="oldest" {{ request()->sort_by == 'oldest' ? 'selected' : '' }}>Terlama</option>
@@ -66,7 +67,7 @@
                 </div>
             </div>
 
-            <div class="mb-4 grid gap-4 grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+            <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
 
                 @forelse ($products as $product)
                     <div
@@ -121,19 +122,19 @@
                                 <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp
                                     {{ number_format($product->price, 0, ',', '.') }}</p>
 
-                                    <form action="/carts/{{ $product->slug }}" method="post">
-                                        @csrf
-                                        <button type="submit"
-                                            class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
-                                            <svg class="ms-0 me-0 h-5 w-5" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                            </svg>
-                                        </button>
-                                    </form>
+                                <form action="/carts/{{ $product->slug }}" method="post">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
+                                        <svg class="me-0 ms-0 h-5 w-5" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                                        </svg>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -220,7 +221,7 @@
                         </div> --}}
 
                         <!-- Modal footer -->
-                        <div class="flex items-center space-x-4 rounded-b pt-2 pb-5">
+                        <div class="flex items-center space-x-4 rounded-b pb-5 pt-2">
                             <input type="hidden" name="sort" value="{{ request()->sort_by }}">
                             <button type="submit"
                                 class="rounded-lg bg-primary-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">Tampilkan
@@ -235,3 +236,16 @@
     </section>
     {{-- end product --}}
 @endsection
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const sortSelect = document.getElementById("sort");
+
+        sortSelect.addEventListener("change", function() {
+            const selectedValue = this.value;
+            const url = new URL(window.location.href);
+            url.searchParams.set("sort_by", selectedValue);
+            window.location.href = url.toString();
+        });
+    });
+</script>

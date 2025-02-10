@@ -33,40 +33,13 @@ class HomeController extends Controller
         return view('landing', $data);
     }
 
-    public function products(Request $request)
+    public function products()
     {
         $products = Product::query();
-        if ($request->has('search') && $request->search !== '') {
-            $products->where('name', 'like', '%' . $request->search . '%');
-        }
-        if ($request->has('categories') && is_array($request->categories)) {
-            $products->whereHas('category', function ($q) use ($request) {
-                $q->whereIn('slug', $request->categories);
-            });
-        }
-        if ($request->has('sort')) {
-            switch ($request->sort) {
-                case 'newest':
-                    $products->orderBy('created_at', 'desc');
-                    break;
-                case 'oldest':
-                    $products->orderBy('created_at', 'asc');
-                    break;
-                case 'cheapest':
-                    $products->orderBy('price', 'asc');
-                    break;
-                case 'expensive':
-                    $products->orderBy('price', 'desc');
-                    break;
-            }
-        } else {
-            // Default sorting
-            $products->orderBy('created_at', 'desc');
-        }
 
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
-            'products' => $products->paginate(8)->appends(request()->all())            ,
+            'products' => $products->filter(request(['search', 'categories', 'sort_by']))->paginate(8)->appends(request()->all()),
             'categories' => Category::all(),
         ];
         if (Auth::check()) {
@@ -95,12 +68,12 @@ class HomeController extends Controller
         ];
 
         if (Auth::check()) {
-           // Untuk dropdown cart, batasi hanya 5 item saja
+            // Untuk dropdown cart, batasi hanya 5 item saja
             $data['carts'] = Cart::with('product')
-            ->where('user_id', request()->user()->id)
-            ->latest()
-            ->limit(5)
-            ->get();
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(5)
+                ->get();
 
             // Dapatkan total item di cart untuk badge
             $data['cartCount'] = Cart::where('user_id', request()->user()->id)->count();
@@ -122,17 +95,17 @@ class HomeController extends Controller
             'title' => 'FreezeMart | Produk di Keranjang Anda',
             // Data untuk dropdown (header) batasi hanya 5 item
             'carts'    => Cart::with('product')
-                            ->where('user_id', request()->user()->id)
-                            ->latest()
-                            ->limit(5)
-                            ->get(),
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(5)
+                ->get(),
             // Data lengkap untuk tampilan halaman cart
             'myCarts'  => Cart::with('product')
-                            ->where('user_id', request()->user()->id)
-                            ->latest()
-                            ->get(),
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->get(),
             // Total item di cart untuk badge
-            'cartCount'=> Cart::where('user_id', request()->user()->id)->count()
+            'cartCount' => Cart::where('user_id', request()->user()->id)->count()
 
         ];
         return view('carts.index', $data);
