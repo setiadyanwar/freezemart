@@ -122,7 +122,10 @@ class HomeController extends Controller
 
     public function removeCart(Cart $cart)
     {
-        Cart::where('user_id', Auth::user()->id)->where('id', $cart->id)->delete();
+        // Cart::where('user_id', Auth::user()->id)->where('id', $cart->id)->delete();
+        Cart::where('user_id', Auth::id())
+            ->where('product_id', $cart->product_id)
+            ->delete();
         return back()->with('success', 'Produk berhasil dihapus dari keranjang.');
     }
 
