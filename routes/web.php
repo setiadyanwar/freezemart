@@ -13,7 +13,7 @@ Route::get('/carts', [HomeController::class, 'carts'])->middleware('auth');
 Route::post('/carts/{product}', [HomeController::class, 'addToCart'])->middleware('auth');
 Route::get('/cart-remove/{cart}', [HomeController::class, 'removeCart'])->middleware('auth');
 
-//day 4
+
 Route::post('/buy-from-cart', [HomeController::class, 'buyFromCart'])->middleware('auth');
 Route::get('/success/{checkout}', [HomeController::class, 'success'])->middleware('auth');
 Route::get('/failure/{checkout}', [HomeController::class, 'failure'])->middleware('auth');
@@ -32,5 +32,5 @@ Route::delete('/logout', [HomeController::class, 'actionLogout'])->middleware('a
 Route::get('/register', [HomeController::class, 'register'])->middleware('guest');
 Route::post('/register', [HomeController::class, 'actionRegister'])->middleware('guest');
 
-// nambahin komentar
+// add komentar
 Route::post('/comments', [HomeController::class, 'actionComments'])->name('comments.store')->middleware('auth');
