@@ -32,7 +32,7 @@
                 $quantity = $group->count();
             @endphp
             <div class="flex items-center space-x-4">
-                <img src="{{ $cartItem->product->image }}" alt="{{ $cartItem->product->name }}"
+                <img src="{{ asset('storage/' . $cartItem->product->image) }}" alt="{{ $cartItem->product->name }}"
                     class="h-10 w-10 rounded-lg object-cover">
                 <div>
                     <a href="/products/{{ $cartItem->product->slug }}"

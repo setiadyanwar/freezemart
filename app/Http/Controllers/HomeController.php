@@ -236,7 +236,7 @@ class HomeController extends Controller
             'status' => $result[0]['status']
         ]);
 
-        // cart nya kita hapus
+        // cart nya dihapus
         // pilih checkout
         $checkout = Checkout::where('external_id', $checkout)->first();
         // dapetin mana yg diorder

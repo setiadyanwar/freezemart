@@ -36,7 +36,16 @@
                                     <dt class="text-base font-medium text-gray-900 dark:text-white">Status</dt>
                                     <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400 mb-2">{{ $checkout->status }}</dd>
                                 </dl>
+                                @if($checkout->status == 'PENDING' && $checkout->checkout_link)
+                                    <div class="mt-4">
+                                        <a href="{{ $checkout->checkout_link }}" target="_blank"
+                                        class="inline-block px-5 py-2.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-700 rounded-lg">
+                                            Lanjutkan Pembayaran
+                                        </a>
+                                    </div>
+                                @endif
                             </div>
+
 
                             <div class="mt-6 sm:mt-8">
                                 <div class="relative overflow-x-auto border-b border-gray-200 dark:border-gray-800">
