@@ -50,12 +50,6 @@ class HomeController extends Controller
 
     public function showProduct(Product $product)
     {
-        $totalComments = Comment::where('product_id', $product->id)->count();
-
-        $comments = Comment::where('product_id', $product->id)
-            ->whereNull('parent_id') // Hanya ambil komentar utama
-            ->latest()
-            ->paginate(6); // Paginate 3 komentar per halaman
 
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
@@ -63,8 +57,6 @@ class HomeController extends Controller
             'products' => Product::where('category_id', $product->category_id)
                 ->where('id', '!=', $product->id)
                 ->get(),
-            'comments' => $comments,
-            'totalComments' => $totalComments,
         ];
 
         if (Auth::check()) {
@@ -354,62 +346,5 @@ class HomeController extends Controller
         $title = 'FreezeMart | Profile Akun Anda';
 
         return view('profile', compact('user', 'title'));
-    }
-
-    public function actionComments(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'product_id' => 'required|exists:products,id',
-            'comment_text' => 'required|string',
-            'parent_id' => 'nullable|exists:comments,id' // Validasi parent_id jika ada
-        ]);
-
-        // Simpan komentar baru
-        Comment::create([
-            'user_id' => $request->user_id,
-            'product_id' => $request->product_id,
-            'comment_text' => $request->comment_text,
-            'parent_id' => $request->parent_id // Menyimpan parent_id jika ini reply
-        ]);
-
-        // Ambil slug produk berdasarkan product_id
-        $product = Product::findOrFail($request->product_id);
-
-        return redirect('/products/' . $product->slug)
-            ->with('success', 'Komentar berhasil ditambahkan!');
-    }
-
-    public function comments(Product $product)
-    {
-        $comments = Comment::where('product_id', $product->id)
-            ->latest()
-            ->get()
-            ->map(
-                function ($comment) {
-                    $comment->formatted_date = Carbon::parse($comment->created_at)->translatedFormat('d F Y');
-                    return $comment;
-                }
-            );
-
-        $data = [
-            'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
-            'product' => $product,
-            'products' => Product::where('category_id', $product->category_id)
-                ->where('id', '!=', $product->id)
-                ->get(),
-            'comments' => $comments
-        ];
-
-        if (Auth::check()) {
-            $data['carts'] = Cart::with(['product'])
-                ->where('user_id', request()->user()->id)
-                ->latest()
-                ->limit(10)
-                ->get();
-        }
-
-        return view('comments.index', $data);
     }
 }
