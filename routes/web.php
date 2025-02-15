@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,10 +18,14 @@ Route::post('/buy-from-cart', [HomeController::class, 'buyFromCart'])->middlewar
 Route::get('/success/{checkout}', [HomeController::class, 'success'])->middleware('auth');
 Route::get('/failure/{checkout}', [HomeController::class, 'failure'])->middleware('auth');
 
-// end day 4
 Route::get('/checkouts', [HomeController::class, 'checkouts'])->middleware('auth');
-Route::get('/profile', [HomeController::class, 'profile'])->middleware('auth');
 
+// route profile
+Route::resource('/profile', ProfileController::class)->middleware('auth');;
+Route::post('/profile/update-photo', [ProfileController::class, 'updatePhoto'])->middleware('auth');
+
+
+// route autentikasi
 Route::get('/login', [HomeController::class, 'login'])->middleware('guest');
 Route::post('/login', [HomeController::class, 'actionLogin'])->name('login')->middleware('guest');
 Route::delete('/logout', [HomeController::class, 'actionLogout'])->middleware('auth');
