@@ -10,14 +10,26 @@
                 alt="Dark background">
         </div>
 
-        <div
-            class="relative z-10 mx-auto grid max-w-screen-xl px-4 pb-8 md:mt-6 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0">
-            <div class="z-10 content-center justify-self-start md:col-span-7 md:text-start">
-                <h1
-                    class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-dark-black dark:text-white md:max-w-2xl md:text-5xl xl:text-6xl">
-                    Your <span class="text-primary-500"> One-Stop<br>Solution </span> for All Your Frozen Needs</br></h1>
-                <p class="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg lg:mb-5 lg:text-xl">Promo
-                    Terbatas, Kesempatan Emas untuk Belanja!</p>
+        <div class="relative z-10 mx-auto grid max-w-screen-xl px-4 pb-8 md:mt-6 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0">
+            <div class="z-10 max-w-2xl content-center justify-self-start md:col-span-7 md:text-start">
+                <div class="mb-2 px-4 py-1 rounded-xl border border-primary-500 justify-center items-center gap-2 inline-flex">
+                    <div class="border-primary-500 text-primary-500 dark:text-white md:text-sm  lg:text-xl font-normal">Selamat Datang di Freezemart</div>
+                    <div class="p-1 rounded-xl border border-primary-500 justify-center items-center gap-2 flex">
+                    <img class="w-[26px] h-[26px]" src="/assets/emot.svg" />
+                    </div>
+                </div>
+                {{-- <h1
+                    class="mb-4 text-6xl font-extrabold tracking-tight text-dark-black dark:text-white md:max-w-2xl md:text-5xl xl:text-6xl leading-relaxed">
+                    Your <span class="text-primary-500"> One-Stop<br>Solution </span> for All Your Frozen Needs</br>
+                </h1> --}}
+                <div> 
+                    <h1>
+                        <span class="text-dark-black dark:text-white text-6xl font-bold leading-tight">Solusi Untuk <br> Semua </span>
+                        <span class="text-[#2761c9] text-6xl font-bold leading-tight">Kebutuhan <br> Beku </span>
+                        <span class="text-dark-black dark:text-white text-6xl font-bold leading-tight"> Kamu </span>
+                    </h1>
+                </div>
+                <p class="mb-4 max-w-2xl text-gray-500 dark:text-gray-400 md:mb-12 md:text-lg lg:mb-5 lg:text-xl">Surganya Pecinta Makanan Beku dengan Berbagai Pilihan Lezat untuk Setiap Selera</p>
                 @guest
                     <a href="/login"
                         class="inline-block rounded-lg bg-primary-500 px-6 py-3.5 text-center font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">Mulai
