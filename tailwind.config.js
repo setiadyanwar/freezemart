@@ -1,5 +1,4 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-import laravel from 'laravel-vite-plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -38,11 +37,6 @@ export default {
     },
     plugins: [
         require('flowbite/plugin'),
-        laravel([
-            'resources/js/landing.js',
-            'resources/css/app.css',
-            'resources/js/app.js', 
-        ]),
     ],
     
 };
