@@ -8,6 +8,8 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/custom.js',
+                'resources/js/landing.js',
+                'resources/js/theme-switcher.js',
             ],
             refresh: true,
         }),
