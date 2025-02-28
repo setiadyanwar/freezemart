@@ -1,4 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
+import laravel from 'laravel-vite-plugin';
 
 /** @type {import('tailwindcss').Config} */
 export default {
