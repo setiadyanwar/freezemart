@@ -36,6 +36,12 @@ export default {
         },
     },
     plugins: [
-        require('flowbite/plugin')
+        require('flowbite/plugin'),
+        laravel([
+            'resources/js/landing.js',
+            'resources/css/app.css',
+            'resources/js/app.js', 
+        ]),
     ],
+    
 };
