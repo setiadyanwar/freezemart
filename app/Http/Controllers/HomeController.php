@@ -231,9 +231,19 @@ class HomeController extends Controller
         // cart nya dihapus
         // pilih checkout
         $checkout = Checkout::where('external_id', $checkout)->first();
-        // dapetin mana yg diorder
+
+        // Ambil semua order berdasarkan checkout_id
         $orders = Order::where('checkout_id', $checkout->id)->get();
+
+        // Loop setiap order dan kurangi stok produk
         foreach ($orders as $order) {
+            $product = Product::find($order->product_id);
+            if ($product) {
+                $product->quantity -= $order->quantity; // Kurangi stok produk
+                $product->save();
+            }
+
+            // Hapus produk dari cart setelah pembayaran sukses
             Cart::where('user_id', Auth::user()->id)->where('product_id', $order->product_id)->delete();
         }
 
