@@ -48,7 +48,7 @@
                 </div>
                 <div class="card-body space-y-4">
                     @php
-                        $fields = ['name' => 'Nama', 'email' => 'Email', 'nohp' => 'No. Hp'];
+                        $fields = ['name' => 'Nama', 'email' => 'Email', 'nohp' => 'No. Hp', 'address' => 'Alamat']; // Ubah alamat -> address
                     @endphp
 
                     @foreach ($fields as $key => $label)
@@ -59,8 +59,8 @@
                                     id="text-{{ $key }}">{{ $user->$key }}</span>
 
                                 @if ($key !== 'email')
-                                    <input type="{{ $key === 'nohp' ? 'number' : 'text' }}" id="input-{{ $key }}"
-                                        class="hidden rounded border p-1" value="{{ $user->$key }}">
+                                    <input type="text" id="input-{{ $key }}" class="hidden rounded border p-1"
+                                        value="{{ $user->$key }}">
                                     <button onclick="editField('{{ $key }}')" id="edit-{{ $key }}"
                                         class="text-blue-500">Edit</button>
                                     <button onclick="saveField('{{ $key }}', {{ $user->id }})"
@@ -75,6 +75,8 @@
                         <p class="text-gray-700 dark:text-gray-300">{{ $user->created_at->format('d M Y') }}</p>
                     </div>
                 </div>
+
+
             </div>
 
             <!-- Tambahin CSRF Token buat AJAX -->

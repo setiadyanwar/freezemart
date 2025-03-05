@@ -58,14 +58,14 @@ class ProfileController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $user = User::findOrFail(Auth::id());
+        $user = User::findOrFail($id);
 
-        if ($user->id != $id) {
+        if ($user->id != Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
         $request->validate([
-            'field' => 'required|in:name,nohp',
+            'field' => 'required|in:name,nohp,address', // Ubah alamat -> address
             'value' => [
                 'required',
                 'string',
