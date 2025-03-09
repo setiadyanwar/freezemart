@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{{ $title }}</title>
         <!-- Livewire Styles -->
         @livewireStyles
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,40 +16,46 @@
             }
         </script>
     </head>
-    <body>
+    <body class="bg-gray-100 dark:bg-gray-900 overflow-hidden">
+        <!-- Kontainer utama, beri max-width & margin auto -->
+        <div class="max-w-7xl min-h-screen my-auto mx-auto px-4 py-8">
+            <!-- Flex container -->
+            <div class="h-auto gap-14 flex flex-col md:flex-row">
+                <!-- Bagian Kiri - Ilustrasi -->
+                <div class="hidden md:flex items-center justify-center w-full md:w-1/2">
+                    <img 
+                        src="{{ $image ?? '/assets/' }}" 
+                        alt="Illustration" 
+                        class="max-w-full h-auto object-contain"
+                    >
+                </div>
+    
+                <!-- Bagian Kanan - Form Auth -->
+                <div class="md:w-1/2 p-8 flex flex-col justify-center rounded-lg h-full overflow-y-auto">
+                    <div class="flex items-center mb-6">
+                        <img src="/logo/logo.png" alt="FreezeMart Logo" class="h-10 mr-2">
+                    </div>
+                    <h2 class="text-black text-3xl font-semibold mb-2">
+                        Selamat datang di<br> FreezeMart
+                    </h2>
 
-    <section class="bg-white  dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img class="w-full h-12 mr-2" src="/logo/logo.png" alt="logo">
-            </a>
-            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-xl xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    
+                    <p class="text-base text-gray-400"><?php echo $message; ?></p>
+                    
+                    <!-- Alert -->
                     @if (session('status'))
-                    <div id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-700 dark:text-red-400" role="alert">
-                        <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                        </svg>
-                        <span class="sr-only">Info</span>
-                        <div class="ms-3 text-sm font-medium">
-                          {{ session('status') }}
+                        <div class="mt-2 p-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+                            {{ session('status') }}
                         </div>
-                        <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-700 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-2" aria-label="Close">
-                          <span class="sr-only">Close</span>
-                          <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                          </svg>
-                        </button>
-                      </div>
                     @endif
                     @yield('content')
-
                 </div>
             </div>
         </div>
-    </section>
-    @livewireScripts
+        @livewireScripts
     </body>
+    
+    
     <script>
         // Hanya gunakan tema dark jika ada di localStorage
         if (localStorage.getItem('color-theme') === 'dark') {
