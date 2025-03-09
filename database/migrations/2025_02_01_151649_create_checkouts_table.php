@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('checkout_link');
             $table->string('external_id')->unique();
             $table->string('status');
+            $table->string('shipment_status')->default('Dikemas');
             $table->timestamps();
         });
     }

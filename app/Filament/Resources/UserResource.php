@@ -22,8 +22,8 @@ class UserResource extends Resource
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
-    protected static ?string $navigationLabel = 'User';
-    protected static ?string $label = 'User';
+    protected static ?string $navigationLabel = 'Pengguna';
+    protected static ?string $label = 'Pengguna';
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -48,8 +48,8 @@ class UserResource extends Resource
                     ->required(),
 
                 Textarea::make('address')
-                ->placeholder('Masukkan alamat')
-                ->label('Alamat')
+                    ->placeholder('Masukkan alamat')
+                    ->label('Alamat')
                     ->required()
                     ->columnSpanFull(),
             ]);
@@ -65,16 +65,21 @@ class UserResource extends Resource
                 TextColumn::make('email')
                     ->searchable(),
                 TextColumn::make('role')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'admin' => 'warning',
+                        'user' => 'primary',
+                    })
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('created_at')
-                ->label('Dibuat Pada')
-                ->dateTime()
+                    ->label('Dibuat Pada')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                ->label('Diperbarui Pada')
-                ->dateTime()
+                    ->label('Diperbarui Pada')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])

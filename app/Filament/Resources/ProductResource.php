@@ -27,8 +27,8 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
-    protected static ?string $navigationLabel = 'Product';
-    protected static ?string $label = 'Product';
+    protected static ?string $navigationLabel = 'Produk';
+    protected static ?string $label = 'Produk';
     protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
@@ -36,7 +36,7 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Select::make('category_id')
-                ->relationship('category', 'name')
+                    ->relationship('category', 'name')
                     ->label('Kategori')
                     ->required(),
                 TextInput::make('name')
@@ -56,6 +56,11 @@ class ProductResource extends Resource
                     ->required()
                     ->numeric()
                     ->prefix('Rp'),
+                TextInput::make('quantity')
+                    ->placeholder('Masukkan kuantitas produk')
+                    ->label('Kuantitas')
+                    ->required()
+                    ->numeric(),
                 FileUpload::make('image')
                     ->label('Foto Produk')
                     ->required()
@@ -65,9 +70,9 @@ class ProductResource extends Resource
                     ->disk('public')
                     ->directory('products'),
                 Textarea::make('description')
-                ->placeholder('Masukkan deskripsi produk')
-                ->label('Deskripsi Produk')
-                ->required()
+                    ->placeholder('Masukkan deskripsi produk')
+                    ->label('Deskripsi Produk')
+                    ->required()
                     ->autosize(),
             ]);
     }
@@ -79,8 +84,8 @@ class ProductResource extends Resource
                 ImageColumn::make('image')
                     ->circular(),
                 TextColumn::make('category.name')
-                ->label('Kategori')
-                ->numeric()
+                    ->label('Kategori')
+                    ->numeric()
                     ->sortable(),
                 TextColumn::make('name')
                     ->label('Nama Produk')
@@ -91,14 +96,16 @@ class ProductResource extends Resource
                     ->label('Harga Produk')
                     ->money('IDR')
                     ->sortable(),
+                TextColumn::make('quantity')
+                    ->label('Kuantitas'),
                 TextColumn::make('created_at')
-                ->label('Dibuat Pada')
-                ->dateTime()
+                    ->label('Dibuat Pada')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
-                ->label('Diperbarui Pada')
-                ->dateTime()
+                    ->label('Diperbarui Pada')
+                    ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
