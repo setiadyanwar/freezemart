@@ -12,14 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('checkouts', function (Blueprint $table) {
-            $table->id();
+            $table->id();       
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->integer('service');
             $table->integer('price_total');
             $table->string('checkout_link');
             $table->string('external_id')->unique();
             $table->string('status');
-            $table->string('shipment_status')->default('Dikemas');
             $table->timestamps();
         });
     }
