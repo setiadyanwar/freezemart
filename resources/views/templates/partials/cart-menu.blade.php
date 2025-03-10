@@ -17,7 +17,7 @@
 
 <!-- Dropdown Cart -->
 <div id="myCartDropdown"
-    class="z-10 mx-auto hidden max-w-sm space-y-4 overflow-hidden rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800">
+    class="z-10 mx-auto hidden max-w-sm space-y-4 rounded-lg bg-white p-4 shadow-lg dark:bg-gray-800">
 
     <div class="max-h-64 space-y-4 overflow-y-auto">
         @php

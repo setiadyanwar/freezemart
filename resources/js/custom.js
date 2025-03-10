@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const lightIcon = document.getElementById('theme-toggle-light-icon');
@@ -36,3 +37,5 @@ document.addEventListener('DOMContentLoaded', () => {
         setDarkMode(!isDark);
     });
 });
+
+// 

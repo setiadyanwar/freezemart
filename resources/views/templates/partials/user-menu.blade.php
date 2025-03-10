@@ -4,7 +4,7 @@
     </svg>
 </button>
 
-<div id="userDropdown" class="hidden z-10 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
+<div id="userDropdown" class="hidden z-50 w-56 divide-y divide-gray-100 overflow-hidden overflow-y-auto rounded-lg bg-white antialiased shadow dark:divide-gray-600 dark:bg-gray-700">
     <ul class="p-2 text-start text-sm font-medium text-gray-900 dark:text-white">
         @can('is-admin')
         <li><a href="/admin" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Dashboard Admin </a></li>

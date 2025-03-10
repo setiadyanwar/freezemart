@@ -315,7 +315,12 @@ class HomeController extends Controller
             'name' => 'required|max:255',
             'address' => 'required',
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:8|max:255',
+            'password' => ['required',
+                            'min:8',
+                            'max:255',
+                            // Hanya izinkan huruf, angka, dan beberapa simbol umum.
+                            'regex:/^[A-Za-z0-9!@#$%^*()_+\-=\[\]{};:"\\|,.<>\/?]*$/'
+                        ],
             'password_confirm' => 'required|min:8|same:password',
         ]);
 
@@ -349,6 +354,8 @@ class HomeController extends Controller
 
         return redirect('/');
     }
+
+    
 
     public function profile()
     {

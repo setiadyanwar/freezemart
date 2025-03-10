@@ -38,9 +38,7 @@
                     <h2 class="text-black text-3xl font-semibold mb-2">
                         Selamat datang di<br> FreezeMart
                     </h2>
-
-                    
-                    <p class="text-base text-gray-400"><?php echo $message; ?></p>
+                    <p class="text-base text-gray-400"><?php echo $message ?? ''?></p>
                     
                     <!-- Alert -->
                     @if (session('status'))
