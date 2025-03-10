@@ -2,19 +2,24 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Forms\Set;
-use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Set;
+use App\Models\Category;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\CategoryResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\CategoryResource\RelationManagers;
 
 class CategoryResource extends Resource
 {
@@ -28,25 +33,24 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->placeholder('Masukkan nama kategori')
                     ->label('Nama Kategori')
                     ->required()
                     ->maxLength(255)
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                Forms\Components\TextInput::make('slug')
-                    ->readOnly()
-                    ->placeholder('Akan diisi otomatis setelah nama kategori diisi')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\FileUpload::make('path')
+                FileUpload::make('path')
                     ->image()
                     ->label('Foto Kategori')
                     ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/svg+xml'])
                     ->disk('public')
                     ->directory('category')
                     ->imageCropAspectRatio('1:1'),
+                Toggle::make('is_active')
+                    ->onColor('primary')
+                    ->offColor('gray')
+                    ->label('Aktifkan'),
             ]);
     }
 
@@ -54,11 +58,14 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('path')
+                    ->circular(),
                 TextColumn::make('name')
                     ->label('Nama Kategori')
                     ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
+                IconColumn::make('is_active')
+                    ->label('Aktif')
+                    ->boolean(),
                 TextColumn::make('created_at')
                     ->label('Dibuat Pada')
                     ->dateTime()
