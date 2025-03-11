@@ -10,6 +10,8 @@ class Chats extends Page
 
     protected static string $view = 'filament.pages.chats';
 
+    protected static ?string $navigationLabel = 'Pesan';
+
     public function getTitle(): string
     {
         return '';
