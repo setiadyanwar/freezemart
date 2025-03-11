@@ -27,6 +27,13 @@
             </svg>
         </button>
     </div>    
+    <div class="flex items-center justify-between">
+        <div class="flex items-center">
+            <input type="checkbox" id="remember" name="remember" class="text-primary-500 border-gray-300 rounded focus:ring-primary-500 dark:focus:ring-primary-500">
+            <label for="remember" class="ml-2 text-sm text-gray-500 dark:text-gray-400">Ingat saya</label>
+        </div>
+        <a href="/forgot-password" class="text-sm text-red-500 hover:underline dark:text-red-500">Lupa Password?</a>
+    </div>
     <button type="submit" class="w-full text-white bg-primary-500 hover:bg-primary-600 focus:ring-4 focus:outline-none focus:ring-primary-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">Login</button>
     <p class="text-sm font-light text-center text-gray-500 dark:text-gray-400">Belum punya akun? <a href="/register" class="font-medium text-primary-500 hover:underline dark:text-primary-500">Daftar Yuk!!</a>
     </p>

@@ -34,3 +34,21 @@ Route::post('/register', [HomeController::class, 'actionRegister'])->middleware(
 
 // add komentar
 Route::post('/comments', [HomeController::class, 'actionComments'])->name('comments.store')->middleware('auth');
+
+
+// Forgot Password
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->middleware('guest')->name('password.request');
+
+Route::post('/forgot-password', [HomeController::class, 'forgotPassword'])
+    ->middleware('guest')
+    ->name('password.email');
+
+Route::get('/reset-password/{token}', function (string $token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset-password', [HomeController::class, 'resetPassword'])
+    ->middleware('guest')
+    ->name('password.update');

@@ -42,7 +42,7 @@
                             <label for="name">Group Name</label>
 
                             <input id='name' type="text" wire:model='name' autofocus placeholder="Enter name"
-                                class="w-full w-full border-0 bg-inherit px-0 outline-none hover:ring-0 focus:outline-none focus:ring-0 dark:text-white">
+                                class="w-full border-0 bg-inherit px-0 outline-none hover:ring-0 focus:outline-none focus:ring-0 dark:text-white">
 
                             <span class="text-sm text-red-500">
                                 @error('name')
@@ -68,9 +68,9 @@
 
                         <label for="description">Description</label>
 
-                        <textarea id='description' type="text" wire:model='description' placeholder="Optional" rows="4"
-                            class="w-full w-full resize-none rounded-lg border-gray-200 bg-inherit outline-none hover:ring-0 focus:border-gray-200 focus:outline-none focus:ring-0 dark:border-gray-700 dark:text-white">
-                    </textarea>
+                        <textarea id="description" wire:model='description' placeholder="Optional" rows="4"
+                            class="w-full resize-none rounded-lg border-gray-200 bg-inherit outline-none hover:ring-0 focus:border-gray-200 focus:outline-none focus:ring-0 dark:border-gray-700 dark:text-white">
+                        </textarea>
 
 
                         <span class="text-sm text-red-500">

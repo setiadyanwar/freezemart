@@ -42,8 +42,18 @@
                     
                     <!-- Alert -->
                     @if (session('status'))
-                        <div class="mt-2 p-4 text-sm text-red-800 bg-red-100 rounded-lg" role="alert">
+                        <div class="mt-2 p-4 text-sm text-green-500 bg-green-100 rounded-lg" role="alert">
                             {{ session('status') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="mt-2 p-4 text-sm text-red-500 bg-red-100 rounded-lg" role="alert">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
                     @endif
                     @yield('content')
