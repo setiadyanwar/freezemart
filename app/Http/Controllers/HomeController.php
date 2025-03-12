@@ -277,6 +277,7 @@ class HomeController extends Controller
         return view('login', [
             'title' => 'FreezeMart | Masuk ke Akun Anda'
         ]);
+        
     }
 
     public function actionLogin(Request $request): RedirectResponse
@@ -285,6 +286,9 @@ class HomeController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
+        // Periksa apakah checkbox 'remember' dicentang
+        $remember = $request->has('remember');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -302,7 +306,7 @@ class HomeController extends Controller
             return redirect('/');
         }
 
-        return back()->with('status', 'Login Gagal!. Harap periksa kembali email dan password');
+        return back()->withErrors('status', 'Login Gagal!. Harap periksa kembali email dan password');
     }
 
     public function register()
