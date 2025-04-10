@@ -277,7 +277,6 @@ class HomeController extends Controller
         return view('login', [
             'title' => 'FreezeMart | Masuk ke Akun Anda'
         ]);
-        
     }
 
     public function actionLogin(Request $request): RedirectResponse
@@ -290,7 +289,7 @@ class HomeController extends Controller
         // Periksa apakah checkbox 'remember' dicentang
         $remember = $request->has('remember');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $remember)) { // Tambahkan $remember
             $request->session()->regenerate();
 
             // Jika user adalah admin, redirect ke dashboard admin
@@ -300,7 +299,6 @@ class HomeController extends Controller
 
             // Kirim pesan sukses setelah login
             session()->flash('message', 'Selamat datang, ' . Auth::user()->name . '! Anda berhasil login.');
-
 
             // Jika user biasa, redirect ke home
             return redirect('/');
@@ -322,12 +320,13 @@ class HomeController extends Controller
             'name' => 'required|max:255',
             'address' => 'required',
             'email' => 'required|email|max:255|unique:users',
-            'password' => ['required',
-                            'min:8',
-                            'max:255',
-                            // Hanya izinkan huruf, angka, dan beberapa simbol umum.
-                            'regex:/^[A-Za-z0-9!@#$%^*()_+\-=\[\]{};:"\\|,.<>\/?]*$/'
-                        ],
+            'password' => [
+                'required',
+                'min:8',
+                'max:255',
+                // Hanya izinkan huruf, angka, dan beberapa simbol umum.
+                'regex:/^[A-Za-z0-9!@#$%^*()_+\-=\[\]{};:"\\|,.<>\/?]*$/'
+            ],
             'password_confirm' => 'required|min:8|same:password',
         ]);
 
@@ -403,7 +402,7 @@ class HomeController extends Controller
         return redirect('/');
     }
 
-    
+
 
     public function profile()
     {
