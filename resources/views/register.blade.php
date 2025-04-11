@@ -95,7 +95,7 @@
 </form>
 
 @php
-    $image = '/assets/ImageRegister.svg';
+    $image = 'assets/ImageRegister.svg';
     $message = 'Masukkan data diri kamu untuk mendaftar';
 @endphp
 
