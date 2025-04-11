@@ -48,7 +48,7 @@
     </form>
 
     @php
-        $image = 'assets/Imagelogin.svg';
+        $image = 'assets/ImageLogin.svg';
         $message = 'Masukkan nama pengguna dan kata sandi kamu';
     @endphp
 
