@@ -44,32 +44,32 @@
         <div
             class="relative z-10 mx-auto grid max-w-screen-xl grid-cols-3 gap-8 px-4 text-gray-500 dark:text-gray-400 md:grid-cols-6">
             <a href="#" class="flex items-center md:justify-center">
-                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('storage/brand/fiesta.png') }}"
+                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('assets/brand/fiesta.png') }}"
                     alt="brand-logo">
                 </img>
             </a>
             <a href="#" class="flex items-center md:justify-center">
-                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('storage/brand/belfood.png') }}"
+                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('assets/brand/belfood.png') }}"
                     alt="brand-logo">
                 </img>
             </a>
             <a href="#" class="flex items-center md:justify-center">
-                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('storage/brand/kimbo.png') }}"
+                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('assets/brand/kimbo.png') }}"
                     alt="brand-logo">
                 </img>
             </a>
             <a href="#" class="flex items-center md:justify-center">
-                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('storage/brand/bumifood.png') }}"
+                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('assets/brand/bumifood.png') }}"
                     alt="brand-logo">
                 </img>
             </a>
             <a href="#" class="flex items-center md:justify-center">
-                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('storage/brand/sibeku.png') }}"
+                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('assets/brand/sibeku.png') }}"
                     alt="brand-logo">
                 </img>
             </a>
             <a href="#" class="flex items-center md:justify-center">
-                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('storage/brand/amazy.png') }}"
+                <img class="w-3/4 grayscale hover:grayscale-0 " src="{{ asset('assets/brand/amazy.png') }}"
                     alt="brand-logo">
                 </img>
             </a>
