@@ -68,7 +68,9 @@ class ProductResource extends Resource
                     ->imageEditor()
                     ->imageCropAspectRatio('1:1')
                     ->disk('public')
-                    ->directory('products'),
+                    ->directory('products')
+                    ->acceptedFileTypes(['image/*'])
+                    ->rules('mimetypes:image/jpeg,image/png,image/gif,image/webp'),
                 Textarea::make('description')
                     ->placeholder('Masukkan deskripsi produk')
                     ->label('Deskripsi Produk')
