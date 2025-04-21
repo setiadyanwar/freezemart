@@ -20,8 +20,12 @@ export default {
             },
             colors:{
                 dark:{
-                    black:'#313131'
+                    black:'#313131',
+                    secondary:'#808080',
+                    tertiary:'#9C9C9C',
+                    accent:'#D9D9D9',
                 },
+                
                 primary:{
                     50: '#E9EFFA',
                     100: '#BCCEEE',

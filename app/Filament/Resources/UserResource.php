@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -31,27 +32,44 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->label('Nama Lengkap')
-                    ->placeholder('Masukkan nama lengkap')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('email')
-                    ->placeholder('Masukkan alamat email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                Select::make('role')
-                    ->options([
-                        'user' => 'Pengguna',
-                        'admin' => 'Administrator',
-                    ])
-                    ->required(),
+                ->label('Nama Lengkap')
+                ->required()
+                ->maxLength(255),
 
-                Textarea::make('address')
-                    ->placeholder('Masukkan alamat')
-                    ->label('Alamat')
-                    ->required()
-                    ->columnSpanFull(),
+            TextInput::make('email')
+                ->label('Email')
+                ->email()
+                ->required()
+                ->maxLength(255),
+
+            Select::make('role')
+                ->options([
+                    'user' => 'Pengguna',
+                    'admin' => 'Administrator',
+                ])
+                ->required(),
+
+            Textarea::make('address')
+                ->label('Alamat')
+                ->required(),
+
+            TextInput::make('password')
+                ->label('Password')
+                ->password()
+                ->visible(fn ($context) => $context === 'create') 
+                ->required(fn ($context) => $context === 'create')
+                ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
+                ->dehydrated(fn ($state) => filled($state))
+                ->minLength(6)
+                ->maxLength(255)
+                ->same('passwordConfirmation'),
+            
+            TextInput::make('passwordConfirmation')
+                ->label('Konfirmasi Password')
+                ->password()
+                ->visible(fn ($context) => $context === 'create') 
+                ->required(fn ($context) => $context === 'create')
+                ->dehydrated(false),
             ]);
     }
 

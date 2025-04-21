@@ -17,6 +17,8 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Set;
@@ -34,47 +36,67 @@ class ProductResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->label('Kategori')
-                    ->required(),
-                TextInput::make('name')
-                    ->placeholder('Masukkan nama produk')
-                    ->label('Nama Produk')
-                    ->required()
-                    ->maxLength(255)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
-                TextInput::make('slug')
-                    ->required()
-                    ->maxLength(255)
-                    ->readOnly(),
-                TextInput::make('price')
-                    ->placeholder('Masukkan harga produk')
-                    ->label('Harga Produk')
-                    ->required()
-                    ->numeric()
-                    ->prefix('Rp'),
-                TextInput::make('quantity')
-                    ->placeholder('Masukkan kuantitas produk')
-                    ->label('Kuantitas')
-                    ->required()
-                    ->numeric(),
-                FileUpload::make('image')
-                    ->label('Foto Produk')
-                    ->required()
-                    ->image()
-                    ->imageEditor()
-                    ->imageCropAspectRatio('1:1')
-                    ->disk('public')
-                    ->directory('products'),
-                Textarea::make('description')
-                    ->placeholder('Masukkan deskripsi produk')
-                    ->label('Deskripsi Produk')
-                    ->required()
-                    ->autosize(),
-            ]);
+        ->schema([
+            Section::make('Informasi Produk')
+                ->description('Lengkapi detail produk dengan benar.')
+                ->schema([
+                    Grid::make(2)
+                        ->schema([
+
+                            TextInput::make('name')
+                                ->placeholder('Masukkan nama produk')
+                                ->label('Nama Produk')
+                                ->required()
+                                ->maxLength(255)
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                            Select::make('category_id')
+                                ->relationship('category', 'name')
+                                ->label('Kategori')
+                                ->required(),
+                        ]),
+
+                    Grid::make(2)
+                        ->schema([
+                            TextInput::make('slug')
+                                ->label('Slug')
+                                ->required()
+                                ->maxLength(255)
+                                ->readOnly(),
+
+                            TextInput::make('price')
+                                ->placeholder('Masukkan harga produk')
+                                ->label('Harga Produk')
+                                ->required()
+                                ->numeric()
+                                ->prefix('Rp'),
+                        ]),
+
+                    Grid::make(2)
+                        ->schema([
+                            TextInput::make('quantity')
+                                ->placeholder('Masukkan kuantitas produk')
+                                ->label('Kuantitas')
+                                ->required()
+                                ->numeric(),
+
+                            FileUpload::make('image')
+                                ->label('Foto Produk')
+                                ->required()
+                                ->image()
+                                ->imageEditor()
+                                ->imageCropAspectRatio('1:1')
+                                ->disk('public')
+                                ->directory('products'),
+                        ]),
+
+                    Textarea::make('description')
+                        ->placeholder('Masukkan deskripsi produk')
+                        ->label('Deskripsi Produk')
+                        ->required()
+                        ->autosize(),
+                ]),
+        ]);
     }
 
     public static function table(Table $table): Table

@@ -102,11 +102,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 document.getElementById("menu-toggle").addEventListener("click", function () {
-    document.getElementById("ecommerce-navbar-menu-1").classList.toggle("hidden");
-});
+    const menu1 = document.getElementById("ecommerce-navbar-menu-1");
+    const authButtons = document.getElementById("auth-buttons");
+    const mobileMenu = document.getElementById("mobile-menu");
 
-document.getElementById("menu-toggle").addEventListener("click", function () {
-    document.getElementById("mobile-menu").classList.toggle("hidden");
-    document.getElementById("auth-buttons").classList.toggle("hidden");
+    if (menu1) menu1.classList.toggle("hidden");
+    if (authButtons) authButtons.classList.toggle("hidden");
+    if (mobileMenu) mobileMenu.classList.toggle("hidden");
 });
 </script>

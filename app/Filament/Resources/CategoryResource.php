@@ -40,6 +40,9 @@ class CategoryResource extends Resource
                     ->maxLength(255)
                     ->live(onBlur: true)
                     ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                TextInput::make('slug')
+                    ->disabled()
+                    ->dehydrated(),
                 FileUpload::make('path')
                     ->image()
                     ->label('Foto Kategori')
@@ -59,20 +62,25 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('path')
-                    ->circular(),
+                    ->circular()
+                    ->label('Foto Kategori'),
                 TextColumn::make('name')
                     ->label('Nama Kategori')
                     ->searchable(),
-                IconColumn::make('is_active')
-                    ->label('Aktif')
-                    ->boolean(),
-                TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')   // Ikon saat true
+                    ->falseIcon('heroicon-o-x-circle')     // Ikon saat false
+                    ->label('Status Aktif'),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
-                    ->label('Diperbarui Pada')
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('deleted_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
