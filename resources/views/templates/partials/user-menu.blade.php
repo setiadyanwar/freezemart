@@ -11,6 +11,8 @@
         @endcan
         <li><a href="/profile" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Profil </a></li>
         <li><a href="/checkouts" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Pembelian </a></li>
+        <li><a href="{{ route('history.index', ['status' => 'completed']) }}" class="inline-flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-600"> Riwayat </a></li>
+
     </ul>
 
     <div class="p-2 text-sm font-medium text-red-500 dark:text-red-400">

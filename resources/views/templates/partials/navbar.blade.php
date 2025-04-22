@@ -45,7 +45,7 @@
                     </svg>
                 </button>
 
-                {{-- Jika pengguna login, tampilkan menu user & cart --}}
+                <!-- {{-- Jika pengguna login, tampilkan menu user & cart --}} -->
                 @auth
                     @include('templates.partials.cart-menu')
                     @include('templates.partials.user-menu')
