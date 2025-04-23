@@ -39,9 +39,7 @@
             @elseif(request('status') == 'completed' || $status == 'completed')
                 @include('history.partials.completed')
             @else
-                <div class="rounded-lg border border-gray-200 bg-white p-6 text-center shadow dark:border-gray-700 dark:bg-gray-800">
-                    <p class="text-gray-500 dark:text-gray-400">Tidak ada riwayat pembelian</p>
-                </div>
+               @include('partials.no-history')
             @endif
         </div>
     </section>
