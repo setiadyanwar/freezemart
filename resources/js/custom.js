@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('theme-toggle');
     const lightIcon = document.getElementById('theme-toggle-light-icon');
@@ -38,4 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// 
+// Add cart dropdown initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all dropdowns with data-dropdown-toggle attribute
+    const dropdownButtons = document.querySelectorAll('[data-dropdown-toggle]');
+    
+    dropdownButtons.forEach(button => {
+        const targetId = button.getAttribute('data-dropdown-toggle');
+        const targetEl = document.getElementById(targetId);
+        
+        if (targetEl) {
+            button.addEventListener('click', function() {
+                targetEl.classList.toggle('hidden');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!button.contains(event.target) && !targetEl.contains(event.target)) {
+                    targetEl.classList.add('hidden');
+                }
+            });
+        }
+    });
+});

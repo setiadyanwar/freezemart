@@ -52,3 +52,7 @@ Route::get('/reset-password/{token}', function (string $token) {
 Route::post('/reset-password', [HomeController::class, 'resetPassword'])
     ->middleware('guest')
     ->name('password.update');
+
+
+// Route History Pembelian
+Route::get('/history', [HomeController::class, 'history'])->middleware('auth')->name('history.index');
