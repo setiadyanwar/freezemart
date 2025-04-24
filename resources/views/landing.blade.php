@@ -223,8 +223,8 @@
                     <p class="text-base text-dark-secondary">Rekomendasi produk terbaik untuk kamu</p>
                 </div>
                 <a href="/products" title=""
-                    class="flex items-center text-base font-medium text-primary-500 hover:underline">
-                    Lihat semua produk
+                    class="flex rounded-xl border px-4 py-2 border-primary-500 items-center text-base font-medium text-primary-500 hover:bg-primary-50 dark:border-primary-500 dark:bg-primary-500 dark:text-white dark:hover:bg-primary-600">
+                    Lihat semua
                     <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

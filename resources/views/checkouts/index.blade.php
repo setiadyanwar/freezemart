@@ -10,18 +10,18 @@
                 <div x-data="{ selected: 1 }" class="space-y-4">
                     @foreach ($faqs as $faq)
                         <div class="transition-all duration-300 rounded-xl"
-                            :class="selected === {{ $loop->iteration }} ?
+                            :class="selected === @json($loop->iteration) ?
                                 'border-2 border-blue-500 shadow-md bg-white' :
                                 'border border-gray-200 shadow-sm bg-white'">
                             <button
-                                @click="selected === {{ $loop->iteration }} ? selected = null : selected = {{ $loop->iteration }}"
+                                @click="selected === @json($loop->iteration) ? selected = null : selected = @json($loop->iteration)"
                                 class="flex items-center justify-between w-full px-6 py-5 text-left transition-colors duration-200 rounded-xl focus:outline-none"
-                                :class="selected === {{ $loop->iteration }} ?
+                                :class="selected === @json($loop->iteration) ?
                                     'text-blue-600 font-semibold' :
                                     'text-gray-700 font-medium'">
                                 <span>{{ $faq->question }}</span>
                                 <svg class="w-5 h-5 transition-transform duration-300 transform"
-                                    :class="selected === {{ $loop->iteration }} ? 'rotate-180 text-blue-600' :
+                                    :class="selected === @json($loop->iteration) ? 'rotate-180 text-blue-600' :
                                         'rotate-0 text-gray-400'"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
@@ -29,7 +29,7 @@
                                         d="M19 9l-7 7-7-7" />
                                 </svg>
                             </button>
-                            <div x-show="selected === {{ $loop->iteration }}" x-collapse class="px-6 pb-5 text-gray-600">
+                            <div x-show="selected === @json($loop->iteration)" x-collapse class="px-6 pb-5 text-gray-600">
                                 <p>{{ $faq->answer }}</p>
                             </div>
                         </div>

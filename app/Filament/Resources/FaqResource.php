@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\FaqResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -30,12 +31,15 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('question')
-                    ->label('Pertanyaan'),
-                Textarea::make('answer')
+                TextInput::make('pertanyaan')
+                    ->label('Pertanyaan')
+                    ->columnSpan(2) // Membuat form lebih lebar
+                    ->maxLength(255), // Menambah batas panjang teks jika perlu
+
+                MarkdownEditor::make('jawaban')
                     ->label('Jawaban')
-                    ->rows(3)
-                    ->cols(20)
+                    ->columnSpan(2)
+                    ->maxLength(2000), // Mengizinkan resizing vertikal
             ]);
     }
 
@@ -43,13 +47,18 @@ class FaqResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('question')
+                TextColumn::make('pertanyaan')
                     ->label('Pertanyaan')
-                    ->searchable(),
-                TextColumn::make('answer')
+                    ->wrap() 
+                        ->extraAttributes([
+                            'style' => 'max-height: 100px; overflow-y: auto; white-space: normal; word-break: break-word; width: 400px;' ]),
+
+                TextColumn::make('jawaban')
                     ->label('Jawaban')
                     ->wrap()
-                    ->searchable(),
+                        ->extraAttributes([
+                            'style' => 'max-height: 100px; overflow-y: auto; white-space: normal; word-break: break-word; width: 400px;']),
+
             ])
             ->filters([
                 //
@@ -59,9 +68,10 @@ class FaqResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
             ]);
+            
     }
 
     public static function getRelations(): array
