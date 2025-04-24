@@ -413,32 +413,31 @@ class HomeController extends Controller
     }
 
     public function history(Request $request)
-{
-    $status = $request->query('status', 'unpaid'); // Default to 'unpaid' if no status provided
-    
-    // Validate status
-    $validStatuses = ['unpaid', 'paid', 'processing', 'shipped', 'completed'];
-    if (!in_array($status, $validStatuses)) {
-        $status = 'unpaid'; // Default to 'unpaid' if invalid status
-    }
-    
-    $data = [
-        'title' => 'Riwayat Pembelian Anda',
-        'carts' => Cart::with(['product'])
-            ->where('user_id', request()->user()->id)
-            ->latest()
-            ->limit(10)
-            ->get(),
-        'orders' => Order::whereHas('checkout', function($query) use ($status) {
-            $query->where('user_id', Auth::user()->id)
-                  ->where('status', $status);
-        })->with('checkout', 'product')
-          ->latest()
-          ->get(),
-        'status' => $status
-    ];
-    
-    return view('history.index', $data);
-}
+    {
+        $status = $request->query('status', 'unpaid'); // Default to 'unpaid' if no status provided
 
+        // Validate status
+        $validStatuses = ['unpaid', 'paid', 'processing', 'shipped', 'completed'];
+        if (!in_array($status, $validStatuses)) {
+            $status = 'unpaid'; // Default to 'unpaid' if invalid status
+        }
+
+        $data = [
+            'title' => 'Riwayat Pembelian Anda',
+            'carts' => Cart::with(['product'])
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(10)
+                ->get(),
+            'orders' => Order::whereHas('checkout', function ($query) use ($status) {
+                $query->where('user_id', Auth::user()->id)
+                    ->where('status', $status);
+            })->with('checkout', 'product')
+                ->latest()
+                ->get(),
+            'status' => $status
+        ];
+
+        return view('history.index', $data);
+    }
 }

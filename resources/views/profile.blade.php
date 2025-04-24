@@ -1,20 +1,20 @@
 @extends('templates.master')
 
 @section('content')
-    <section class="bg-gray-50 py-24 antialiased dark:bg-gray-900">
-        <div class="container mx-auto px-4">
+    <section class="py-24 antialiased bg-gray-50 dark:bg-gray-900">
+        <div class="container px-4 mx-auto">
 
-            <div class="relative mb-8 flex justify-center">
+            <div class="relative flex justify-center mb-8">
                 <!-- Wrapper untuk positioning -->
-                <label for="profile-upload" class="group relative h-32 w-32 cursor-pointer">
+                <label for="profile-upload" class="relative w-32 h-32 cursor-pointer group">
                     <!-- Photo Profile Container -->
-                    <div class="relative h-32 w-32 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div class="relative w-32 h-32 overflow-hidden bg-gray-200 rounded-full dark:bg-gray-700">
                         @if ($user->photo)
                             <img id="profile-pic" src="{{ asset('storage/photos/' . $user->photo) }}" alt="Profile Picture"
-                                class="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-50">
+                                class="object-cover w-full h-full transition-opacity duration-300 group-hover:opacity-50">
                         @else
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                class="mx-auto mt-6 h-20 w-20 text-gray-500 transition-opacity duration-300 group-hover:opacity-50 dark:text-gray-300">
+                                class="w-20 h-20 mx-auto mt-6 text-gray-500 transition-opacity duration-300 group-hover:opacity-50 dark:text-gray-300">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4s-4 1.79-4 4s1.79 4 4 4z" />
                             </svg>
@@ -22,15 +22,15 @@
 
                         <!-- Overlay Hover -->
                         <div
-                            class="absolute inset-0 bg-black bg-opacity-30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            class="absolute inset-0 transition-opacity duration-300 bg-black opacity-0 bg-opacity-30 group-hover:opacity-100">
                         </div>
                     </div>
 
                     <!-- Edit Button muncul saat hover -->
                     <div
-                        class="absolute -bottom-1 -right-1 scale-0 transform rounded-full bg-primary-500 p-2 shadow-lg transition-all duration-300 hover:bg-primary-600 group-hover:scale-100">
+                        class="absolute p-2 transition-all duration-300 transform scale-0 rounded-full shadow-lg -bottom-1 -right-1 bg-primary-500 hover:bg-primary-600 group-hover:scale-100">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="white" class="h-5 w-5">
+                            stroke="white" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M15.232 5.232l3.536 3.536M9 19H5v-4l10.232-10.232a2.5 2.5 0 113.536 3.536L9 19z" />
                         </svg>
@@ -42,13 +42,18 @@
             </div>
 
             <!-- Profile Information -->
-            <div class="card mx-auto max-w-lg rounded-lg bg-white p-6 shadow-lg dark:bg-gray-700">
-                <div class="card-header mb-4 text-2xl font-semibold text-gray-900 dark:text-white">
+            <div class="max-w-lg p-6 mx-auto bg-white rounded-lg shadow-lg card dark:bg-gray-700">
+                <div class="mb-4 text-2xl font-semibold text-gray-900 card-header dark:text-white">
                     Detail Pengguna
                 </div>
-                <div class="card-body space-y-4">
+                <div class="space-y-4 card-body">
                     @php
-                        $fields = ['name' => 'Nama', 'email' => 'Email', 'nohp' => 'No. Hp', 'address' => 'Alamat']; // Ubah alamat -> address
+                        $fields = [
+                            'name' => 'Nama',
+                            'address' => 'Alamat Utama',
+                            'email' => 'Email',
+                            'nohp' => 'No. Hp',
+                        ]; // Ubah alamat -> address
                     @endphp
 
                     @foreach ($fields as $key => $label)
@@ -59,7 +64,7 @@
                                     id="text-{{ $key }}">{{ $user->$key }}</span>
 
                                 @if ($key !== 'email')
-                                    <input type="text" id="input-{{ $key }}" class="hidden rounded border p-1"
+                                    <input type="text" id="input-{{ $key }}" class="hidden p-1 border rounded"
                                         value="{{ $user->$key }}">
                                     <button onclick="editField('{{ $key }}')" id="edit-{{ $key }}"
                                         class="text-blue-500">Edit</button>
