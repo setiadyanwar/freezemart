@@ -18,13 +18,12 @@
         <li><a href="/profile"
                 class="inline-flex items-center w-full gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-600">
                 Profil </a></li>
-        <li><a href="/checkouts"
-                class="inline-flex items-center w-full gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-600">
-                Pembelian </a></li>
         <li><a href="{{ route('history.index', ['status' => 'completed']) }}"
                 class="inline-flex items-center w-full gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-600">
                 Riwayat </a></li>
-
+        <li><a href="/checkouts"
+                class="inline-flex items-center w-full gap-2 px-3 py-2 text-sm rounded-md hover:bg-gray-100 dark:hover:bg-gray-600">
+                FAQ </a></li>
     </ul>
 
     <div class="p-2 text-sm font-medium text-red-500 dark:text-red-400">
