@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $title }}</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+
     <link rel="icon" type="image/x-icon" href="{{ asset('/assets/favicon.ico') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/landing.js'])
     @yield('js')
@@ -28,86 +33,85 @@
 
 
     {{-- footer --}}
-    <footer class="border-t bg-gray-50 py-12 dark:bg-gray-800">
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-            <div class="grid gap-8 md:grid-cols-3">
-                <!-- Kolom 1: Informasi Perusahaan -->
-                <div>
-                    <h5 class="text-xl font-semibold text-gray-800 dark:text-white">FreezeMart</h5>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300">FreezeMart adalah platform belanja online yang
-                        menawarkan berbagai produk dengan harga terjangkau dan kualitas terbaik. Belanja jadi lebih
-                        mudah dan menyenangkan di sini!</p>
-                    <div class="mt-4 flex space-x-6">
-                        <a href="#"
-                            class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#"
-                            class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#"
-                            class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">
-                            <i class="fab fa-instagram"></i>
-                        </a>
+    <footer class="bg-primary-500 text-white py-12">
+        <div class="max-w-screen-xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Kolom 1: Deskripsi dan Sosmed -->
+            <div class="max-w-sm">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <img src="{{ asset('/logo/logo.png') }}" alt="FreezeMart" class="h-10">
+                    </div>
+                    <div class="flex space-x-4 text-white text-lg">
+                        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
-                <!-- Kolom 2: Link Navigasi -->
+    
+                <p class="mt-4 text-sm leading-relaxed">
+                    Freezemart adalah solusi utama untuk semua kebutuhan makanan beku Anda. Kami menawarkan berbagai pilihan makanan beku berkualitas tinggi, mulai dari sayuran segar hingga hidangan siap saji, yang praktis dan lezat.
+                </p>
+            </div>
+    
+            <!-- Kolom 2, 3, 4: Alamat, Menu, Tautan -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                <!-- Kolom 2: Alamat -->
                 <div>
-                    <h5 class="text-xl font-semibold text-gray-800">Navigasi</h5>
-                    <ul class="mt-4 space-y-2">
-                        <li><a href="#"
-                                class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">Home</a>
-                        </li>
-                        <li><a href="#"
-                                class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">Products</a>
-                        </li>
-                        <li><a href="#"
-                                class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">About
-                                Us</a></li>
-                        <li><a href="#"
-                                class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">Contact</a>
-                        </li>
+                    <h4 class="text-lg font-semibold mb-4">Alamat</h4>
+                    <p class="text-sm leading-relaxed">
+                        Gedung Wisma Mulia 2 <br>
+                        Gatot Soebroto Jakarta Selatan
+                    </p>
+                    <p class="mt-2 text-sm">
+                        <i class="fa-solid fa-envelope mr-2"></i> contact@freezemart.id
+                    </p>
+                    <p class="text-sm">
+                        <i class="fas fa-phone mr-2"></i> +62 00000000
+                    </p>
+                </div>
+    
+                <!-- Kolom 3: Menu -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Menu</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:underline">Beranda</a></li>
+                        <li><a href="#" class="hover:underline">Kategori Produk</a></li>
+                        <li><a href="#" class="hover:underline">Produk</a></li>
                     </ul>
                 </div>
-
-                <!-- Kolom 3: Langganan Newsletter -->
+    
+                <!-- Kolom 4: Tautan -->
                 <div>
-                    <h5 class="text-xl font-semibold text-gray-800">Langganan Newsletter</h5>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300">Dapatkan update terbaru tentang produk dan
-                        penawaran eksklusif kami.</p>
-                    <form id="form-feedback" action="/" class="mt-4">
-                        <div class="flex">
-                            <input type="email" placeholder="Email Anda"
-                                class="w-full rounded-l-lg border border-gray-300 p-3 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                                required />
-                            <button type="submit"
-                                class="rounded-r-lg bg-primary-500 p-3 text-white hover:bg-primary-600 focus:ring-2 focus:ring-primary-500">Subscribe</button>
-                        </div>
-                    </form>
+                    <h4 class="text-lg font-semibold mb-4">Tautan</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:underline">Tentang Kami</a></li>
+                        <li><a href="#" class="hover:underline">Kontak</a></li>
+                        <li><a href="#" class="hover:underline">Help Center</a></li>
+                        <li><a href="#" class="hover:underline">Testimonial</a></li>
+                    </ul>
                 </div>
             </div>
-
-            <div class="mt-8 border-t border-gray-300 pt-6">
-                <div class="flex items-center justify-between">
-                    <p class="text-gray-600 dark:text-gray-300">© 2025 FreezeMart. All rights reserved.</p>
-                    <div class="space-x-4">
-                        <a href="#"
-                            class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">Privacy
-                            Policy</a>
-                        <a href="#"
-                            class="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white">Terms of
-                            Service</a>
-                    </div>
+        </div>
+    
+        <!-- Copyright -->
+        <div class="border-t border-white/20 mt-12 pt-6">
+            <div class="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm text-white">
+                <p>© 2025 FreezeMart. Hak Cipta Dilindungi.</p>
+                <div class="space-x-4 mt-2 md:mt-0">
+                    <a href="#" class="hover:underline">FAQ</a>
+                    <a href="#" class="hover:underline">Privacy Policy</a>
+                    <a href="#" class="hover:underline">Term of Service</a>
                 </div>
             </div>
         </div>
     </footer>
-
+    
+    
     {{-- end footer --}}
+
+    {{-- Toast --}}
     <div id="toast-feedback"
-        class="fixed bottom-5 right-5 flex hidden w-full max-w-xs items-center space-x-4 divide-x divide-gray-200 rounded-lg shadow dark:divide-gray-700 rtl:divide-x-reverse"
+        class="fixed bottom-5 right-5 hidden w-full max-w-xs items-center space-x-4 divide-x divide-gray-200 rounded-lg shadow dark:divide-gray-700 rtl:divide-x-reverse"
         role="alert">
         <div id="toast-default"
             class="flex w-full max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow dark:bg-gray-700 dark:text-white"
@@ -134,6 +138,10 @@
             </button>
         </div>
     </div>
+    {{-- end toast --}}
+
+    {{-- Toast Status --}}
+    {{-- Jika ada session status, tampilkan toast --}}
     @if (session('status'))
         <div class="fixed bottom-5 right-5 flex w-full max-w-xs items-center space-x-4 divide-x divide-gray-200 rounded-lg shadow dark:divide-gray-700 rtl:divide-x-reverse"
             role="alert">
@@ -180,7 +188,7 @@
             });
         });
     </script>
-
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @yield('js-bottom')
 
 </body>

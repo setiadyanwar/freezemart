@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "341f1e6e9f1de48e593fc7e1eb753059",
+    "content-hash": "3c403c71f5c09aae16149329d25f2311",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -3571,16 +3571,16 @@
         },
         {
             "name": "namu/wirechat",
-            "version": "v0.2.0",
+            "version": "v0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/namumakwembo/wirechat.git",
-                "reference": "cc0e3b083aa4e3169e18bf75c1babe84fc0c1fdb"
+                "reference": "4cfbcd192fa29143c12593601d2536cec33559f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/namumakwembo/wirechat/zipball/cc0e3b083aa4e3169e18bf75c1babe84fc0c1fdb",
-                "reference": "cc0e3b083aa4e3169e18bf75c1babe84fc0c1fdb",
+                "url": "https://api.github.com/repos/namumakwembo/wirechat/zipball/4cfbcd192fa29143c12593601d2536cec33559f9",
+                "reference": "4cfbcd192fa29143c12593601d2536cec33559f9",
                 "shasum": ""
             },
             "require": {
@@ -3590,6 +3590,7 @@
             },
             "require-dev": {
                 "christophrumpel/missing-livewire-assertions": "^2.8",
+                "larastan/larastan": "^2.0|^3.0",
                 "laravel/pint": "^1.18",
                 "orchestra/testbench": "^8.24|^9.0|^10.0",
                 "pestphp/pest": "^2.34|^3.0.0",
@@ -3620,7 +3621,7 @@
             "description": "A Laravel Livewire messaging app for teams with private chats and group conversations.",
             "support": {
                 "issues": "https://github.com/namumakwembo/wirechat/issues",
-                "source": "https://github.com/namumakwembo/wirechat/tree/v0.2.0"
+                "source": "https://github.com/namumakwembo/wirechat/tree/v0.2.5"
             },
             "funding": [
                 {
@@ -3628,7 +3629,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-05T23:19:41+00:00"
+            "time": "2025-04-15T13:09:38+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -10852,12 +10853,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "plugin-api-version": "2.6.0"
 }

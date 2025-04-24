@@ -91,7 +91,7 @@
                         </button>
                     </x-wirechat::actions.close-modal>
 
-                    <button type="submit" :disabled="!($wire.name?.trim()?.length)" dusk="next_button"
+                    <button type="submit" :disabled="!($wire.name && $wire.name.trim().length)" dusk="next_button"
                         :class="{
                             'cursor-not-allowed hover:bg-none dark:hover:bg-inherit opacity-70': !($wire.name?.trim()
                                 ?.length)

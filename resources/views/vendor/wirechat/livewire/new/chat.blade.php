@@ -5,7 +5,7 @@
         class="relative mx-auto h-96 w-full overflow-auto border bg-white px-7 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:max-w-lg sm:rounded-lg">
 
         <header class="sticky top-0 z-10 bg-white py-2 dark:bg-gray-800">
-            <div class="flex items-center justify-between justify-between pb-2">
+            <div class="flex items-center justify-between pb-2">
 
                 <h3 class="text-lg font-semibold">New Chat</h3>
 
@@ -26,7 +26,7 @@
             <section class="flex flex-wrap items-center border-b px-0 dark:border-gray-700">
                 <input dusk="search_users_field" autofocus type="search" id="users-search-field"
                     wire:model.live.debounce='search' autocomplete="off" placeholder="Search"
-                    class="w-auto w-full rounded-lg border-0 bg-none px-0 outline-none hover:ring-0 focus:outline-none focus:ring-0 dark:bg-gray-800">
+                    class="w-auto rounded-lg border-0 bg-none px-0 outline-none hover:ring-0 focus:outline-none focus:ring-0 dark:bg-gray-800">
 
             </section>
         </header>

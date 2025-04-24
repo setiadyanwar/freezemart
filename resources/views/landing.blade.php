@@ -86,7 +86,7 @@
     {{-- End Banner --}}
 
     {{-- category --}}
-    <section class="bg-gray-50 py-6 antialiased dark:bg-gray-900 md:py-16" id="category">
+    <section class="bg-gray-50 py-5 antialiased dark:bg-gray-900 md:py-4" id="category">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <div class="mb-4 md:mb-8">
                 {{-- TOP 3 Kategori --}}
@@ -103,7 +103,7 @@
                             <div class="flex p-2 overflow-x-auto mr-8 max-w-full pb-2 gap-4">
                                 @foreach($categories->take(3) as $category)
                                 <a href="/products?category={{ $category->slug }}" class="flex-none">
-                                    <div class="w-32 h-32 p-4 flex flex-col text-center items-center justify-center outline-[#6B7280] outline outline-1 rounded-2xl bg-white dark:bg-gray-800">
+                                    <div class="w-32 h-32 p-4 scrollbar-hide flex flex-col text-center items-center justify-center outline-[#6B7280] outline outline-1 rounded-2xl bg-white dark:bg-gray-800">
                                         {{-- Icon default atau icon dari DB --}}
                                         <img class="mb-2 h-6 w-6 shrink-0" src="{{ asset('storage/' . $category->path) }}"
                                              alt="{{ $category->name }} Icon">
@@ -117,88 +117,105 @@
                         </div>
                     </div>
 
-                    <div class="w-full mb-10 lg:w-1/2">
-                        <h2 class="text-xl pb-1 font-semibold text-gray-900 dark:text-white sm:text-2xl ">Apa produk yang kamu sukai?</h2>
-                        <p class="text-sm pb-2 text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.</p>
-
-                        <div class="container-input">
-                            <div class="relative w-full outline outline-1 outline-[#6B7280] py-5 px-4 rounded-lg">
-                                <div class="input mb-2">
-                                    <div class="flex gap-2">
-                                        <input 
-                                          type="text" 
-                                          placeholder="Ketikkan frozen food yang kamu suka?" 
-                                          class="input-text-personalisasi flex-1 font-light text-base p-3 outline outline-1 outline-[#D8D8D8] text-[#000] placeholder:text-[#C5C6C9] rounded-2xl"
-                                        />
-                                        <button class="send-personalisasi bg-[#2761c9] text-white px-4 py-2 rounded-xl whitespace-nowrap">
-                                          Kirim
-                                        </button>
-                                    </div>
-                                </div>
-                            
-                                <div class="space-y-4">
-                                    <!-- Filter harga -->
-                                    <div class="flex flex-wrap gap-2">
-                                        <button class="px-4 py-2 rounded-lg border border-primary-500 text-primary-500 bg-[#edf3ff] font-medium text-sm">
-                                          &lt; Rp50.000
-                                        </button>
-                                        <button class="px-4 py-2 rounded-lg border border-[#D1D5DB] text-[#6B7280] font-medium text-sm">
-                                          Rp50.000 - Rp100.000
-                                        </button>
-                                        <button class="px-4 py-2 rounded-lg border border-[#D1D5DB] text-[#6B7280] font-medium text-sm">
-                                          &gt; Rp100.000
-                                        </button>
+                    {{-- Form Personalization --}}
+                    <div x-data="{ submitted: false, input: '' }" class="w-full mb-10 lg:w-1/2">
+                        <template x-if="!submitted">
+                            <div x-transition>
+                                <h2 class="text-xl pb-1 font-semibold text-gray-900 dark:text-white sm:text-2xl">Apa produk yang kamu sukai?</h2>
+                                <p class="text-sm pb-2 text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.</p>
+                    
+                                <div class="container-input">
+                                    <div class="relative w-full outline outline-1 outline-[#6B7280] py-5 px-4 rounded-lg">
+                                        <div class="input mb-4">
+                                            <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
+                                                <input 
+                                                    x-model="input"
+                                                    type="text" 
+                                                    placeholder="Ketikkan frozen food yang kamu suka?" 
+                                                    class="input-text-personalisasi w-full flex-1 font-light text-sm sm:text-base p-3 outline outline-1 outline-[#D8D8D8] text-[#000] placeholder:text-[#C5C6C9] rounded-2xl"
+                                                />
+                                                <button 
+                                                    @click="submitted = true" 
+                                                    class="send-personalisasi w-full sm:w-auto bg-[#2761c9] text-white px-4 py-3 text-sm sm:text-base rounded-xl whitespace-nowrap">
+                                                    Kirim
+                                                </button>
+                                            </div>
+                                        </div>
+                    
+                                        <div class="space-y-4">
+                                            <!-- Filter harga -->
+                                            <div class="flex flex-wrap gap-2">
+                                                <button class="px-4 py-2 rounded-lg border border-primary-500 text-primary-500 bg-[#edf3ff] font-medium text-sm">
+                                                    &lt; Rp50.000
+                                                </button>
+                                                <button class="px-4 py-2 rounded-lg border border-[#D1D5DB] text-[#6B7280] font-medium text-sm">
+                                                    Rp50.000 - Rp100.000
+                                                </button>
+                                                <button class="px-4 py-2 rounded-lg border border-[#D1D5DB] text-[#6B7280] font-medium text-sm">
+                                                    &gt; Rp100.000
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
+                    
+                        <!-- Tampilan Setelah Submit -->
+                        <template x-if="submitted">
+                            <div x-transition class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 text-center space-y-4">
+                                <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Success" class="mx-auto w-20 h-20" />
+                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Terima kasih atas personalisasinya!</h3>
+                                <p class="text-sm text-[#6B7280]">Kami akan memberikan rekomendasi terbaik untukmu 🎯</p>
+                                <button 
+                                    @click="submitted = false; input = ''" 
+                                    class="mt-3 px-4 py-2 text-sm text-white bg-[#2761c9] rounded-lg">
+                                    Kirim ulang personalisasi
+                                </button>
+                            </div>
+                        </template>
                     </div>
+                    
+                    {{-- End Form Personalization --}}
+                    
                 </div>
-                
-
-                {{-- <a href="/products" title=""
-                    class="flex items-center text-base font-medium text-primary-500 hover:underline">
-                    Lihat semua kategori
-                    <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 12H5m14 0-4 4m4-4-4-4" />
-                    </svg>
-                </a> --}}
             </div>
 
-            <div class="mb-4 gap-4 flex p-2 overflow-x-auto mr-8 max-w-full pb-2">
-                @foreach ($categories as $category)
-                    @if ($loop->iteration <= 4)
-                        <a href="/products?category={{ $category->slug }}"
-                            class="flex items-center rounded-xl border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <img class="me-2 h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
-                                alt="{{ $category->name }} Icon">
-                            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $category->name }}</span>
-                        </a>
-                    @else
-                        <a href="/products?category={{ $category->slug }}"
-                            class="hidden items-center rounded-lg border border-gray-200 bg-white px-4 py-2 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:flex">
-                            <img class="me-2 h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
-                                alt="{{ $category->name }} Icon">
-                            <span class="text-sm font-medium text-gray-900 dark:text-white">{{ $category->name }}</span>
-                        </a>
-                    @endif
-                @endforeach
-            </div>
-
-            <div class="mt-6 w-full text-center">
+            <div class="mb-4 flex gap-4 items-center overflow-x-auto scrollbar-hide pr-4 pl-2 pb-2 max-w-full">
+                {{-- Semua Kategori --}}
                 <a href="/products"
-                    class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 hover:text-primary-500 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-primary-500 dark:focus:ring-gray-700">Lihat
-                    kategori lainnya</a>
-            </div>
-
+                    class="flex items-center gap-2 rounded-xl border px-4 py-2 
+                           {{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-blue-500 bg-blue-50 text-blue-600' }}"
+                    title="Semua Kategori">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.416 10.8335C20.2109 10.8335 21.666 9.37842 21.666 7.5835C21.666 5.78857 20.2109 4.3335 18.416 4.3335C16.6211 4.3335 15.166 5.78857 15.166 7.5835C15.166 9.37842 16.6211 10.8335 18.416 10.8335Z"
+                            stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7.58301 21.6669C9.37793 21.6669 10.833 20.2118 10.833 18.4169C10.833 16.6219 9.37793 15.1669 7.58301 15.1669C5.78808 15.1669 4.33301 16.6219 4.33301 18.4169C4.33301 20.2118 5.78808 21.6669 7.58301 21.6669Z"
+                            stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M15.1663 15.1668H21.6663V20.5835C21.6663 20.8708 21.5522 21.1464 21.349 21.3495C21.1459 21.5527 20.8703 21.6668 20.583 21.6668H16.2497C15.9624 21.6668 15.6868 21.5527 15.4836 21.3495C15.2805 21.1464 15.1663 20.8708 15.1663 20.5835V15.1668ZM4.33301 4.3335H10.833V9.75016C10.833 10.0375 10.7189 10.313 10.5157 10.5162C10.3125 10.7194 10.037 10.8335 9.74967 10.8335H5.41634C5.12902 10.8335 4.85347 10.7194 4.65031 10.5162C4.44714 10.313 4.33301 10.0375 4.33301 9.75016V4.3335Z"
+                            stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <p class="text-sm font-medium whitespace-nowrap">Semua Kategori</p>
+                </a>
+            
+                {{-- List Kategori --}}
+                @foreach ($categories as $category)
+                    <a href="/products?category={{ $category->slug }}"
+                        class="flex items-center gap-2 rounded-xl border px-4 py-2
+                               {{ request('category') === $category->slug ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }}">
+                        <img class="h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
+                            alt="{{ $category->name }} Icon">
+                        <p class="text-sm min-w-0 truncate font-medium">{{ $category->name }}</p>
+                    </a>
+                @endforeach
+            </div>            
         </div>
     </section>
     {{-- end category --}}
 
     {{-- product --}}
-    <section class="bg-gray-50 py-6 antialiased dark:bg-gray-900 md:py-12">
+    <section class="bg-gray-50 py-6 antialiased dark:bg-gray-900 md:py-8">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
             <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
                 <div class="flex flex-col gap-2">
@@ -215,71 +232,42 @@
                     </svg>
                 </a>
             </div>
-            <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+            <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-5">
 
                 @foreach ($products as $product)
-                    <div
-                        class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                        <div class="h-56 w-full">
-                            <a href="/products/{{ $product->slug }}">
-                                <img class="mx-auto h-full rounded-t" src="{{ asset('storage/' . $product->image) }}"
-                                    alt="{{ $product->name }}" />
+                    <div class="group rounded-xl border border-gray-200 bg-white shadow-md transition-transform hover:shadow-lg hover:scale-[1.02] dark:border-gray-700 dark:bg-gray-800">
+                        <a href="/products/{{ $product->slug }}" class="block overflow-hidden rounded-t-xl">
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                class="aspect-square w-full object-cover transition duration-300 group-hover:scale-105" />
+                        </a>
+                        <div class="p-4 space-y-3">
+                            <a href="/products/{{ $product->slug }}" class="block text-base md:text-lg font-semibold text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400">
+                                {{ $product->name }}
                             </a>
-                        </div>
-                        <div class="pt-6">
-                            <a href="/products/{{ $product->slug }}"
-                                class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ $product->name }}</a>
-                            <div class="mt-2 flex items-center gap-2">
-                                <div class="flex items-center">
-                                    <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
+                        
+                            <div class="flex items-center space-x-2 text-xs md:text-sm text-gray-600 dark:text-gray-300">
+                                <div class="flex items-center text-yellow-400">
+                                    <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                        <path d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z"/>
                                     </svg>
-
-                                    <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                                    </svg>
-
-                                    <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                                    </svg>
-
-                                    <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                                    </svg>
-
-                                    <svg class="h-4 w-4 text-yellow-400" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
-                                    </svg>
+                                    <p class="ml-1 font-medium leading-none">5.0</p>
                                 </div>
-
-                                <p class="text-sm font-medium text-gray-900 dark:text-white">5.0</p>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">(455)</p>
+                                <span class="text-gray-400 dark:text-gray-500">|Terjual</span>
+                                <span class="text-gray-400 dark:text-gray-500">(455)</span>
                             </div>
-
-                            <div class="mt-4 flex items-center justify-between gap-4">
-                                <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp
-                                    {{ number_format($product->price, 0, ',', '.') }}</p>
-
+                        
+                            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-2 pt-2">
+                                <p class="text-lg md:text-xl font-bold text-gray-900 dark:text-white">
+                                    Rp {{ number_format($product->price, 0, ',', '.') }}
+                                </p>
+                        
                                 <form action="/carts/{{ $product->slug }}" method="post">
                                     @csrf
                                     <button type="submit"
-                                        class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
-                                        <svg class="me-0 ms-0 h-5 w-5" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="none" viewBox="0 0 24 24">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                                        class="inline-flex items-center justify-center rounded-lg bg-primary-600 px-3 md:px-4 py-2 text-xs md:text-sm text-white transition hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M4 4h1.5L8 16h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
                                         </svg>
                                     </button>
                                 </form>
@@ -287,12 +275,6 @@
                         </div>
                     </div>
                 @endforeach
-
-            </div>
-            <div class="w-full text-center">
-                <a href="/products"
-                    class="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 hover:text-primary-500 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-primary-500 dark:focus:ring-gray-700">Lihat
-                    produk lainnya</a>
             </div>
         </div>
     </section>
@@ -316,7 +298,6 @@
                 {{ session('success') }}
             </div>
         </div>
-
         <script>
             // Hilangkan toast setelah 3 detik (3000 ms)
             setTimeout(() => {
