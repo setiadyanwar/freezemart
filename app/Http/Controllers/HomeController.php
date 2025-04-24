@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Faq;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
@@ -10,16 +11,16 @@ use App\Models\Comment;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Checkout;
-use Illuminate\Auth\Events\PasswordReset;
 use Xendit\Configuration;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use Xendit\Invoice\CreateInvoiceRequest;
+use Illuminate\Auth\Events\PasswordReset;
 
 class HomeController extends Controller
 {
@@ -265,9 +266,8 @@ class HomeController extends Controller
     public function checkouts()
     {
         $data = [
-            'title' => 'Pembelian Anda',
-            'carts' => Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get(),
-            'checkouts' => Checkout::where('user_id', Auth::user()->id)->latest()->get()
+            'title' => 'Freezemart | FAQ',
+            'faqs' => Faq::latest()->get(),
         ];
         return view('checkouts.index', $data);
     }
@@ -410,5 +410,34 @@ class HomeController extends Controller
         $title = 'FreezeMart | Profile Akun Anda';
 
         return view('profile', compact('user', 'title'));
+    }
+
+    public function history(Request $request)
+    {
+        $status = $request->query('status', 'unpaid'); // Default to 'unpaid' if no status provided
+
+        // Validate status
+        $validStatuses = ['unpaid', 'paid', 'processing', 'shipped', 'completed'];
+        if (!in_array($status, $validStatuses)) {
+            $status = 'unpaid'; // Default to 'unpaid' if invalid status
+        }
+
+        $data = [
+            'title' => 'Riwayat Pembelian Anda',
+            'carts' => Cart::with(['product'])
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->limit(10)
+                ->get(),
+            'orders' => Order::whereHas('checkout', function ($query) use ($status) {
+                $query->where('user_id', Auth::user()->id)
+                    ->where('status', $status);
+            })->with('checkout', 'product')
+                ->latest()
+                ->get(),
+            'status' => $status
+        ];
+
+        return view('history.index', $data);
     }
 }

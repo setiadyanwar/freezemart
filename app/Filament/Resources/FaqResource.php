@@ -30,8 +30,10 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('pertanyaan'),
-                Textarea::make('jawaban')
+                TextInput::make('question')
+                    ->label('Pertanyaan'),
+                Textarea::make('answer')
+                    ->label('Jawaban')
                     ->rows(3)
                     ->cols(20)
             ]);
@@ -41,9 +43,11 @@ class FaqResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('pertanyaan')
+                TextColumn::make('question')
+                    ->label('Pertanyaan')
                     ->searchable(),
-                TextColumn::make('jawaban')
+                TextColumn::make('answer')
+                    ->label('Jawaban')
                     ->wrap()
                     ->searchable(),
             ])
