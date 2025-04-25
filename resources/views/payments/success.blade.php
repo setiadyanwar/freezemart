@@ -37,11 +37,13 @@
                 </dl>
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Alamat</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $checkout->address ?? '-' }}</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $checkout->user->address ?? '-' }}
+                    </dd>
                 </dl>
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Nomor Telepon</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $checkout->phone ?? '-' }}</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $checkout->user->phone ?? '-' }}
+                    </dd>
                 </dl>
             </div>
             <div class="flex items-center space-x-4">

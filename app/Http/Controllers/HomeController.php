@@ -333,6 +333,7 @@ class HomeController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'address' => 'required',
+            'phone' => 'required|numeric|digits_between:11,13',
             'email' => 'required|email|max:255|unique:users',
             'password' => [
                 'required',
@@ -348,6 +349,7 @@ class HomeController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'address' => $request->address,
+            'phone' => $request->phone,
             'password' => bcrypt($request->password),
             'role' => 'user',
         ]);

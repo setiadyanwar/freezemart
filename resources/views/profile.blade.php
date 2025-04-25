@@ -52,7 +52,7 @@
                             'name' => 'Nama',
                             'address' => 'Alamat Utama',
                             'email' => 'Email',
-                            'nohp' => 'No. Hp',
+                            'phone' => 'No. Hp',
                         ]; // Ubah alamat -> address
                     @endphp
 
