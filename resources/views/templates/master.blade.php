@@ -34,7 +34,7 @@
 
 
     {{-- footer --}}
-    <footer class="bg-primary-500 text-white py-12">
+    <footer class="bg-primary-500 dark:bg-gray-800 text-white py-12">
         <div class="max-w-screen-xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Kolom 1: Deskripsi dan Sosmed -->
             <div class="max-w-sm">
