@@ -18,7 +18,8 @@ Route::post('/buy-from-cart', [HomeController::class, 'buyFromCart'])->middlewar
 Route::get('/success/{checkout}', [HomeController::class, 'success'])->middleware('auth');
 Route::get('/failure/{checkout}', [HomeController::class, 'failure'])->middleware('auth');
 
-Route::get('/checkouts', [HomeController::class, 'checkouts'])->middleware('auth');
+// route FAQ
+Route::get('/faq', [HomeController::class, 'faq'])->middleware('auth');
 
 // route profile
 Route::resource('/profile', ProfileController::class)->middleware('auth');;

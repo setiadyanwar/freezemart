@@ -277,13 +277,13 @@ class HomeController extends Controller
         ]);
     }
 
-    public function checkouts()
+    public function faq()
     {
         $data = [
             'title' => 'Freezemart | FAQ',
             'faqs' => Faq::latest()->get(),
         ];
-        return view('checkouts.index', $data);
+        return view('faq.index', $data);
     }
 
     public function login()
