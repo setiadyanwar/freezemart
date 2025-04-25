@@ -31,12 +31,12 @@ class FaqResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('pertanyaan')
+                TextInput::make('pertanyaan')  // Mengubah 'question' menjadi 'pertanyaan'
                     ->label('Pertanyaan')
                     ->columnSpan(2) // Membuat form lebih lebar
                     ->maxLength(255), // Menambah batas panjang teks jika perlu
 
-                MarkdownEditor::make('jawaban')
+                MarkdownEditor::make('jawaban')  // Mengubah 'answer' menjadi 'jawaban'
                     ->label('Jawaban')
                     ->columnSpan(2)
                     ->maxLength(2000), // Mengizinkan resizing vertikal
