@@ -3,6 +3,11 @@
 @section('content')
     <section class="py-8 mt-16 antialiased bg-white dark:bg-gray-900 md:py-16">
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+            {{-- Breadcrumb --}}
+            <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                <a href="/" class="hover:underline">Beranda</a> ›
+                <span class="text-gray-700 dark:text-gray-200">Riwayat</span>
+            </nav>
             <h2 class="mb-6 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Daftar Pembelian</h2>
             <!-- Order Status Filter Tabs -->
             <div class="flex flex-wrap gap-2 mb-8">

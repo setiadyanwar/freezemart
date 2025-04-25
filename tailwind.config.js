@@ -12,6 +12,14 @@ export default {
         './vendor/namu/wirechat/resources/views/**/*.blade.php',
 '       ./vendor/namu/wirechat/src/Livewire/**/*.php'
     ],
+    safelist: [
+        'hidden',
+        'block',
+        'bg-white',
+        'shadow-md',
+        'dark:bg-gray-800',
+        'backdrop-blur-md',
+      ],
     darkMode: 'class',
     theme: {
         extend: {

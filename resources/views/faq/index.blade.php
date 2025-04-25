@@ -6,7 +6,7 @@
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
         {{-- Breadcrumb --}}
       <nav class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-        <a href="/" class="hover:underline">Beranda</a>
+        <a href="/" class="hover:underline">Beranda</a> ›
         <span class="text-gray-700 dark:text-gray-200">Faq</span>
       </nav>
         <h2 class="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">FAQ</h2>
