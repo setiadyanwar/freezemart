@@ -15,34 +15,39 @@
             <h2 class="mb-4 text-xl font-semibold text-center text-gray-900 dark:text-white sm:text-2xl">Pembayaran
                 Berhasil, Terimakasih Telah Memesan Di FreezeMart</h2>
             <p class="mb-6 text-gray-500 dark:text-gray-400 md:mb-8">Pesananmu <a href="#"
-                    class="font-medium text-gray-900 hover:underline dark:text-white">#7564804</a> Pesanan Anda akan
+                    class="font-medium text-gray-900 hover:underline dark:text-white">#{{ $checkout->external_id }}</a>
+                Pesanan Anda akan
                 diproses dalam waktu 24 jam pada hari kerja. Cek status pesananmu secara berkala.</p>
             <div
                 class="p-6 mb-6 space-y-4 border border-gray-100 rounded-lg bg-gray-50 dark:border-gray-500 dark:bg-gray-800 sm:space-y-2 md:mb-8">
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Tanggal</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">14 May 2024</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">
+                        {{ \Carbon\Carbon::parse($checkout->created_at)->format('d M Y') }}</dd>
                 </dl>
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Metode Pembayaran</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">JPMorgan monthly installments</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">
+                        {{ $checkout->payment_method ?? 'Tidak diketahui' }}</dd>
                 </dl>
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Nama</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">Flowbite Studios LLC</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">
+                        {{ $checkout->name ?? Auth::user()->name }}</dd>
                 </dl>
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Alamat</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">34 Scott Street, San Francisco,
-                        California, USA</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $checkout->user->address ?? '-' }}
+                    </dd>
                 </dl>
                 <dl class="items-center justify-between gap-4 sm:flex">
                     <dt class="mb-1 font-normal text-gray-500 dark:text-gray-400 sm:mb-0">Nomor Telepon</dt>
-                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">+(123) 456 7890</dd>
+                    <dd class="font-medium text-gray-900 dark:text-white sm:text-end">{{ $checkout->user->phone ?? '-' }}
+                    </dd>
                 </dl>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="/carts"
+                <a href="/history"
                     class="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-500 dark:focus:ring-primary-800">Lacak
                     Pesananmu</a>
                 <a href="/products"

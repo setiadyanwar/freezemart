@@ -221,15 +221,28 @@ class HomeController extends Controller
 
     public function success($checkout)
     {
-        // setting xenditnya supaya bisa dipake
+        // Setting Xendit
         Configuration::setXenditKey(env('XENDIT_API_KEY'));
         $invoiceApi = new InvoiceApi();
 
-        // get invoice berdasarkan external_id
+        // Get invoice berdasarkan external_id
         $result = $invoiceApi->getInvoices(null, $checkout);
-        // ubah status checkout
+
+        // Cari dan ambil nama e-wallet yang digunakan (misal DANA)
+        $ewalletType = 'Unknown'; // Default value
+        if (isset($result[0]['available_ewallets']) && is_array($result[0]['available_ewallets'])) {
+            foreach ($result[0]['available_ewallets'] as $ewallet) {
+                if (isset($ewallet['ewallet_type']) && $ewallet['ewallet_type'] === 'DANA') {
+                    $ewalletType = 'DANA';
+                    break;
+                }
+            }
+        }
+
+        // Update status checkout dengan e-wallet yang dipilih
         Checkout::where('external_id', $checkout)->update([
-            'status' => $result[0]['status']
+            'status' => $result[0]['status'],
+            'payment_method' => $ewalletType
         ]);
 
         // cart nya dihapus
@@ -252,7 +265,8 @@ class HomeController extends Controller
         }
 
         return view('payments.success', [
-            'title' => 'FreezeMart | Pesanan Anda Berhasil'
+            'title' => 'FreezeMart | Pesanan Anda Berhasil',
+            'checkout' => $checkout
         ]);
     }
 
@@ -319,6 +333,7 @@ class HomeController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'address' => 'required',
+            'phone' => 'required|numeric|digits_between:11,13',
             'email' => 'required|email|max:255|unique:users',
             'password' => [
                 'required',
@@ -334,6 +349,7 @@ class HomeController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'address' => $request->address,
+            'phone' => $request->phone,
             'password' => bcrypt($request->password),
             'role' => 'user',
         ]);
