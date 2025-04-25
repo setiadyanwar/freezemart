@@ -24,6 +24,13 @@ Route::get('/checkouts', [HomeController::class, 'checkouts'])->middleware('auth
 Route::resource('/profile', ProfileController::class)->middleware('auth');;
 Route::post('/profile/update-photo', [ProfileController::class, 'updatePhoto'])->middleware('auth');
 
+Route::put('/profile/edit/name', [ProfileController::class, 'updateName'])->middleware('auth');
+Route::put('/profile/edit/email', [ProfileController::class, 'updateEmail'])->middleware('auth');
+Route::put('/profile/edit/nohp', [ProfileController::class, 'updateNohp'])->middleware('auth');
+Route::put('/profile/edit/address', [ProfileController::class, 'updateAddress'])->middleware('auth');
+Route::put('/profile/edit/{field}', [ProfileController::class, 'updateProfileField'])->middleware('auth');
+Route::get('/profile/{profile}', [ProfileController::class, 'show'])->name('profile.show');
+
 
 // route autentikasi
 Route::get('/login', [HomeController::class, 'login'])->middleware('guest');

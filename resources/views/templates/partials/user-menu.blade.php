@@ -1,9 +1,19 @@
 <button id="userDropdownButton" data-dropdown-toggle="userDropdown" type="button"
-    class="inline-flex items-center justify-center p-2 text-sm font-medium leading-none text-gray-900 rounded-lg hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
-    <svg class="w-5 h-5 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-        fill="none" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-width="2"
-            d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+    class="inline-flex items-center justify-center gap-2 px-2 py-1 text-sm font-medium leading-none rounded-full border
+           border-primary-500 bg-primary-50 text-primary-600 hover:bg-primary-100
+           dark:border-primary-100 dark:bg-dark-black dark:text-white dark:hover:bg-primary-400">
+    <div class="w-8 h-8 rounded-full overflow-hidden">
+        <!-- Tampilkan gambar profil pengguna -->
+        @if (Auth::check() && Auth::user()->photo)
+            <img src="{{ asset('storage/photos/' . Auth::user()->photo) }}" alt="User Profile" class="w-full h-full object-cover">
+        @else
+            <!-- Tampilkan gambar default jika pengguna tidak memiliki foto profil -->
+            <img src="{{ asset('assets/Avatars.png') }}" alt="Default Profile" class="w-full h-full object-cover">
+        @endif
+    </div>
+    <!-- Ikon dropdown -->
+    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-width="2" d="m19 9-7 7-7-7"></path>
     </svg>
 </button>
 

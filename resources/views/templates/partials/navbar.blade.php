@@ -32,7 +32,7 @@
                 </ul>
             </div>
 
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-3">
                 {{-- Toggle Dark/Light Mode --}}
                 <button id="theme-toggle" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700">
                     <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">

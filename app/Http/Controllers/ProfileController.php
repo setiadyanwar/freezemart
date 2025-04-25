@@ -6,6 +6,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class ProfileController extends Controller
@@ -15,7 +18,7 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        $user = User::findOrFail(Auth::id());
         $title = 'FreezeMart | Profile Akun Anda';
 
         return view('profile', compact('user', 'title'));
@@ -40,9 +43,11 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($profile)
     {
-        //
+        // Assuming profile is an ID
+        $user = User::findOrFail($profile);
+        return view('profile.show', compact('user'));
     }
 
     /**
@@ -56,34 +61,6 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $user = User::findOrFail($id);
-
-        if ($user->id != Auth::id()) {
-            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
-        }
-
-        $request->validate([
-            'field' => 'required|in:name,nohp,address', // Ubah alamat -> address
-            'value' => [
-                'required',
-                'string',
-                'max:255',
-                function ($attribute, $value, $fail) use ($request) {
-                    if ($request->field === 'nohp' && !preg_match('/^\d+$/', $value)) {
-                        $fail('Nomor HP harus berupa angka.');
-                    }
-                },
-            ],
-        ]);
-
-        $field = $request->field;
-        $user->$field = $request->value;
-        $user->save();
-
-        return response()->json(['success' => true]);
-    }
 
     public function updatePhoto(Request $request)
     {
@@ -111,8 +88,62 @@ class ProfileController extends Controller
 
         return response()->json([
             'success' => true,
-            'image_url' => asset('storage/photos/' . $filename) // Path tetap benar
+            'image_url' => asset('storage/photos/' . $user->photo) // Path tetap benar
         ]);
+    }
+
+    // Mengupdate nama pengguna
+    public function updateName(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $user = User::findOrFail(Auth::id());
+        $user->name = $request->name;
+        $user->save();
+
+        return redirect()->route('profile.show')->with('success', 'Nama berhasil diubah');
+    }
+
+    // Mengupdate alamat pengguna
+    public function updateAddress(Request $request)
+    {
+        $request->validate([
+            'address' => 'required|string|max:255',
+        ]);
+        $user = User::findOrFail(Auth::id());
+        $user->address = $request->address;
+        $user->save();
+
+        return redirect()->route('profile.show')->with('success', 'Alamat berhasil diubah');
+    }
+
+    // Mengupdate email pengguna
+    public function updateEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
+        ]);
+
+        $user = User::findOrFail(Auth::id());
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect()->route('profile.show')->with('success', 'Email berhasil diubah');
+    }
+
+    // Mengupdate nomor telepon pengguna
+    public function updateNoHp(Request $request)
+    {
+        $request->validate([
+            'nohp' => 'nullable|string|max:20',
+        ]);
+
+        $user = User::findOrFail(Auth::id());
+        $user->nohp = $request->nohp;
+        $user->save();
+
+        return redirect()->route('profile.show')->with('success', 'Nomor HP berhasil diubah');
     }
 
     /**

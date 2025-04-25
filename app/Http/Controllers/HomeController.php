@@ -407,9 +407,20 @@ class HomeController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        $title = 'FreezeMart | Profile Akun Anda';
 
-        return view('profile', compact('user', 'title'));
+        $data = [
+            'title' => 'FreezeMart | Profil Pengguna',
+            'user' => $user,
+            // Misalnya menampilkan checkout yang pernah dilakukan
+            'checkouts' => Checkout::where('user_id', $user->id)->latest()->get(),
+            'orders' => Order::with('product')->whereIn('checkout_id', function($query) use ($user) {
+                $query->select('id')
+                      ->from('checkouts')
+                      ->where('user_id', $user->id);
+            })->latest()->get(),
+        ];
+
+        return view('profile', $data);
     }
 
     public function history(Request $request)

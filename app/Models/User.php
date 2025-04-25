@@ -20,13 +20,12 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
-
-    protected $guarded = ['id'];
+    protected $fillable = [
+        'name',
+        'email',
+        'address',
+        'nohp',
+    ];
 
     public function carts()
     {

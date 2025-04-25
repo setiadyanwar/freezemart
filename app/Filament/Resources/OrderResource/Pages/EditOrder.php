@@ -10,6 +10,15 @@ class EditOrder extends EditRecord
 {
     protected static string $resource = OrderResource::class;
 
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        // Hitung total harga dari detail item saat disimpan
+        $data['price_total'] = collect($data['items'] ?? [])
+            ->sum(fn ($item) => $item['total_amount'] ?? 0);
+
+        return $data;
+    }
+
     protected function getHeaderActions(): array
     {
         return [

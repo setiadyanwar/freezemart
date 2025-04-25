@@ -23,6 +23,7 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-800">

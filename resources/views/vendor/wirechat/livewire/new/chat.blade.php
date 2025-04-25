@@ -55,7 +55,6 @@
                     </button>
                 </x-wirechat::actions.new-group>
             @endif
-            {{-- <h5 class="text font-semibold text-gray-800 dark:text-gray-100">Recent Chats</h5> --}}
             <section class="my-4">
                 @if ($users)
 
