@@ -96,7 +96,36 @@
                 </div>
             @endforeach
 
-            <!-- (opsional) Divider -->
+            <!-- Divider -->
+            <div class="my-4 border-t border-gray-200"></div>
+
+            <!-- Detail Pembelian -->
+            <div class="mb-6">
+                <h3 class="mb-4 text-lg font-medium text-gray-800">Detail Pembelian</h3>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <div>
+                        <p class="text-sm text-gray-600">Nomor invoice:</p>
+                        <p class="text-sm">
+                            {{ implode('-', array_slice(explode('-', $firstOrder->checkout->external_id), 0, 3)) }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-600">Status:</p>
+                        <div class="mt-1 flex items-center">
+                            <div class="mr-2 inline-block rounded-[14px] bg-[#DEFFCA] px-2 py-1 text-xs text-[#67A544]">
+                                Paid
+                            </div>
+                            <div class="inline-block rounded-[14px] bg-blue-100 px-2 py-1 text-xs text-blue-600">
+                                dikemas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
             <div class="my-4 border-t border-gray-200"></div>
 
             <!-- Ringkasan Pembelian -->
