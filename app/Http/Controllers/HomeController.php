@@ -441,12 +441,12 @@ class HomeController extends Controller
 
     public function history(Request $request)
     {
-        $status = $request->query('status', 'unpaid'); // Default to 'unpaid' if no status provided
+        $status = $request->query('status', 'pending'); // Default to 'pending' if no status provided
 
         // Validate status
-        $validStatuses = ['unpaid', 'paid', 'processing', 'shipped', 'completed'];
+        $validStatuses = ['pending', 'paid', 'processing', 'shipped', 'completed'];
         if (!in_array($status, $validStatuses)) {
-            $status = 'unpaid'; // Default to 'unpaid' if invalid status
+            $status = 'pending'; // Default to 'pending' if invalid status
         }
 
         // Get the orders based on the status
