@@ -90,7 +90,7 @@
     </div>
 
     {{-- Modal Ubah Nama --}}
-    <div id="nameModal" class="fixed z-10 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
+    <div id="nameModal" class="fixed z-50 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
       <div class="flex items-center justify-center min-h-screen p-4">
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
               <div class="flex justify-between items-center mb-4">
@@ -126,7 +126,7 @@
     </div>
 
     {{-- Modal Ubah Email --}}
-    <div id="emailModal" class="fixed z-10 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
+    <div id="emailModal" class="fixed z-50 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
       <div class="flex items-center justify-center min-h-screen p-4">
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
               <div class="flex justify-between items-center mb-4">
@@ -161,7 +161,7 @@
     </div>
 
     {{-- Modal Ubah Nomor HP --}}
-    <div id="nohpModal" class="fixed z-10 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
+    <div id="nohpModal" class="fixed z-50 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
       <div class="flex items-center justify-center min-h-screen p-4">
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
               <div class="flex justify-between items-center mb-4">
@@ -196,7 +196,7 @@
     </div>
 
     <!-- Modal untuk Edit Alamat -->
-    <div id="AddressModal" class="fixed z-10 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
+    <div id="AddressModal" class="fixed z-50 inset-0 overflow-y-auto hidden bg-gray-900 bg-opacity-50">
       <div class="flex items-center justify-center min-h-screen p-4">
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
               <div class="flex justify-between items-center mb-4">

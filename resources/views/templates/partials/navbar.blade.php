@@ -1,6 +1,6 @@
 {{-- Navbar --}}
 @vite(['resources/js/app.js', 'resources/js/custom.js'])
-<nav id="navbar" class="fixed z-50 top-0 left-0 right-0 bg-transparent transition-all duration-300 ease-in-out dark:bg-gray-800 antialiased">
+<nav id="navbar" class="fixed z-20 top-0 left-0 right-0 bg-transparent transition-all duration-300 ease-in-out dark:bg-gray-800 antialiased">
     <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-9">

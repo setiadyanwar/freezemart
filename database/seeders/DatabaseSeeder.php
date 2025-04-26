@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Faq;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -100,8 +101,7 @@ class DatabaseSeeder extends Seeder
                 'quantity' => 50,
                 'image' => 'products/sosis-sapi.jpg',
                 'description' => 'Sosis sapi kami dibuat dari daging sapi berkualitas tinggi, dipilih dengan seksama untuk menghasilkan rasa yang luar biasa. Setiap potongan sosis ini diproses secara higienis dan bebas dari bahan pengawet buatan, menjadikannya pilihan sempurna untuk makanan sehat dan lezat.
-
-Dengan tekstur yang lembut dan cita rasa yang kaya, sosis sapi ini cocok untuk berbagai macam hidangan. Nikmati kelezatannya dalam sajian barbeque, tumis sayuran, atau sebagai tambahan dalam masakan pasta favorit Anda. Selain itu, sosis sapi ini juga dapat dijadikan camilan lezat saat dipanggang atau digoreng dengan sedikit minyak zaitun.',
+                Dengan tekstur yang lembut dan cita rasa yang kaya, sosis sapi ini cocok untuk berbagai macam hidangan. Nikmati kelezatannya dalam sajian barbeque, tumis sayuran, atau sebagai tambahan dalam masakan pasta favorit Anda. Selain itu, sosis sapi ini juga dapat dijadikan camilan lezat saat dipanggang atau digoreng dengan sedikit minyak zaitun.',
                 'category_id' => 1,
             ],
             [
@@ -219,6 +219,28 @@ Dengan tekstur yang lembut dan cita rasa yang kaya, sosis sapi ini cocok untuk b
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+        ]);
+
+        Faq::insert([
+            [
+                'pertanyaan' => 'Apa itu FreezeMart?',
+                'jawaban' => 'FreezeMart adalah platform yang menyediakan layanan belanja online dengan beragam produk berkualitas.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'pertanyaan' => 'Bagaimana cara mendaftar?',
+                'jawaban' => '1. Pilih menu Daftar pada halaman utama. 2. Isi data yang diperlukan, seperti nama, email, dan kata sandi. 3. Verifikasi email atau nomor telepon Anda. 4. Login untuk mulai berbelanja.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'pertanyaan' => 'Apakah FreezeMart aman?',
+                'jawaban' => 'FreezeMart menggunakan sistem enkripsi dan teknologi keamanan canggih untuk melindungi data pengguna.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
         ]);
     }
 }

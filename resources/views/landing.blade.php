@@ -125,14 +125,14 @@
                                 <p class="text-sm pb-2 text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.</p>
                     
                                 <div class="container-input">
-                                    <div class="relative w-full outline outline-1 outline-[#6B7280] py-5 px-4 rounded-lg">
+                                    <div class="relative w-full outline outline-1 outline-[#6B7280] py-5 px-4 rounded-lg ">
                                         <div class="input mb-4">
                                             <div class="flex flex-col sm:flex-row gap-2 sm:items-center">
                                                 <input 
                                                     x-model="input"
                                                     type="text" 
                                                     placeholder="Ketikkan frozen food yang kamu suka?" 
-                                                    class="input-text-personalisasi w-full flex-1 font-light text-sm sm:text-base p-3 outline outline-1 outline-[#D8D8D8] text-[#000] placeholder:text-[#C5C6C9] rounded-2xl"
+                                                    class="input-text-personalisasi w-full flex-1 font-light text-sm sm:text-base p-3 outline outline-1 outline-[#D8D8D8] text-[#000] placeholder:text-[#C5C6C9] rounded-2xl dark:text-gray-300 dark:bg-gray-800"
                                                 />
                                                 <button 
                                                     @click="submitted = true" 
@@ -144,14 +144,26 @@
                     
                                         <div class="space-y-4">
                                             <!-- Filter harga -->
-                                            <div class="flex flex-wrap gap-2">
-                                                <button class="px-4 py-2 rounded-lg border border-primary-500 text-primary-500 bg-[#edf3ff] font-medium text-sm">
+                                            <div id="price-filters" class="flex flex-wrap gap-2">
+                                                <button 
+                                                    data-value="lt50"
+                                                    class="filter-btn px-4 py-2 rounded-lg border font-medium text-sm 
+                                                        border-gray-300 text-gray-600 bg-white 
+                                                        dark:border-gray-700 dark:text-gray-300 dark:bg-gray-800">
                                                     &lt; Rp50.000
                                                 </button>
-                                                <button class="px-4 py-2 rounded-lg border border-[#D1D5DB] text-[#6B7280] font-medium text-sm">
+                                                <button 
+                                                    data-value="50to100"
+                                                    class="filter-btn px-4 py-2 rounded-lg border font-medium text-sm 
+                                                        border-gray-300 text-gray-600 bg-white 
+                                                        dark:border-gray-700 dark:text-gray-300 dark:bg-gray-800">
                                                     Rp50.000 - Rp100.000
                                                 </button>
-                                                <button class="px-4 py-2 rounded-lg border border-[#D1D5DB] text-[#6B7280] font-medium text-sm">
+                                                <button 
+                                                    data-value="gt100"
+                                                    class="filter-btn px-4 py-2 rounded-lg border font-medium text-sm 
+                                                        border-primary-500 text-primary-500 bg-[#edf3ff]
+                                                        dark:border-primary-400 dark:text-primary-400 dark:bg-gray-700">
                                                     &gt; Rp100.000
                                                 </button>
                                             </div>
@@ -184,8 +196,8 @@
             <div class="mb-4 flex gap-4 items-center overflow-x-auto scrollbar-hide pr-4 pl-2 pb-2 max-w-full">
                 {{-- Semua Kategori --}}
                 <a href="/products"
-                    class="flex items-center gap-2 rounded-xl border px-4 py-2 
-                           {{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-blue-500 bg-blue-50 text-blue-600' }}"
+                    class="flex items-center gap-2 rounded-xl border px-4 py-2 dark:bg-gray-800
+                           {{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600' }}"
                     title="Semua Kategori">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -203,7 +215,7 @@
                 @foreach ($categories as $category)
                     <a href="/products?category={{ $category->slug }}"
                         class="flex items-center gap-2 rounded-xl border px-4 py-2
-                               {{ request('category') === $category->slug ? 'border-blue-500 bg-blue-50 text-blue-600' : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }}">
+                               {{ request('category') === $category->slug ? 'border-dark-black text-gray-900 dark:text-white dark:border-gray-700' : 'border-gray-200 text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }}">
                         <img class="h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
                             alt="{{ $category->name }} Icon">
                         <p class="text-sm min-w-0 truncate font-medium">{{ $category->name }}</p>
@@ -241,7 +253,9 @@
                                 class="aspect-square w-full object-cover transition duration-300 group-hover:scale-105" />
                         </a>
                         <div class="p-4 space-y-3">
-                            <a href="/products/{{ $product->slug }}" class="block text-base md:text-lg font-semibold text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400">
+                            <a href="/products/{{ $product->slug }}" 
+                                title="{{ $product->name }}"
+                                class="block text-base md:text-lg font-semibold text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400 text-left truncate whitespace-nowrap overflow-hidden">
                                 {{ $product->name }}
                             </a>
                         
