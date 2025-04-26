@@ -45,8 +45,7 @@ class ProfileController extends Controller
      */
     public function show($profile)
     {
-        // Assuming profile is an ID
-        $user = User::findOrFail($profile);
+        $user = User::findOrFail($profile ?? Auth::id());
         return view('profile.show', compact('user'));
     }
 
