@@ -429,10 +429,10 @@ class HomeController extends Controller
             'user' => $user,
             // Misalnya menampilkan checkout yang pernah dilakukan
             'checkouts' => Checkout::where('user_id', $user->id)->latest()->get(),
-            'orders' => Order::with('product')->whereIn('checkout_id', function($query) use ($user) {
+            'orders' => Order::with('product')->whereIn('checkout_id', function ($query) use ($user) {
                 $query->select('id')
-                      ->from('checkouts')
-                      ->where('user_id', $user->id);
+                    ->from('checkouts')
+                    ->where('user_id', $user->id);
             })->latest()->get(),
         ];
 
@@ -449,6 +449,20 @@ class HomeController extends Controller
             $status = 'unpaid'; // Default to 'unpaid' if invalid status
         }
 
+        // Get the orders based on the status
+        $orders = Order::whereHas('checkout', function ($query) use ($status) {
+            $query->where('user_id', Auth::user()->id)
+                ->where('status', $status);
+        })->with('checkout', 'product')
+            ->latest()
+            ->get();
+
+        // Group orders by created_at (date and hour)
+        $groupedOrders = $orders->groupBy(function ($order) {
+            return \Carbon\Carbon::parse($order->created_at)->format('Y-m-d H:i'); // Group by date and hour
+        });
+
+        // Prepare data for the view
         $data = [
             'title' => 'Riwayat Pembelian Anda',
             'carts' => Cart::with(['product'])
@@ -456,12 +470,7 @@ class HomeController extends Controller
                 ->latest()
                 ->limit(10)
                 ->get(),
-            'orders' => Order::whereHas('checkout', function ($query) use ($status) {
-                $query->where('user_id', Auth::user()->id)
-                    ->where('status', $status);
-            })->with('checkout', 'product')
-                ->latest()
-                ->get(),
+            'groupedOrders' => $groupedOrders, // Pass the grouped orders to the view
             'status' => $status
         ];
 
