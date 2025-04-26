@@ -444,15 +444,25 @@ class HomeController extends Controller
         $status = $request->query('status', 'pending'); // Default to 'pending' if no status provided
 
         // Validate status
-        $validStatuses = ['pending', 'paid', 'processing', 'shipped', 'completed'];
+        $validStatuses = ['pending', 'processing', 'shipped', 'completed']; // 'processing' ditambah
         if (!in_array($status, $validStatuses)) {
             $status = 'pending'; // Default to 'pending' if invalid status
         }
 
+        // Map 'processing' to 'paid' for database query
+        $statusMapping = [
+            'pending' => 'pending',
+            'processing' => 'paid', // Map 'processing' ke 'paid'
+            'shipped' => 'shipped',
+            'completed' => 'completed',
+        ];
+
         // Get the orders based on the status
-        $orders = Order::whereHas('checkout', function ($query) use ($status) {
+        $dbStatus = $statusMapping[$status]; // Use mapped status for query
+
+        $orders = Order::whereHas('checkout', function ($query) use ($dbStatus) {
             $query->where('user_id', Auth::user()->id)
-                ->where('status', $status);
+                ->where('status', $dbStatus); // Query based on mapped status
         })->with('checkout', 'product')
             ->latest()
             ->get();
@@ -471,7 +481,7 @@ class HomeController extends Controller
                 ->limit(10)
                 ->get(),
             'groupedOrders' => $groupedOrders, // Pass the grouped orders to the view
-            'status' => $status
+            'status' => $status // Status yang ditampilkan di URL
         ];
 
         return view('history.index', $data);

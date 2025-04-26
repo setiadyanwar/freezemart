@@ -15,10 +15,6 @@
                     class="{{ request('status') == 'pending' ? 'bg-primary-500 text-white dark:bg-primary-500 dark:text-white' : 'text-primary-700 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800' }} rounded-full border border-primary-500 px-4 py-2 text-sm font-medium">
                     Belum dibayar
                 </a>
-                <a href="{{ route('history.index', ['status' => 'paid']) }}"
-                    class="{{ request('status') == 'paid' ? 'bg-primary-500 text-white dark:bg-primary-500 dark:text-white' : 'text-primary-700 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800' }} rounded-full border border-primary-500 px-4 py-2 text-sm font-medium">
-                    Sudah dibayar
-                </a>
                 <a href="{{ route('history.index', ['status' => 'processing']) }}"
                     class="{{ request('status') == 'processing' ? 'bg-primary-500 text-white dark:bg-primary-500 dark:text-white' : 'text-primary-700 hover:bg-primary-50 dark:border-primary-400 dark:text-primary-400 dark:hover:bg-gray-800' }} rounded-full border border-primary-500 px-4 py-2 text-sm font-medium">
                     Dikemas
@@ -35,8 +31,6 @@
 
             @if (request('status') == 'pending' || (!request('status') && $status == 'pending'))
                 @include('history.partials.unpaid')
-            @elseif(request('status') == 'paid' || $status == 'paid')
-                @include('history.partials.paid')
             @elseif(request('status') == 'processing' || $status == 'processing')
                 @include('history.partials.processing')
             @elseif(request('status') == 'shipped' || $status == 'shipped')

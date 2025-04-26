@@ -40,7 +40,7 @@
                     Paid
                 </div>
                 <div class="mt-1 inline-block rounded-[14px] bg-blue-100 px-2 py-1 text-xs text-blue-600">
-                    Dikirim
+                    Dikemas
                 </div>
                 <div class="flex">
                     <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
