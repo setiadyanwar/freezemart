@@ -45,7 +45,7 @@
                 <div class="flex">
                     <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
                     <div class="ms-2 mt-2 text-sm text-gray-600">
-                        {{ \Carbon\Carbon::parse($firstOrder->checkout->created_at)->format('d M Y, H:i') }}
+                        {{ \Carbon\Carbon::parse($firstOrder->checkout->created_at)->format('d M Y') }}
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                         <div class="flex">
                             <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
                             <div class="ms-2 mt-2 text-sm text-gray-600">
-                                {{ \Carbon\Carbon::parse($order->checkout->created_at)->format('d M Y, H:i') }}
+                                {{ \Carbon\Carbon::parse($order->checkout->created_at)->format('d M Y') }}
                             </div>
                         </div>
                     </div>
