@@ -228,21 +228,10 @@ class HomeController extends Controller
         // Get invoice berdasarkan external_id
         $result = $invoiceApi->getInvoices(null, $checkout);
 
-        // Cari dan ambil nama e-wallet yang digunakan (misal DANA)
-        $ewalletType = 'Unknown'; // Default value
-        if (isset($result[0]['available_ewallets']) && is_array($result[0]['available_ewallets'])) {
-            foreach ($result[0]['available_ewallets'] as $ewallet) {
-                if (isset($ewallet['ewallet_type']) && $ewallet['ewallet_type'] === 'DANA') {
-                    $ewalletType = 'DANA';
-                    break;
-                }
-            }
-        }
-
         // Update status checkout dengan e-wallet yang dipilih
         Checkout::where('external_id', $checkout)->update([
             'status' => $result[0]['status'],
-            'payment_method' => $ewalletType
+            'payment_method' => $result[0]['payment_method']
         ]);
 
         // cart nya dihapus
