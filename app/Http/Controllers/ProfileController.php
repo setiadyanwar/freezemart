@@ -43,12 +43,14 @@ class ProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($profile)
+    public function show()
     {
-        $user = User::findOrFail($profile ?? Auth::id());
-        return view('profile.show', compact('user'));
-    }
+        // Ambil user yang sedang login
+        $user  = User::findOrFail(Auth::id());
+        $title = 'FreezeMart | Profile Akun Anda';
 
+        return view('profile', compact('user', 'title'));
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -101,7 +103,9 @@ class ProfileController extends Controller
         $user->name = $request->name;
         $user->save();
 
-        return redirect()->route('profile.show')->with('success', 'Nama berhasil diubah');
+        return redirect()
+            ->route('profile.index')
+            ->with('success', 'Nama berhasil diubah');
     }
 
     // Mengupdate alamat pengguna
@@ -114,7 +118,9 @@ class ProfileController extends Controller
         $user->address = $request->address;
         $user->save();
 
-        return redirect()->route('profile.show')->with('success', 'Alamat berhasil diubah');
+        return redirect()
+            ->route('profile.index')
+            ->with('success', 'Alamat berhasil diubah');
     }
 
     // Mengupdate email pengguna
@@ -128,7 +134,9 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->save();
 
-        return redirect()->route('profile.show')->with('success', 'Email berhasil diubah');
+        return redirect()
+            ->route('profile.index')
+            ->with('success', 'Email berhasil diubah');
     }
 
     // Mengupdate nomor telepon pengguna
@@ -142,7 +150,10 @@ class ProfileController extends Controller
         $user->phone = $request->phone;
         $user->save();
 
-        return redirect()->route('profile.show')->with('success', 'Nomor HP berhasil diubah');
+        return redirect()
+            ->route('profile.index')
+            ->with('success', 'No HP berhasil diubah');
+
     }
 
     /**

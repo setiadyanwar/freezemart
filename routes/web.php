@@ -30,8 +30,6 @@ Route::put('/profile/edit/email', [ProfileController::class, 'updateEmail'])->mi
 Route::put('/profile/edit/phone', [ProfileController::class, 'updatephone'])->middleware('auth');
 Route::put('/profile/edit/address', [ProfileController::class, 'updateAddress'])->middleware('auth');
 Route::put('/profile/edit/{field}', [ProfileController::class, 'updateProfileField'])->middleware('auth');
-Route::get('/profile/{profile?}', [ProfileController::class, 'show'])->name('profile.show');
-
 
 // route autentikasi
 Route::get('/login', [HomeController::class, 'login'])->middleware('guest');
