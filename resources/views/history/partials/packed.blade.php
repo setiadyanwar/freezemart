@@ -118,7 +118,7 @@
                                 Paid
                             </div>
                             <div class="inline-block rounded-[14px] bg-blue-100 px-2 py-1 text-xs text-blue-600">
-                                dikemas
+                                Dikemas
                             </div>
                         </div>
                     </div>

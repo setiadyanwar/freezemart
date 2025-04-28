@@ -47,7 +47,7 @@
                 </dl>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="/history?status=processing"
+                <a href="/history?status=packed"
                     class="rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-500 dark:focus:ring-primary-800">Lacak
                     Pesananmu</a>
                 <a href="/products"

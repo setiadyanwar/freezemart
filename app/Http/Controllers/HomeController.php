@@ -234,9 +234,12 @@ class HomeController extends Controller
             'payment_method' => $result[0]['payment_method']
         ]);
 
-        // cart nya dihapus
-        // pilih checkout
+        // Pilih checkout
         $checkout = Checkout::where('external_id', $checkout)->first();
+
+        // Update shipment_status semua order jadi 'packed'
+        Order::where('checkout_id', $checkout->id)
+            ->update(['shipment_status' => 'Packed']);
 
         // Ambil semua order berdasarkan checkout_id
         $orders = Order::where('checkout_id', $checkout->id)->get();
@@ -250,7 +253,9 @@ class HomeController extends Controller
             }
 
             // Hapus produk dari cart setelah pembayaran sukses
-            Cart::where('user_id', Auth::user()->id)->where('product_id', $order->product_id)->delete();
+            Cart::where('user_id', Auth::id())
+                ->where('product_id', $order->product_id)
+                ->delete();
         }
 
         return view('payments.success', [
@@ -258,6 +263,7 @@ class HomeController extends Controller
             'checkout' => $checkout
         ]);
     }
+
 
     public function failure($checkout)
     {
@@ -430,49 +436,61 @@ class HomeController extends Controller
 
     public function history(Request $request)
     {
-        $status = $request->query('status', 'pending'); // Default to 'pending' if no status provided
+        $validStatuses = ['unpaid', 'packed', 'shipped', 'completed'];
+        $status = strtolower($request->query('status')) ?? 'unpaid';
 
-        // Validate status
-        $validStatuses = ['pending', 'processing', 'shipped', 'completed']; // 'processing' ditambah
         if (!in_array($status, $validStatuses)) {
-            $status = 'pending'; // Default to 'pending' if invalid status
+            $status = 'unpaid';
         }
 
-        // Map 'processing' to 'paid' for database query
-        $statusMapping = [
-            'pending' => 'pending',
-            'processing' => 'paid', // Map 'processing' ke 'paid'
-            'shipped' => 'shipped',
-            'completed' => 'completed',
-        ];
-
-        // Get the orders based on the status
-        $dbStatus = $statusMapping[$status]; // Use mapped status for query
-
-        $orders = Order::whereHas('checkout', function ($query) use ($dbStatus) {
-            $query->where('user_id', Auth::user()->id)
-                ->where('status', $dbStatus); // Query based on mapped status
-        })->with('checkout', 'product')
+        $orders = Order::whereHas('checkout', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
+            ->where('shipment_status', ucfirst($status)) // 'Packed', 'Shipped', etc (huruf besar)
+            ->with([
+                'checkout',
+                'product.comments' => function ($query) {
+                    $query->where('user_id', Auth::id());
+                }
+            ])
             ->latest()
+            ->get()
+            ->groupBy(fn($order) => $order->created_at->format('Y-m-d H:i'));
+
+        $carts = Cart::with('product')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->limit(10)
             ->get();
 
-        // Group orders by created_at (date and hour)
-        $groupedOrders = $orders->groupBy(function ($order) {
-            return \Carbon\Carbon::parse($order->created_at)->format('Y-m-d H:i'); // Group by date and hour
-        });
-
-        // Prepare data for the view
         $data = [
-            'title' => 'Riwayat Pembelian Anda',
-            'carts' => Cart::with(['product'])
-                ->where('user_id', request()->user()->id)
-                ->latest()
-                ->limit(10)
-                ->get(),
-            'groupedOrders' => $groupedOrders, // Pass the grouped orders to the view
-            'status' => $status // Status yang ditampilkan di URL
+            'title'         => 'Riwayat Pembelian',
+            'carts'         => $carts,
+            'groupedOrders' => $orders,
+            'status'        => $status,
         ];
 
         return view('history.index', $data);
+    }
+
+
+    public function actionComments(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'description' => 'required|string|max:1000',
+            'product_id' => 'required|exists:products,id',
+        ]);
+
+        // Simpan comment
+        Comment::create([
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
+            'comment_text' => $request->description,
+            'rating' => $request->rating,
+        ]);
+
+        return back()->with('success', 'Komentar berhasil dikirim!');
     }
 }

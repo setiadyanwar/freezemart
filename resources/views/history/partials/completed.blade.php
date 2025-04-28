@@ -1,186 +1,377 @@
-<div class="w-full p-4 mx-auto bg-white border border-gray-100 rounded-lg shadow-sm" x-data="{ detailsOpen: true, modalOpen: false, rating: 0 }">
-    <!-- Header section with toggle button -->
-    <div class="flex items-center justify-between">
-        <div class="text-xl text-gray-600">Pembelian Chicken Nugget</div>
-        <div class="flex items-center text-sm text-blue-600 cursor-pointer" @click="detailsOpen = !detailsOpen">
-            <span x-text="detailsOpen ? 'Sembunyikan' : 'Lihat selengkapnya'"></span>
-            <svg class="w-4 h-4 ml-1 transform" :class="detailsOpen ? 'rotate-180' : ''" fill="none"
-                stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </div>
-    </div>
+@foreach ($groupedOrders as $groupTime => $orders)
+    @php
+        $firstOrder = $orders->first();
+    @endphp
+    <div class="w-full p-4 mx-auto mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
+        <!-- Header section with toggle button -->
+        <div class="flex items-center justify-between">
+            @php
+                $firstProductName = $firstOrder->product->name;
+                $totalProducts = $orders->count();
+            @endphp
 
-    <!-- Product summary section -->
-    <div class="flex items-center mt-4">
-        <div class="flex-shrink-0">
-            <div class="flex items-center justify-center w-20 h-20 overflow-hidden bg-orange-100 rounded-md">
-                <img class="object-cover w-16 h-16" src="assets/champ_img.jpg" alt="Chicken Nugget" />
+            <div class="text-xl text-gray-600">
+                Pembelian {{ $firstProductName }}
+                @if ($totalProducts > 1)
+                    dan {{ $totalProducts - 1 }} lainnya
+                @endif
+            </div>
+            <div class="flex items-center text-sm text-blue-600 cursor-pointer" onclick="toggleDetails(this)">
+                <span class="toggleText">Lihat selengkapnya</span>
+                <svg class="w-4 h-4 ml-1 transform toggleIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
             </div>
         </div>
 
-        <div class="flex-grow ml-4">
-            <div class="text-lg font-medium text-gray-800">Chicken Nugget Hotaz</div>
-            <div class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
-                Selesai
+        <!-- Produk pertama (langsung kelihatan) -->
+        <div class="flex items-center mt-4">
+            <div class="flex-shrink-0">
+                <div class="flex items-center justify-center w-20 h-20 overflow-hidden bg-orange-100 rounded-md">
+                    <img class="object-cover w-16 h-16" src="{{ asset('storage/' . $firstOrder->product->image) }}"
+                        alt="Product Image" />
+                </div>
             </div>
-            <div class="flex">
-                <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
-                <div class="mt-2 text-sm text-gray-600 ms-2">22-02-2025</div>
+
+            <div class="flex-grow ml-4">
+                <div class="text-lg font-medium text-gray-800">{{ $firstOrder->product->name }}</div>
+                <div class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                    Completed
+                </div>
+                <div class="flex">
+                    <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
+                    <div class="mt-2 text-sm text-gray-600 ms-2">
+                        {{ \Carbon\Carbon::parse($firstOrder->checkout->created_at)->format('d M Y') }}
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="relative text-right">
-            <!-- Informasi Harga dan Tombol -->
-            <div class="font-semibold text-gray-800">Rp 120.000</div>
-            <div class="text-sm text-gray-500">x1</div>
-            <button @click="modalOpen = true"
-                class="mt-2 rounded-[14px] bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700">
-                Beri Ulasan
-            </button>
-        </div>
-    </div>
+            <div class="text-right">
+                <div class="font-semibold text-gray-800">
+                    Rp {{ number_format($firstOrder->product->price * $firstOrder->quantity, 0, ',', '.') }}
+                </div>
+                <div class="text-sm text-gray-500">x{{ $firstOrder->quantity }}</div>
 
-    <div class="flex items-center mt-4">
-        <div class="items-center text-lg font-normal">
-            4.0
-        </div>
-        <div class="flex gap-1 ms-2">
-            <img src="assets/star-solid.svg" alt="Star" class="w-4 h-4" />
-            <img src="assets/star-solid.svg" alt="Star" class="w-4 h-4" />
-            <img src="assets/star-solid.svg" alt="Star" class="w-4 h-4" />
-            <img src="assets/star-solid.svg" alt="Star" class="w-4 h-4" />
-            <img src="assets/star.svg" alt="Star" class="w-4 h-4" />
-        </div>
-    </div>
+                @php
+                    $hasReviewed = $firstOrder->product->comments->isNotEmpty();
+                @endphp
 
-    <!-- Modal -->
-    <div x-show="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" @click.self="modalOpen = false">
-        <div class="w-full max-w-md mx-4 bg-white rounded-lg shadow-lg"
-            x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0 transform scale-95"
-            x-transition:enter-end="opacity-100 transform scale-100"
-            x-transition:leave="transition ease-in duration-200"
-            x-transition:leave-start="opacity-100 transform scale-100"
-            x-transition:leave-end="opacity-0 transform scale-95" @click.away="modalOpen = false">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 py-4 text-center border-b">
-                <div class="w-4"></div>
-                <h2 class="text-xl font-medium text-gray-800">Beri Review Produk</h2>
-                <button @click="modalOpen = false" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                        </path>
-                    </svg>
+                <button {{ $hasReviewed ? 'disabled' : '' }} data-modal-target="authentication-modal"
+                    data-modal-toggle="authentication-modal" data-product-name="{{ $firstOrder->product->name }}"
+                    data-product-id="{{ $firstOrder->product->id }}" data-total-products="{{ $totalProducts }}"
+                    class="block w-full px-3 py-2 mt-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg btn-review hover:bg-blue-800 disabled:bg-gray-400"
+                    type="button">
+                    {{ $hasReviewed ? 'Sudah diulas' : 'Beri ulasan' }}
                 </button>
-            </div>
 
-            <!-- Content -->
-            <div class="px-6 py-4">
-                <!-- User Profile -->
-                <div class="flex flex-col items-center">
-                    <div class="w-16 h-16 overflow-hidden bg-blue-100 rounded-full">
-                        <img src="/api/placeholder/64/64" alt="User Profile" class="object-cover w-full h-full" />
-                    </div>
-                    <div class="mt-2 text-center">
-                        <h3 class="text-lg font-bold">setiadyanwar</h3>
-                        <p class="text-gray-600">Chicken Nugget Hotaz</p>
-                    </div>
-                </div>
-
-                <!-- Star Rating -->
-                <div class="flex justify-center mt-4">
-                    <div class="flex space-x-1">
-                        <template x-for="i in 5" :key="i">
-                            <button @click="rating = i" class="focus:outline-none">
-                                <svg class="w-8 h-8" :class="i <= rating ? 'text-yellow-400' : 'text-gray-300'"
-                                    fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </template>
-                    </div>
-                </div>
-
-                <!-- Review Text Area -->
-                <div class="mt-6">
-                    <textarea id="message" rows="4"
-                        class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                        placeholder="Berikan Ulasan Anda"></textarea>
-                </div>
-            </div>
-
-            <!-- Footer Button -->
-            <div class="px-6 pb-6">
-                <button class="w-full py-3 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
-                    @click="modalOpen = false">
-                    Beri ulasan
-                </button>
             </div>
         </div>
-    </div>
 
-    <!-- Expanded details section -->
-    <div x-show="detailsOpen" x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-        x-transition:leave-end="opacity-0">
-        <div class="my-4 border-t border-gray-200"></div>
-        <!-- Detail Pembelian -->
-        <div class="mb-6">
-            <h3 class="mb-4 text-lg font-medium text-gray-800">Detail Pembelian</h3>
+        <!-- Produk lainnya (disembunyikan dulu, tampil setelah klik "Lihat Selengkapnya") -->
+        <div class="hidden detailsSection">
+            @foreach ($orders->skip(1) as $order)
+                <div class="flex items-center pt-4 mt-4 border-t">
+                    <div class="flex-shrink-0">
+                        <div
+                            class="flex items-center justify-center w-20 h-20 overflow-hidden bg-orange-100 rounded-md">
+                            <img class="object-cover w-16 h-16" src="{{ asset('storage/' . $order->product->image) }}"
+                                alt="Product Image" />
+                        </div>
+                    </div>
 
-            <div class="grid grid-cols-1 gap-3">
-                <div>
-                    <p class="text-sm text-gray-600">Nomor invoice:</p>
-                    <p class="text-sm">invoice-setiady-66077394</p>
-                </div>
-
-                <div>
-                    <p class="text-sm text-gray-600">Status:</p>
-                    <div class="flex items-center mt-1">
+                    <div class="flex-grow ml-4">
+                        <div class="text-lg font-medium text-gray-800">{{ $order->product->name }}</div>
                         <div class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
-                            Selesai
+                            Completed
+                        </div>
+                        <div class="flex">
+                            <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
+                            <div class="mt-2 text-sm text-gray-600 ms-2">
+                                {{ \Carbon\Carbon::parse($order->checkout->created_at)->format('d M Y') }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <div class="font-semibold text-gray-800">
+                            Rp {{ number_format($order->price * $order->quantity, 0, ',', '.') }}
+                        </div>
+                        <div class="text-sm text-gray-500">x{{ $order->quantity }}</div>
+
+                        <!-- Tambahin button "Beri Ulasan" juga di sini -->
+                        @php
+                            $hasReviewed = $order->product->comments->isNotEmpty();
+                        @endphp
+
+                        <button {{ $hasReviewed ? 'disabled' : '' }} data-modal-target="authentication-modal"
+                            data-modal-toggle="authentication-modal" data-product-name="{{ $order->product->name }}"
+                            data-product-id="{{ $order->product->id }}" data-total-products="{{ $totalProducts }}"
+                            class="block w-full px-3 py-2 mt-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg btn-review hover:bg-blue-800 disabled:bg-gray-400"
+                            type="button">
+                            {{ $hasReviewed ? 'Sudah diulas' : 'Beri ulasan' }}
+                        </button>
+
+                    </div>
+                </div>
+            @endforeach
+
+
+            <!-- Divider -->
+            <div class="my-4 border-t border-gray-200"></div>
+
+            <!-- Detail Pembelian -->
+            <div class="mb-6">
+                <h3 class="mb-4 text-lg font-medium text-gray-800">Detail Pembelian</h3>
+
+                <div class="grid grid-cols-1 gap-3">
+                    <div>
+                        <p class="text-sm text-gray-600">Nomor invoice:</p>
+                        <p class="text-sm">
+                            {{ implode('-', array_slice(explode('-', $firstOrder->checkout->external_id), 0, 3)) }}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="text-sm text-gray-600">Status:</p>
+                        <div class="flex items-center mt-1">
+                            <div
+                                class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                                Completed
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Divider -->
+            <div class="my-4 border-t border-gray-200"></div>
+
+            <!-- Ringkasan Pembelian -->
+            <div class="my-6">
+                <h3 class="mb-4 text-lg font-medium text-gray-800">Ringkasan Pembelian</h3>
+                <div>
+                    <div class="flex justify-between py-2 text-base">
+                        <span class="text-gray-600">Total harga</span>
+                        <span class="font-medium">
+                            Rp
+                            {{ number_format($firstOrder->checkout->price_total - $firstOrder->checkout->service, 0, ',', '.') }}
+                        </span>
+                    </div>
+                    <div class="flex justify-between py-2 text-base">
+                        <span class="text-gray-600">Biaya pelayanan</span>
+                        <span class="font-medium">
+                            {{ number_format($firstOrder->checkout->service, 0, ',', '.') }}
+                        </span>
+                    </div>
+                    <div class="my-2 border-t border-gray-200"></div>
+                    <div class="flex justify-between py-2 font-semibold">
+                        <span>Total Belanja</span>
+                        <span>
+                            Rp {{ number_format($firstOrder->checkout->price_total, 0, ',', '.') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Divider -->
-        <div class="my-4 border-t border-gray-200"></div>
 
-        <!-- Ringkasan Pembelian -->
-        <div>
-            <h3 class="mb-4 text-lg font-medium text-gray-800">Ringkasan Pembelian</h3>
 
+        <!-- Expanded details section -->
+        <div class="hidden detailsSection">
+            <div class="my-4 border-t border-gray-200"></div>
+
+            <!-- Detail Pembelian -->
+            <div class="mb-6">
+                <h3 class="mb-4 text-lg font-medium text-gray-800">Detail Pembelian</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div>
+                        <p class="text-sm text-gray-600">Nomor Invoice:</p>
+                        <p class="text-sm">
+                            {{ implode('-', array_slice(explode('-', $firstOrder->checkout->external_id), 0, 3)) }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Status:</p>
+                        <div class="flex items-center mt-1">
+                            <div class="mr-2 inline-block rounded-[14px] bg-[#DEFFCA] px-2 py-1 text-xs text-[#67A544]">
+                                Compeleted
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="my-4 border-t border-gray-200"></div>
+
+            <!-- Ringkasan Pembelian -->
             <div>
-                <div class="flex justify-between py-2 text-base">
-                    <span class="text-gray-600">Total harga</span>
-                    <span class="font-medium">Rp 120.000</span>
-                </div>
+                <h3 class="mb-4 text-lg font-medium text-gray-800">Ringkasan Pembelian</h3>
+                <div>
+                    <div class="flex justify-between py-2 text-base">
+                        <span class="text-gray-600">Total harga</span>
+                        <span class="font-medium">Rp
+                            {{ number_format($orders->sum('checkout.price_total') - $orders->sum('checkout.service'), 0, ',', '.') }}</span>
+                    </div>
 
-                <div class="flex justify-between py-2 text-base">
-                    <span class="text-gray-600">Biaya pelayanan</span>
-                    <span class="font-medium">Rp 2.000</span>
-                </div>
+                    <div class="flex justify-between py-2 text-base">
+                        <span class="text-gray-600">Biaya pelayanan</span>
+                        <span class="font-medium">Rp
+                            {{ number_format($orders->sum('checkout.service'), 0, ',', '.') }}</span>
+                    </div>
 
-                <div class="my-2 border-t border-gray-200"></div>
+                    <div class="my-2 border-t border-gray-200"></div>
 
-                <div class="flex justify-between py-2 font-semibold">
-                    <span>Total Belanja</span>
-                    <span>Rp 122.000</span>
+                    <div class="flex justify-between py-2 font-semibold">
+                        <span>Total Belanja</span>
+                        <span>Rp {{ number_format($orders->sum('checkout.price_total'), 0, ',', '.') }}</span>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+<!-- Main modal -->
+<div id="authentication-modal" tabindex="-1" aria-hidden="true"
+    class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
+    <div class="relative w-full max-w-md max-h-full p-4">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+            <!-- Modal header -->
+            <div
+                class="flex items-center justify-between p-4 border-b border-gray-200 rounded-t dark:border-gray-600 md:p-5">
+                <div class="flex-1 text-center">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                        Beri Review Produk
+                    </h3>
+                </div>
+            </div>
+
+            <!-- Modal body -->
+            <div class="p-4 md:p-5">
+                <div class="flex justify-center mb-4">
+                    <img id="profile-pic" src="{{ asset('assets/Avatars.png') }}" class="object-cover w-24 h-24"
+                        alt="Default Avatar">
+                </div>
+                <div class="flex justify-center">
+                    <h4 class="text-xl font-semibold">{{ Auth::user()->name }}</h4>
+                </div>
+                <div class="flex justify-center mb-2">
+                    <p class="text-base text-gray-500" id="product-name-text">
+                    </p>
+                </div>
+                <form class="space-y-4" action="{{ route('comments.store') }}" method="post">
+                    @csrf
+
+                    <!-- Hidden Input for Product ID -->
+                    <input type="hidden" name="product_id" id="product-id-input">
+
+                    <!-- Rating Section -->
+                    <div class="flex justify-center space-x-1">
+                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="1">&#9733;</span>
+                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="2">&#9733;</span>
+                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="3">&#9733;</span>
+                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="4">&#9733;</span>
+                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="5">&#9733;</span>
+                    </div>
+
+                    <input type="hidden" id="rating" name="rating" value="0">
+
+                    <div class="col-span-2">
+                        <textarea name="description" id="description" rows="4"
+                            class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900"
+                            placeholder="Berikan ulasan Anda"></textarea>
+                    </div>
+                    <button type="submit"
+                        class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Berikan Ulasan Anda
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Alpine.js CDN -->
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js"></script>
+
+
+
+
+
+
+
+<script>
+    function toggleDetails(button) {
+        const detailsSection = button.closest('.mx-auto').querySelector('.detailsSection');
+        const toggleText = button.querySelector('.toggleText');
+        const toggleIcon = button.querySelector('.toggleIcon');
+
+        if (detailsSection.style.display === 'none') {
+            detailsSection.style.display = 'block';
+            toggleText.textContent = 'Sembunyikan';
+            toggleIcon.classList.add('rotate-180');
+        } else {
+            detailsSection.style.display = 'none';
+            toggleText.textContent = 'Lihat selengkapnya';
+            toggleIcon.classList.remove('rotate-180');
+        }
+    }
+
+    // Initialize the expanded view on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        // Uncomment the line below if you want it to start collapsed
+        // document.getElementById('detailsSection').style.display = 'none';
+    });
+
+    // Ambil semua elemen star
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+
+    // Tambahkan event click ke setiap star
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            const selectedRating = this.getAttribute('data-value');
+            ratingInput.value = selectedRating;
+
+            updateStars(selectedRating);
+        });
+    });
+
+    // Fungsi buat update warna bintang
+    function updateStars(rating) {
+        stars.forEach(star => {
+            const starValue = star.getAttribute('data-value');
+
+            if (starValue <= rating) {
+                star.classList.add('text-yellow-300');
+                star.classList.remove('text-gray-400');
+            } else {
+                star.classList.add('text-gray-400');
+                star.classList.remove('text-yellow-300');
+            }
+        });
+    }
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const reviewButtons = document.querySelectorAll('.btn-review');
+        const productNameText = document.getElementById('product-name-text');
+        const productIdInput = document.getElementById('product-id-input');
+
+        reviewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productName = this.getAttribute('data-product-name');
+                const productId = this.getAttribute('data-product-id');
+
+                // Set nama produk
+                productNameText.innerHTML = productName;
+
+                // Set ID produk di hidden input
+                productIdInput.value = productId;
+            });
+        });
+    });
+</script>
