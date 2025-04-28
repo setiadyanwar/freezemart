@@ -15,6 +15,7 @@ use Xendit\Configuration;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
@@ -41,7 +42,6 @@ class HomeController extends Controller
     {
         $products = Product::with('comments'); // Menambahkan with untuk comments
 
-        // Menambahkan filter, paginate, dan appends
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
             'products' => $products->filter(request(['search', 'categories', 'sort_by']))
@@ -61,7 +61,6 @@ class HomeController extends Controller
 
     public function showProduct(Product $product)
     {
-
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
             'product' => $product,
@@ -70,22 +69,23 @@ class HomeController extends Controller
                 ->get(),
         ];
 
+        // Ambil average rating & total review
+        $ratingData = DB::table('comments')
+            ->selectRaw('AVG(rating) as average_rating, COUNT(*) as total_reviews')
+            ->where('product_id', $product->id)
+            ->first();
+
+        $data['average_rating'] = round($ratingData->average_rating ?? 0, 1); // Ex: 4.7
+        $data['total_reviews'] = $ratingData->total_reviews ?? 0;             // Ex: 123
+
         if (Auth::check()) {
-            // Untuk dropdown cart, batasi hanya 5 item saja
             $data['carts'] = Cart::with('product')
                 ->where('user_id', request()->user()->id)
                 ->latest()
                 ->limit(5)
                 ->get();
 
-            // Dapatkan total item di cart untuk badge
             $data['cartCount'] = Cart::where('user_id', request()->user()->id)->count();
-
-            $data['carts'] = Cart::with(['product'])
-                ->where('user_id', request()->user()->id)
-                ->latest()
-                ->limit(10)
-                ->get();
         }
 
         return view('products.show', $data);

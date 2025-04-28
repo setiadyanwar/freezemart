@@ -89,9 +89,9 @@
                                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414
-                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586
-                                                10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                    1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586
+                                                    10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="sr-only">Close modal</span>
                             </button>
@@ -139,16 +139,18 @@
                             </a>
 
                             <div class="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-300 md:text-sm">
-                                <div class="flex items-center text-yellow-400">
+                                <div
+                                    class="{{ $product->comments->count() > 0 ? 'text-yellow-400' : 'text-gray-300' }} flex items-center">
                                     <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path
                                             d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
                                     </svg>
                                     <p class="ml-1 font-medium leading-none">
-                                        {{ number_format($product->comments->avg('rating') ?? 0, 1) }}</p>
+                                        {{ number_format($product->comments->avg('rating') ?? 0, 1) }}
+                                    </p>
                                 </div>
-                                <span class="text-gray-400 dark:text-gray-500">|Terjual</span>
+                                <span class="text-gray-400 dark:text-gray-500">| Terjual</span>
                                 <span class="text-gray-400 dark:text-gray-500">({{ $product->comments->count() }})</span>
                             </div>
 
