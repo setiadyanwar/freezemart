@@ -132,14 +132,14 @@ class ProfileController extends Controller
     }
 
     // Mengupdate nomor telepon pengguna
-    public function updateNoHp(Request $request)
+    public function updatephone(Request $request)
     {
         $request->validate([
-            'nohp' => 'nullable|string|max:20',
+            'phone' => 'nullable|string|max:20',
         ]);
 
         $user = User::findOrFail(Auth::id());
-        $user->nohp = $request->nohp;
+        $user->phone = $request->phone;
         $user->save();
 
         return redirect()->route('profile.show')->with('success', 'Nomor HP berhasil diubah');

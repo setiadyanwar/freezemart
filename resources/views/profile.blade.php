@@ -84,8 +84,8 @@
                             <div>
                                 <p class="text-sm text-gray-500">No Hp</p>
                                 <div class="flex items-center justify-between">
-                                    <p class="text-gray-900">{{ $user->nohp ? $user->nohp : '-' }}</p>
-                                    <button onclick="openNohpModal()"
+                                    <p class="text-gray-900">{{ $user->phone ? $user->phone : '-' }}</p>
+                                    <button onclick="openphoneModal()"
                                         class="text-sm text-primary-500 hover:underline">Ubah</button>
                                 </div>
                             </div>
@@ -183,31 +183,31 @@
         </div>
 
         {{-- Modal Ubah Nomor HP --}}
-        <div id="nohpModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-gray-900 bg-opacity-50">
+        <div id="phoneModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-gray-900 bg-opacity-50">
             <div class="flex min-h-screen items-center justify-center p-4">
                 <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800">
                     <div class="mb-4 flex items-center justify-between">
                         <h2 class="text-xl font-semibold">Ubah No Hp</h2>
-                        <button onclick="closeNohpModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <button onclick="closephoneModal()" class="text-gray-500 hover:text-gray-700 focus:outline-none">
                             <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
                     </div>
-                    <form action="/profile/edit/nohp" method="POST">
+                    <form action="/profile/edit/phone" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="mb-4">
-                            <label for="nohp" class="mb-2 block text-sm font-bold text-gray-700">No Hp</label>
-                            <input type="text" id="nohp" name="nohp" value="{{ $user->nohp }}"
+                            <label for="phone" class="mb-2 block text-sm font-bold text-gray-700">No Hp</label>
+                            <input type="text" id="phone" name="phone" value="{{ $user->phone }}"
                                 class="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100">
-                            @error('nohp')
+                            @error('phone')
                                 <p class="text-xs italic text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="flex justify-end">
-                            <button type="button" onclick="closeNohpModal()"
+                            <button type="button" onclick="closephoneModal()"
                                 class="focus:shadow-outline mr-2 rounded bg-gray-300 px-4 py-2 font-semibold text-gray-800 hover:bg-gray-400 focus:outline-none">
                                 Batal
                             </button>
@@ -280,12 +280,12 @@
         document.getElementById('emailModal').classList.add('hidden');
     }
 
-    function openNohpModal() {
-        document.getElementById('nohpModal').classList.remove('hidden');
+    function openphoneModal() {
+        document.getElementById('phoneModal').classList.remove('hidden');
     }
 
-    function closeNohpModal() {
-        document.getElementById('nohpModal').classList.add('hidden');
+    function closephoneModal() {
+        document.getElementById('phoneModal').classList.add('hidden');
     }
 
     function openAddressModal() {
