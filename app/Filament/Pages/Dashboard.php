@@ -2,11 +2,11 @@
 
 namespace App\Filament\Pages;
 
-use Filament\Pages\Page;
-use Filament\Widgets\AccountWidget;
-use Filament\Pages\Dashboard as BaseDashboard;
+use App\Filament\Widgets\IncomeChart;
+use App\Filament\Widgets\OrderChart;
 use App\Filament\Widgets\StatsOverview;
-
+use Filament\Pages\Dashboard as BaseDashboard;
+use Filament\Widgets\AccountWidget;
 
 class Dashboard extends BaseDashboard
 {
@@ -17,6 +17,7 @@ class Dashboard extends BaseDashboard
     {
         return [
             StatsOverview::class,
+            [OrderChart::class, IncomeChart::class],
             AccountWidget::class,
         ];
     }

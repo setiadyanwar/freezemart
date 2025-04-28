@@ -64,3 +64,6 @@ Route::post('/reset-password', [HomeController::class, 'resetPassword'])
 
 // Route History Pembelian
 Route::get('/history', [HomeController::class, 'history'])->middleware('auth')->name('history.index');
+
+// route comments
+Route::post('/comments', [HomeController::class, 'actionComments'])->name('comments.store');
