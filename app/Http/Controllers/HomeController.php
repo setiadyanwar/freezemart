@@ -29,7 +29,7 @@ class HomeController extends Controller
         $data = [
             'title' => 'FreezeMart | Belanja Ceria, Semua Ada di Sini!',
             'categories' => Category::all(),
-            'products' => Product::limit(12)->get(),
+            'products' => Product::with('comments')->limit(12)->get(),
         ];
         if (Auth::check()) {
             $data['carts'] = Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get();
@@ -39,18 +39,25 @@ class HomeController extends Controller
 
     public function products()
     {
-        $products = Product::query();
+        $products = Product::with('comments'); // Menambahkan with untuk comments
 
+        // Menambahkan filter, paginate, dan appends
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
-            'products' => $products->filter(request(['search', 'categories', 'sort_by']))->paginate(8)->appends(request()->all()),
+            'products' => $products->filter(request(['search', 'categories', 'sort_by']))
+                ->paginate(8)
+                ->appends(request()->all()), // Semua dalam satu baris
             'categories' => Category::all(),
         ];
+
+        // Menambahkan data cart jika pengguna sudah login
         if (Auth::check()) {
             $data['carts'] = Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get();
         }
+
         return view('products.index', $data);
     }
+
 
     public function showProduct(Product $product)
     {
