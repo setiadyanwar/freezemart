@@ -59,10 +59,11 @@ class OrderResource extends Resource
                 Select::make('shipment_status')
                     ->label('Status Pengiriman')
                     ->options([
-                        'Dikemas' => 'Dikemas',
-                        'Dikirim' => 'Dikirim',
-                        'Selesai' => 'Selesai',
-                        'Dibatalkan' => 'Dibatalkan',
+                        'Unpaid' => 'Unpaid',
+                        'Packed' => 'Packed',
+                        'Shipped' => 'Shipped',
+                        'Completed' => 'Completed',
+                        'Canceled' => 'Canceled',
                     ])
                     ->required(),
             ])
@@ -89,18 +90,18 @@ class OrderResource extends Resource
             TextColumn::make('shipment_status')
                 ->label('Status Pengiriman')
                 ->badge()
-                ->color(fn ($state) => match ($state) {
-                    'Dikemas' => 'warning',
-                    'Dikirim' => 'info',
-                    'Selesai' => 'success',
-                    'Dibatalkan' => 'danger',
+                ->color(fn($state) => match ($state) {
+                    'Packed' => 'warning',
+                    'Shipped' => 'info',
+                    'Completed' => 'success',
+                    'Canceled' => 'danger',
                     default => 'gray',
                 }),
 
             TextColumn::make('created_at')
                 ->label('Tanggal Order')
                 ->dateTime('d M Y H:i'),
-            ])
+        ])
             ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
