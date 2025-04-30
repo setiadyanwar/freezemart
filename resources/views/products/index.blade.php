@@ -1,30 +1,42 @@
 @extends('templates.master')
 
 @section('content')
-    <section class="py-12 antialiased mt-14 bg-gray-50 dark:bg-gray-900">
+    <section class="py-28 antialiased bg-gray-50 dark:bg-gray-900 overflow-hidden">
+        <!-- Gradient Background -->
+        <img class="absolute left-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
+        <img class="absolute right-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
         <div class="max-w-screen-xl px-4 mx-auto text-center 2xl:px-0">
+            <div class="relative h-[240px] overflow-hidden">
+                <!-- Heading -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-white md:text-4xl">
+                        Jelajahi Produk <span class="text-primary-500">Frozen Food</span><br>
+                        Berkualitas hanya di FreezeMart
+                    </h1>
+                    <p class="mt-3 text-gray-500 dark:text-gray-400 md:text-lg">
+                        Cintai keluargamu dengan makanan sehat dan bergizi
+                    </p>
+                </div>
 
-            <!-- Heading -->
-            <div class="mb-6">
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-white md:text-4xl">
-                    Jelajahi Produk <span class="text-primary-500">Frozen Food</span><br>
-                    Berkualitas hanya di FreezeMart
-                </h1>
-                <p class="mt-3 text-gray-500 dark:text-gray-400 md:text-lg">
-                    Cintai keluargamu dengan makanan sehat dan bergizi
-                </p>
+                <!-- Search -->
+                <form action="/products" method="get" class="flex items-center max-w-2xl gap-2 mx-auto mb-8">
+                    <input type="text" id="search" name="search"
+                        class="flex-1 px-5 py-3 text-sm text-gray-900 bg-white border border-gray-300 rounded-full focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                        placeholder="Ketikkan frozen food yang kamu suka?" />
+                    <button type="submit"
+                        class="px-6 py-3 text-sm font-semibold text-white rounded-full bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">
+                        Cari
+                    </button>
+                </form>
+
+                <!-- Icon Floating (absolute) -->
+                <img src="/assets/icon/sapi.svg" class="floating-icon absolute top-2 left-36 w-10 h-10 animate-float-slow" />
+                <img src="/assets/icon/semangka.svg" class="floating-icon absolute top-16 left-10 w-10 h-10 animate-float-slow" />
+                <img src="/assets/icon/chicken.svg" class="floating-icon absolute bottom-16 left-24 w-10 h-10 animate-float-slow" />
+                <img src="/assets/icon/sosis.svg" class="floating-icon absolute bottom-16 right-24 w-10 h-10 animate-float-medium" />
+                <img src="/assets/icon/ayam.svg" class="floating-icon absolute top-16 right-10 w-10 h-10 animate-float-medium" />
+                <img src="/assets/icon/ikan.svg" class="floating-icon absolute top-2 right-36 w-10 h-10 animate-float-medium" />
             </div>
-
-            <!-- Search -->
-            <form action="/products" method="get" class="flex items-center max-w-2xl gap-2 mx-auto mb-8">
-                <input type="text" id="search" name="search"
-                    class="flex-1 px-5 py-3 text-sm text-gray-900 bg-white border border-gray-300 rounded-full focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                    placeholder="Ketikkan frozen food yang kamu suka?" />
-                <button type="submit"
-                    class="px-6 py-3 text-sm font-semibold text-white rounded-full bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">
-                    Cari
-                </button>
-            </form>
 
             <section class="py-5 mb-10 antialiased bg-gray-50 dark:bg-gray-900 md:py-4" id="category">
                 <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
@@ -66,7 +78,7 @@
                             class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-primary-50 hover:text-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.625 7.3125H24.375M5.6875 13H20.3125M10.5625 18.6875H15.4375" stroke="#313131"
+                                <path d="M1.625 7.3125H24.375M5.6875 13H20.3125M10.5625 18.6875H15.4375" stroke="#313131"class="dark:stroke-white" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             Filter

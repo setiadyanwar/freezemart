@@ -1,9 +1,9 @@
 @extends('templates.master')
 @section('content')
     {{-- hero --}}
-    <section class="relative pt-24 mb-6 antialiased bg-white dark:bg-gray-900">
+    <section class="relative pt-24 antialiased bg-white dark:bg-gray-900">
         <!-- Background container -->
-        <div class="absolute inset-0 h-[700px] w-full overflow-hidden">
+        <div class="absolute inset-0 h-auto w-full overflow-hidden ">
             <img src="/assets/bg-white.png" class="h-[700px] w-full object-cover object-center dark:hidden"
                 alt="Light background">
             <img src="/assets/bg-dark.png" class="hidden h-[700px] w-full object-cover object-center dark:block"
@@ -12,7 +12,8 @@
 
         <div
             class="relative z-10 grid max-w-screen-xl px-4 pb-8 mx-auto md:mt-6 md:grid-cols-12 lg:gap-12 lg:pb-16 xl:gap-0">
-            <div class="z-10 content-center max-w-2xl justify-self-start md:col-span-7 md:text-start">
+            <div class="z-10 content-center max-w-2xl justify-self-start md:col-span-7 md:text-start" data-aos="fade-right"
+                data-aos-duration="1000" once="true">
                 <div
                     class="inline-flex items-center justify-center gap-2 px-4 py-1 mb-2 border rounded-xl border-primary-500">
                     <div class="text-sm font-normal border-primary-500 text-primary-500 dark:text-white lg:text-xl">Selamat
@@ -43,13 +44,14 @@
                         Belanja</a>
                 @endguest
             </div>
-            <div class="z-10 hidden md:col-span-5 md:mt-0 md:flex">
-                <img class="dark:hidden" src="/assets/hero-shop.png" alt="hero-image" />
-                <img class="hidden dark:block" src="/assets/hero-shop.png" alt="hero-image" />
+            <div class="z-10 hidden md:col-span-5 md:mt-0 md:flex" data-aos="fade-left"
+            data-aos-duration="1000" once="true">
+                <img class="dark:hidden animate-float-medium" src="/assets/hero-shop.png" alt="hero-image" />
+                <img class="hidden dark:block animate-float-medium" src="/assets/hero-shop.png" alt="hero-image" />
             </div>
         </div>
         <div
-            class="relative z-10 grid max-w-screen-xl grid-cols-3 gap-8 px-4 mx-auto text-gray-500 dark:text-gray-400 md:grid-cols-6">
+            class="relative z-10 grid max-w-screen-xl grid-cols-3 gap-8 px-4  pb-4 mx-auto text-gray-500 dark:text-gray-400 md:grid-cols-6" data-aos="fade-up" data-aos-duration="1000" once="true" >
             <a href="#" class="flex items-center md:justify-center">
                 <img class="w-3/4 grayscale hover:grayscale-0" src="{{ asset('assets/brand/fiesta.png') }}"
                     alt="brand-logo">
@@ -83,9 +85,9 @@
     {{-- end hero --}}
 
     {{-- Banner --}}
-    <section class="py-6 antialiased bg-gray-50 dark:bg-gray-900 md:py-16">
+    <section class="py-6 antialiased bg-gray-50 dark:bg-gray-900 md:py-16" >
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-            <img src="/assets/banner-promo.png" alt="banner-promo" w>
+            <img src="/assets/banner-promo.png" alt="banner-promo" data-aos="fade-up" >
         </div>
     </section>
     {{-- End Banner --}}
@@ -95,8 +97,8 @@
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
             <div class="mb-4 md:mb-8">
                 {{-- TOP 3 Kategori --}}
-                <div class="flex flex-wrap">
-                    <div class="w-full mb-10 lg:w-1/2">
+                <div class="flex flex-wrap" >
+                    <div class="w-full mb-10 lg:w-1/2" data-aos="fade-right" data-aos-duration="1000" once="true">
                         <h2 class="text-xl font-semibold text-gray-900 pb-7 dark:text-white sm:text-2xl">Kategori Terpopuler
                         </h2>
                         <div class="flex items-center justify-between w-full">
@@ -128,7 +130,7 @@
                     {{-- Form Personalization --}}
                     <div x-data="{ submitted: false, input: '' }" class="w-full mb-10 lg:w-1/2">
                         <template x-if="!submitted">
-                            <div x-transition>
+                            <div x-transition  data-aos="fade">
                                 <h2 class="pb-1 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Apa produk
                                     yang kamu sukai?</h2>
                                 <p class="pb-2 text-sm text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.

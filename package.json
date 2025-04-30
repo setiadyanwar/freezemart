@@ -18,6 +18,7 @@
         "vite": "^6.0"
     },
     "dependencies": {
-        "tailwind-scrollbar-hide": "^2.0.0"
+        "tailwind-scrollbar-hide": "^2.0.0",
+        "taos": "^1.0.5"
     }
 }
