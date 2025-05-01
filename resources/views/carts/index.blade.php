@@ -18,7 +18,7 @@
                         <div class="mb-4">
                             <label class="inline-flex items-center">
                                 <input type="checkbox" class="form-checkbox rounded text-blue-600" id="select-all">
-                                <span class="ml-2 text-gray-700 dark:text-gray-300">Pilih Semua({{ $myCarts->count() }})</span>
+                                <span class="ml-2 text-gray-700 dark:text-gray-300">Pilih Semua({{ $myCarts ? $myCarts->count() : 0 }})</span>
                             </label>
                         </div>
 
@@ -117,7 +117,7 @@
                             <div class="space-y-4">
                                 <div class="flex justify-between items-center">
                                     <span class="text-gray-600 dark:text-gray-400">Total harga</span>
-                                    <span class="font-medium text-gray-900 dark:text-white" id="price-total">Rp 120.000</span>
+                                    <span class="font-medium text-gray-900 dark:text-white" id="price-total">Rp 0</span>
                                 </div>
                                 
                                 <div class="flex justify-between items-center">
@@ -128,12 +128,12 @@
                                 <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
                                     <div class="flex justify-between items-center">
                                         <span class="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
-                                        <span class="text-lg font-semibold text-gray-900 dark:text-white" id="buy-total">Rp 122.000</span>
+                                        <span class="text-lg font-semibold text-gray-900 dark:text-white" id="buy-total">Rp 2.000</span>
                                     </div>
                                 </div>
                                 
-                                <button type="submit"
-                                class="flex w-full items-center justify-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">Checkout</button>
+                                <button type="submit" id="checkout-button"
+                                class="flex w-full items-center justify-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed" disabled>Checkout</button>
 
                                 <div class="flex items-center justify-center gap-2">
                                     <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
@@ -196,14 +196,25 @@
     const incrementButtons     = document.querySelectorAll('button.increment-qty');
     const priceTotalElement    = document.getElementById('price-total');
     const buyTotalElement      = document.getElementById('buy-total');
-    const checkoutButton       = document.querySelector('button[type="submit"]');
+    const checkoutButton       = document.getElementById('checkout-button');
     const hiddenInputsContainer= document.getElementById('hidden-inputs-container');
 
     console.log({ selectAllCheckbox, productCheckboxes, priceTotalElement, buyTotalElement, checkoutButton, hiddenInputsContainer });
 
     // abort jika elemen inti tidak ditemukan
-    if (!selectAllCheckbox || !priceTotalElement || !buyTotalElement || !checkoutButton || !hiddenInputsContainer) {
+    if (!priceTotalElement || !buyTotalElement || !hiddenInputsContainer) {
       console.warn('❗️ Elemen inti tidak ditemukan, script dibatalkan');
+      return;
+    }
+
+    // Jika tidak ada produk di keranjang
+    if (productCheckboxes.length === 0) {
+      priceTotalElement.textContent = 'Rp 0';
+      buyTotalElement.textContent = 'Rp 2.000';
+      if (checkoutButton) {
+        checkoutButton.disabled = true;
+        checkoutButton.textContent = 'Checkout (0) Produk';
+      }
       return;
     }
 
@@ -237,20 +248,30 @@
       });
       priceTotalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
       buyTotalElement.textContent   = `Rp ${(total + 2000).toLocaleString('id-ID')}`;
-      checkoutButton.textContent    = `Checkout (${count}) Produk`;
+      
+      if (checkoutButton) {
+        checkoutButton.textContent = `Checkout (${count}) Produk`;
+        // Disable checkout button if no products selected
+        checkoutButton.disabled = count === 0;
+      }
+      
       updateHiddenFields();
     }
 
     // event: select all
-    selectAllCheckbox.addEventListener('change', () => {
-      productCheckboxes.forEach(cb => cb.checked = selectAllCheckbox.checked);
-      calculateTotalPrice();
-    });
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener('change', () => {
+        productCheckboxes.forEach(cb => cb.checked = selectAllCheckbox.checked);
+        calculateTotalPrice();
+      });
+    }
 
     // event: per-item checkbox
     productCheckboxes.forEach(cb => cb.addEventListener('change', () => {
       calculateTotalPrice();
-      selectAllCheckbox.checked = [...productCheckboxes].every(x => x.checked);
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = [...productCheckboxes].every(x => x.checked);
+      }
     }));
 
     // event: qty buttons
@@ -261,6 +282,7 @@
         calculateTotalPrice();
       }
     }));
+    
     incrementButtons.forEach(btn => btn.addEventListener('click', () => {
       const input = document.getElementById(btn.dataset.target);
       if (input) {
@@ -273,8 +295,14 @@
     if (productCheckboxes.length) {
       productCheckboxes[0].checked = true;
       calculateTotalPrice();
+    } else {
+      // Jika tidak ada produk, pastikan total harga 0
+      priceTotalElement.textContent = 'Rp 0';
+      buyTotalElement.textContent = 'Rp 2.000';
+      if (checkoutButton) {
+        checkoutButton.disabled = true;
+      }
     }
   });
 </script>
 @endsection
-
