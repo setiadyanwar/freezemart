@@ -1,12 +1,14 @@
 @extends('templates.master')
 
 @section('content')
-    <section class="py-28 antialiased bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <section class="relative py-28 antialiased bg-gray-50 dark:bg-gray-900 overflow-hidden">
         <!-- Gradient Background -->
-        <img class="absolute left-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
-        <img class="absolute right-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
-        <div class="max-w-screen-xl px-4 mx-auto text-center 2xl:px-0">
-            <div class="relative h-[240px] overflow-hidden">
+            <img class="absolute left-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
+            <img class="absolute right-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
+        
+            <div class="max-w-screen-xl px-4 mx-auto text-center 2xl:px-0">
+            <div class="relative h-auto overflow-hidden" data-aos="fade-up"
+             data-aos-anchor-placement="bottom-bottom">
                 <!-- Heading -->
                 <div class="mb-6">
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white md:text-4xl">
@@ -19,26 +21,66 @@
                 </div>
 
                 <!-- Search -->
-                <form action="/products" method="get" class="flex items-center max-w-2xl gap-2 mx-auto mb-8">
-                    <input type="text" id="search" name="search"
-                        class="flex-1 px-5 py-3 text-sm text-gray-900 bg-white border border-gray-300 rounded-full focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                        placeholder="Ketikkan frozen food yang kamu suka?" />
-                    <button type="submit"
-                        class="px-6 py-3 text-sm font-semibold text-white rounded-full bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">
-                        Cari
-                    </button>
+                <form action="/products" method="get" class="max-w-2xl px-4 mx-auto mb-8">
+                    <div class="relative w-full">
+                        <!-- Search Icon -->
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                
+                        <!-- Input Field -->
+                        <input type="text" name="search" id="search"
+                            class="w-full py-3 pl-12 pr-24 text-sm text-gray-900 bg-white border border-gray-300 rounded-full focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            placeholder="Ketikkan frozen food yang kamu suka?" />
+                
+                        <!-- Button inside input -->
+                        <button type="submit"
+                            class="absolute top-1/2 right-1 transform -translate-y-1/2 px-6 py-2 text-sm font-semibold text-white bg-primary-500 rounded-full hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600">
+                            Cari
+                        </button>
+                    </div>
                 </form>
+                
+
 
                 <!-- Icon Floating (absolute) -->
-                <img src="/assets/icon/sapi.svg" class="floating-icon absolute top-2 left-36 w-10 h-10 animate-float-slow" />
-                <img src="/assets/icon/semangka.svg" class="floating-icon absolute top-16 left-10 w-10 h-10 animate-float-slow" />
-                <img src="/assets/icon/chicken.svg" class="floating-icon absolute bottom-16 left-24 w-10 h-10 animate-float-slow" />
-                <img src="/assets/icon/sosis.svg" class="floating-icon absolute bottom-16 right-24 w-10 h-10 animate-float-medium" />
-                <img src="/assets/icon/ayam.svg" class="floating-icon absolute top-16 right-10 w-10 h-10 animate-float-medium" />
-                <img src="/assets/icon/ikan.svg" class="floating-icon absolute top-2 right-36 w-10 h-10 animate-float-medium" />
+                <div class="absolute inset-0 pointer-events-none">
+                    <div class="relative w-full h-[300px] overflow-hidden hidden sm:block">
+                        <!-- Icon Floating (responsive) -->
+                        <img src="/assets/icon/sapi.svg"
+                            class="floating-icon absolute top-[1vh] left-[10vw] w-10 h-10 animate-float-slow 
+                                    sm:left-[14vw] md:left-[16vw]" />
+                    
+                        <img src="/assets/icon/semangka.svg"
+                            class="floating-icon absolute top-[8vh] left-[10vw] w-10 h-10 animate-float-slow 
+                                    sm:top-[10vh] md:top-[8vh]" />
+                    
+                        <img src="/assets/icon/chicken.svg"
+                            class="floating-icon absolute bottom-[10vh] left-[16vw] w-10 h-10 animate-float-slow 
+                                    sm:bottom-[8vh] md:bottom-[12vh]" />
+                    
+                        <img src="/assets/icon/sosis.svg"
+                            class="floating-icon absolute bottom-[14vh] right-[20vw] w-10 h-10 animate-float-medium 
+                                    sm:right-[10vw] md:right-[14vw]" />
+                    
+                        <img src="/assets/icon/ayam.svg"
+                            class="floating-icon absolute top-[8vh] right-[10vw] w-10 h-10 animate-float-medium 
+                                    sm:top-[6vh] md:top-[8vh]" />
+                    
+                        <img src="/assets/icon/ikan.svg"
+                            class="floating-icon absolute top-[1vh] right-[30vw] w-10 h-10 animate-float-medium 
+                                    sm:right-[20vw] md:right-[16vw]" />
+                    </div>
+                </div>
+                
+  
             </div>
 
-            <section class="py-5 mb-10 antialiased bg-gray-50 dark:bg-gray-900 md:py-4" id="category">
+            <section class="py-5 mb-10 antialiased bg-gray-50 dark:bg-gray-900 md:py-4" id="category" >
                 <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                     <div class="relative flex items-center justify-between max-w-full overflow-x-auto scrollbar-hide">
                         <!-- List Kategori -->
@@ -136,7 +178,7 @@
             </div>
 
             <!-- Product Grid -->
-            <div class="grid grid-cols-2 gap-4 mb-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
+            <div class="grid grid-cols-2 gap-4 mb-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"  data-aos="fade-up" data-aos-duration="1000" once="true">
                 @forelse ($products as $product)
                     <div
                         class="group rounded-xl border border-gray-200 bg-white shadow-md transition-transform hover:scale-[1.02] hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">

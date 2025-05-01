@@ -98,7 +98,7 @@
             <div class="mb-4 md:mb-8">
                 {{-- TOP 3 Kategori --}}
                 <div class="flex flex-wrap" >
-                    <div class="w-full mb-10 lg:w-1/2" data-aos="fade-right" data-aos-duration="1000" once="true">
+                    <div class="w-full mb-10 lg:w-1/2" data-aos="fade-up" data-aos-duration="1000" once="true">
                         <h2 class="text-xl font-semibold text-gray-900 pb-7 dark:text-white sm:text-2xl">Kategori Terpopuler
                         </h2>
                         <div class="flex items-center justify-between w-full">
@@ -108,7 +108,7 @@
                                 </h2>
                                 <img src="/assets/star-emoji.png" class="h-[32px] w-[32px]" alt="top-populer">
                             </div>
-                            <div class="flex max-w-full gap-4 p-2 pb-2 mr-8 overflow-x-auto">
+                            <div class="flex max-w-full gap-4 p-2 pb-2 mr-8 overflow-x-auto scrollbar-hide">
                                 @foreach ($categories->take(3) as $category)
                                     <a href="/products?category={{ $category->slug }}" class="flex-none">
                                         <div
@@ -128,7 +128,7 @@
                     </div>
 
                     {{-- Form Personalization --}}
-                    <div x-data="{ submitted: false, input: '' }" class="w-full mb-10 lg:w-1/2">
+                    <div x-data="{ submitted: false, input: '' }" class="w-full mb-10 lg:w-1/2"  data-aos="fade-up" data-aos-duration="1000" once="true">
                         <template x-if="!submitted">
                             <div x-transition  data-aos="fade">
                                 <h2 class="pb-1 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Apa produk
@@ -194,7 +194,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center max-w-full gap-4 pb-2 pl-2 pr-4 mb-4 overflow-x-auto scrollbar-hide">
+            <div class="flex items-center max-w-full gap-4 pb-2 pl-2 pr-4 mb-4 overflow-x-auto scrollbar-hide"  data-aos="fade-up" data-aos-duration="1000" once="true">
                 {{-- Semua Kategori --}}
                 <a href="/products"
                     class="{{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600' }} flex items-center gap-2 rounded-xl border px-4 py-2 dark:bg-gray-800"
@@ -229,7 +229,7 @@
     {{-- end category --}}
 
     {{-- product --}}
-    <section class="py-6 antialiased bg-gray-50 dark:bg-gray-900 md:py-8">
+    <section class="py-6 antialiased bg-gray-50 dark:bg-gray-900 md:py-8"  data-aos="fade-up" data-aos-duration="1000" once="true">
         <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
             <div class="flex items-center justify-between gap-4 mb-4 md:mb-8">
                 <div class="flex flex-col gap-2">

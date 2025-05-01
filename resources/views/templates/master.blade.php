@@ -14,20 +14,11 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('/assets/favicon.ico') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/landing.js'])
     @yield('js')
-    <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia(
-                '(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
-    </script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-800">
+<body class="bg-gray-50 dark:bg-gray-800 overflow-x-hidden">
 
     @include('templates.partials.navbar')
 

@@ -1,66 +1,26 @@
 @extends('templates.master')
 
 @section('content')
-    <section class="mt-16 bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
+    <section class="mt-8 bg-white py-8 antialiased dark:bg-gray-900 md:py-12">
         <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+            <div class="flex items-center mb-6">
+                <a href="/beranda" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">Beranda</a>
+                <span class="mx-2">›</span>
+                <span class="text-gray-900 dark:text-white">Keranjang</span>
+            </div>
 
-            <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Keranjang Belanja</h2>
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Keranjang Belanja</h2>
 
             <form action="/buy-from-cart" method="post">
                 @csrf
-                <div class="mt-6 grid grid-cols-3 gap-4 sm:mt-8">
-                    <div class="col-span-3 sm:col-span-2">
-
-                        {{-- @foreach ($myCarts as $cart)
-                            <input type="hidden" name="products[]" value="{{ $cart->product->slug }}">
-                            <div
-                                class="mb-3 flex w-full flex-col items-center rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 md:flex-row">
-                                <img class="w-full rounded-t-lg object-cover shadow-sm md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                                    src="{{ asset('storage/' . $cart->product->image) }}" alt="{{ $cart->product->name }}">
-                                <div class="flex flex-col justify-between p-4 leading-normal">
-                                    <a href="/products/{{ $cart->product->slug }}"
-                                        class="text-md mb-2 font-bold tracking-tight text-gray-900 dark:text-white">{{ $cart->product->name }}</a>
-                                    <p class="text-base font-bold text-gray-900 dark:text-white">Rp
-                                        {{ number_format($cart->product->price, 0, ',', '.') }}</p>
-                                    <div class="w-full min-w-0 flex-1 px-3 md:order-2 md:max-w-md">
-
-                                        <div class="flex items-center">
-                                            <button type="button" data-target="counter-input-{{ $cart->product->slug }}"
-                                                class="decrement-qty inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                                <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                                </svg>
-                                            </button>
-                                            <input type="text" id="counter-input-{{ $cart->product->slug }}"
-                                                class="quantity w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                                placeholder="" value="1" min="1"
-                                                data-price="{{ $cart->product->price }}" required readonly
-                                                name="quantities[]" />
-                                            <button type="button" data-target="counter-input-{{ $cart->product->slug }}"
-                                                class="increment-qty inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                                <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <a href="/cart-remove/{{ $cart->id }}"
-                                            class="remove-product-from-cart inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
-                                            <svg class="me-1.5 h-5 w-5" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
-                                            </svg>
-                                            Remove
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach --}}
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2">
+                        <div class="mb-4">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox rounded text-blue-600" id="select-all">
+                                <span class="ml-2 text-gray-700 dark:text-gray-300">Pilih Semua({{ $myCarts->count() }})</span>
+                            </label>
+                        </div>
 
                         @php
                             // Kelompokkan produk berdasarkan ID agar tidak duplikat
@@ -75,120 +35,123 @@
                                 $totalPrice = $cartItem->product->price * $quantity;
                             @endphp
 
-                            <input type="hidden" name="products[]" value="{{ $cartItem->product->slug }}">
-                            <div
-                                class="mb-3 flex w-full flex-col items-center rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 md:flex-row">
-                                <img class="w-full rounded-t-lg object-cover shadow-sm md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
-                                    src="{{ asset('storage/' . $cartItem->product->image) }}"
-                                    alt="{{ $cartItem->product->name }}">
-
-                                <div class="flex flex-col justify-between p-4 leading-normal">
-                                    <a href="/products/{{ $cartItem->product->slug }}"
-                                        class="text-md mb-2 font-bold tracking-tight text-gray-900 dark:text-white">
-                                        {{ $cartItem->product->name }}
-                                    </a>
-                                    <p class="text-base font-bold text-gray-900 dark:text-white">
-                                        Rp {{ number_format($totalPrice, 0, ',', '.') }}
-                                    </p>
-
-                                    <div class="w-full min-w-0 flex-1 px-3 md:order-2 md:max-w-md">
-                                        <div class="flex items-center">
-                                            <button type="button"
-                                                data-target="counter-input-{{ $cartItem->product->slug }}"
-                                                class="decrement-qty inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                                <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
-                                                </svg>
-                                            </button>
-
-                                            <input type="text" id="counter-input-{{ $cartItem->product->slug }}"
-                                                class="quantity w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                                value="{{ $quantity }}" min="1"
-                                                data-price="{{ $cartItem->product->price }}" required readonly
-                                                name="quantities[]" />
-
-                                            <button type="button"
-                                                data-target="counter-input-{{ $cartItem->product->slug }}"
-                                                class="increment-qty inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700">
-                                                <svg class="h-2.5 w-2.5 text-gray-900 dark:text-white" aria-hidden="true"
-                                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                    <path stroke="currentColor" stroke-linecap="round"
-                                                        stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
-                                                </svg>
-                                            </button>
+                            <div class="flex items-center mb-4 border border-gray-200 rounded-lg p-4 dark:border-gray-700">
+                                <div class="flex-shrink-0 mr-3">
+                                    <input type="checkbox" class="form-checkbox rounded text-blue-600 product-checkbox" 
+                                           name="selected_products[]" value="{{ $cartItem->product->slug }}">
+                                </div>
+                                <div class="flex flex-1 items-center">
+                                    <img class="w-20 h-20 object-cover rounded-lg mr-4" 
+                                         src="{{ asset('storage/' . $cartItem->product->image) }}" 
+                                         alt="{{ $cartItem->product->name }}">
+                                    
+                                    <div class="flex-1">
+                                        <div class="flex flex-col md:flex-row md:justify-between md:items-start">
+                                            <div>
+                                                <a href="/products/{{ $cartItem->product->slug }}" 
+                                                   class="text-lg font-medium text-gray-900 dark:text-white hover:text-blue-600">
+                                                    {{ $cartItem->product->name }}
+                                                </a>
+                                                <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                                                    <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+                                                        Fiesta
+                                                    </span>
+                                                </div>
+                                                <p class="text-lg font-bold text-gray-900 dark:text-white mt-2">
+                                                    Rp {{ number_format($cartItem->product->price, 0, ',', '.') }}
+                                                </p>
+                                            </div>
+                                            
+                                            <div class="mt-3 md:mt-0 flex flex-col md:items-end">
+                                                <a href="/cart-remove/{{ $cartItem->id }}" 
+                                                   class="remove-product-from-cart mb-3 flex justify-end">
+                                                    <svg class="w-6 h-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                    </svg>
+                                                </a>
+                                                
+                                                <div class="flex items-center mt-2">
+                                                    <div class="flex items-center">
+                                                        <button type="button" 
+                                                                data-target="counter-input-{{ $cartItem->product->slug }}" 
+                                                                class="decrement-qty w-8 h-8 flex items-center justify-center text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">
+                                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16" />
+                                                            </svg>
+                                                        </button>
+                                                        
+                                                        <input type="text" 
+                                                               id="counter-input-{{ $cartItem->product->slug }}" 
+                                                               class="quantity w-10 text-center bg-transparent border-0 text-gray-900" 
+                                                               value="{{ $quantity }}" 
+                                                               min="1" 
+                                                               data-price="{{ $cartItem->product->price }}" 
+                                                               data-slug="{{ $cartItem->product->slug }}"
+                                                               required 
+                                                               readonly />
+                                                        
+                                                        <button type="button" 
+                                                                data-target="counter-input-{{ $cartItem->product->slug }}" 
+                                                                class="increment-qty w-8 h-8 flex items-center justify-center text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200">
+                                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <a href="/cart-remove/{{ $cartItem->id }}"
-                                            class="remove-product-from-cart inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500">
-                                            <svg class="me-1.5 h-5 w-5" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6" />
-                                            </svg>
-                                            Remove
-                                        </a>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
 
-
-
-
-
-
-
+                        <!-- Hidden inputs for products and quantities -->
+                        <div id="hidden-inputs-container"></div>
                     </div>
-                    <div class="col-span-3 sm:col-span-1">
-                        <div
-                            class="w-full space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 sm:p-6">
-                            <p class="text-xl font-semibold text-gray-900 dark:text-white">Ringkasan Pembelian</p>
-
+                    
+                    <div class="lg:col-span-1">
+                        <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800 sticky top-40">
+                            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Ringkasan Pembelian</h3>
+                            
                             <div class="space-y-4">
-                                <div class="space-y-2">
-                                    <dl class="flex items-center justify-between gap-4">
-                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Total Harga</dt>
-                                        <dd class="text-base font-medium text-gray-900 dark:text-white" id="price-total">Rp
-                                            0</dd>
-                                    </dl>
-
-                                    <dl class="flex items-center justify-between gap-4">
-                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Biaya Pelayanan
-                                        </dt>
-                                        <dd class="text-base font-medium text-gray-900 dark:text-white">Rp 2.000</dd>
-                                    </dl>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 dark:text-gray-400">Total harga</span>
+                                    <span class="font-medium text-gray-900 dark:text-white" id="price-total">Rp 120.000</span>
                                 </div>
-
-                                <dl
-                                    class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
-                                    <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-                                    <dd class="text-base font-bold text-gray-900 dark:text-white" id="buy-total">Rp. 0</dd>
-                                </dl>
-                            </div>
-
-                            <button type="submit"
+                                
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600 dark:text-gray-400">Biaya pelayanan</span>
+                                    <span class="font-medium text-gray-900 dark:text-white">Rp 2.000</span>
+                                </div>
+                                
+                                <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-semibold text-gray-900 dark:text-white">Total</span>
+                                        <span class="text-lg font-semibold text-gray-900 dark:text-white" id="buy-total">Rp 122.000</span>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit"
                                 class="flex w-full items-center justify-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500">Checkout</button>
 
-                            <div class="flex items-center justify-center gap-2">
-                                <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
-                                <a href="/products"
-                                    class="inline-flex items-center gap-2 text-sm font-medium text-primary-500 underline hover:no-underline dark:text-primary-500">
-                                    Lanjutkan belanja
-                                    <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
-                                    </svg>
-                                </a>
+                                <div class="flex items-center justify-center gap-2">
+                                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400"> atau </span>
+                                    <a href="/products"
+                                        class="inline-flex items-center gap-2 text-sm font-medium text-primary-500 underline hover:no-underline dark:text-primary-500">
+                                        Lanjutkan belanja
+                                        <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="none" viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2" d="M19 12H5m14 0-4 4m4-4-4-4" />
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
-
         </div>
     </section>
 
@@ -231,22 +194,77 @@
             const incrementQty = document.querySelectorAll('button.increment-qty');
             const priceTotalElement = document.getElementById('price-total');
             const buyTotalElement = document.getElementById('buy-total');
+            const selectAllCheckbox = document.getElementById('select-all');
+            const productCheckboxes = document.querySelectorAll('.product-checkbox');
+            const checkoutButton = document.querySelector('button[type="submit"]');
+            const hiddenInputsContainer = document.getElementById('hidden-inputs-container');
 
-            // Function to calculate total price
+            // Function to update hidden form fields for selected products and quantities
+            function updateHiddenFields() {
+                // Check if container exists
+                if (!hiddenInputsContainer) return;
+                
+                // Clear previous hidden fields
+                hiddenInputsContainer.innerHTML = '';
+                
+                // Create new hidden fields for each selected product
+                quantityInputs.forEach((input, index) => {
+                    const checkbox = productCheckboxes[index];
+                    if (checkbox && checkbox.checked) {
+                        const slug = input.dataset.slug;
+                        const quantity = input.value;
+                        
+                        // Create hidden input for product
+                        const productInput = document.createElement('input');
+                        productInput.type = 'hidden';
+                        productInput.name = 'products[]';
+                        productInput.value = slug;
+                        hiddenInputsContainer.appendChild(productInput);
+                        
+                        // Create hidden input for quantity
+                        const quantityInput = document.createElement('input');
+                        quantityInput.type = 'hidden';
+                        quantityInput.name = 'quantities[]';
+                        quantityInput.value = quantity;
+                        hiddenInputsContainer.appendChild(quantityInput);
+                    }
+                });
+            }
+
+            // Function to calculate total price and update checkout button
             function calculateTotalPrice() {
                 const quantityInputs = document.querySelectorAll('input.quantity');
                 let totalPrice = 0;
+                let totalSelectedItems = 0;
+                let selectedProductCount = 0;
 
-                quantityInputs.forEach(input => {
-                    const quantity = parseInt(input.value, 10) || 0;
-                    const price = parseInt(input.dataset.price, 10) || 0;
-                    totalPrice += quantity * price;
+                quantityInputs.forEach((input, index) => {
+                    const checkbox = productCheckboxes[index];
+                    if (checkbox && checkbox.checked) {
+                        selectedProductCount++;  // Count each selected product
+                        const quantity = parseInt(input.value, 10) || 0;
+                        const price = parseInt(input.dataset.price, 10) || 0;
+                        totalPrice += quantity * price;
+                        totalSelectedItems += quantity;
+                    }
                 });
 
                 // Update the total price element
-                const priceTotalElement = document.getElementById('price-total');
-                priceTotalElement.textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
-                buyTotalElement.textContent = `Rp ${(totalPrice + 2000).toLocaleString('id-ID')}`;
+                if (priceTotalElement) {
+                    priceTotalElement.textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
+                }
+                
+                if (buyTotalElement) {
+                    buyTotalElement.textContent = `Rp ${(totalPrice + 2000).toLocaleString('id-ID')}`;
+                }
+                
+                // Update checkout button text with selected product count
+                if (checkoutButton) {
+                    checkoutButton.textContent = `Checkout (${selectedProductCount}) Produk`;
+                }
+                
+                // Update hidden form fields
+                updateHiddenFields();
             }
 
             // Add event listener to decrement buttons
@@ -255,10 +273,12 @@
                     const targetId = this.getAttribute('data-target');
                     const input = document.getElementById(targetId);
 
-                    let quantity = parseInt(input.value, 10) || 0;
-                    if (quantity > 1) {
-                        input.value = quantity - 1; // Decrease value by 1
-                        calculateTotalPrice(); // Recalculate total price
+                    if (input) {
+                        let quantity = parseInt(input.value, 10) || 0;
+                        if (quantity > 1) {
+                            input.value = quantity - 1; // Decrease value by 1
+                            calculateTotalPrice(); // Recalculate total price
+                        }
                     }
                 });
             });
@@ -269,14 +289,65 @@
                     const targetId = this.getAttribute('data-target');
                     const input = document.getElementById(targetId);
 
-                    let quantity = parseInt(input.value, 10) || 0;
-                    input.value = quantity + 1; // Increase value by 1
-                    calculateTotalPrice(); // Recalculate total price
+                    if (input) {
+                        let quantity = parseInt(input.value, 10) || 0;
+                        input.value = quantity + 1; // Increase value by 1
+                        calculateTotalPrice(); // Recalculate total price
+                    }
+                });
+            });
+            
+            // Select all checkbox functionality
+            if (selectAllCheckbox) {
+                selectAllCheckbox.addEventListener('change', function() {
+                    productCheckboxes.forEach(checkbox => {
+                        checkbox.checked = this.checked;
+                    });
+                    calculateTotalPrice();
+                });
+            }
+            
+            // Individual checkbox change event
+            productCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    calculateTotalPrice();
+                    
+                    // Check if all checkboxes are checked
+                    if (selectAllCheckbox) {
+                        const allChecked = Array.from(productCheckboxes).every(cb => cb.checked);
+                        selectAllCheckbox.checked = allChecked;
+                    }
                 });
             });
 
+            // Initialize with first item checked
+            if (productCheckboxes.length > 0) {
+                productCheckboxes[0].checked = true;
+            }
+            
             calculateTotalPrice();
-
+            
+            // Add hidden inputs for the original cart items to ensure backward compatibility
+            @foreach ($groupedCarts as $group)
+                @php
+                    $cartItem = $group->first();
+                    $quantity = $group->count();
+                @endphp
+                const productInput{{ $loop->index }} = document.createElement('input');
+                productInput{{ $loop->index }}.type = 'hidden';
+                productInput{{ $loop->index }}.name = 'products[]';
+                productInput{{ $loop->index }}.value = '{{ $cartItem->product->slug }}';
+                
+                const quantityInput{{ $loop->index }} = document.createElement('input');
+                quantityInput{{ $loop->index }}.type = 'hidden';
+                quantityInput{{ $loop->index }}.name = 'quantities[]';
+                quantityInput{{ $loop->index }}.value = '{{ $quantity }}';
+                
+                if (hiddenInputsContainer) {
+                    hiddenInputsContainer.appendChild(productInput{{ $loop->index }});
+                    hiddenInputsContainer.appendChild(quantityInput{{ $loop->index }});
+                }
+            @endforeach
         });
     </script>
 @endsection

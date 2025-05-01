@@ -69,7 +69,7 @@
         </div>
 
         {{-- Menu Mobile --}}
-        <div id="ecommerce-navbar-menu-1" class="hidden bg-gray-50 dark:bg-gray-700 border border-gray-200 rounded-lg py-3 px-4 mt-4">
+        <div id="ecommerce-navbar-menu-1" class="hidden w-full max-w-full overflow-x-hidden bg-gray-50 dark:bg-gray-700 border border-gray-200 rounded-lg py-3 px-4 mt-4">
             <ul class="text-gray-900 dark:text-white text-sm font-medium space-y-3">
                 <li><a href="/" class="hover:text-primary-500">Home</a></li>
                 <li><a href="/#category" class="hover:text-primary-500">Kategori</a></li>
@@ -105,9 +105,18 @@ document.getElementById("menu-toggle").addEventListener("click", function () {
     const menu1 = document.getElementById("ecommerce-navbar-menu-1");
     const authButtons = document.getElementById("auth-buttons");
     const mobileMenu = document.getElementById("mobile-menu");
+    const body = document.body;
 
     if (menu1) menu1.classList.toggle("hidden");
     if (authButtons) authButtons.classList.toggle("hidden");
     if (mobileMenu) mobileMenu.classList.toggle("hidden");
+
+    // Atur overflow body
+    if (!menu1.classList.contains("hidden")) {
+        body.classList.add("overflow-hidden");
+    } else {
+        body.classList.remove("overflow-hidden");
+    }
 });
+
 </script>
