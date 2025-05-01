@@ -10,7 +10,6 @@
 
 @assets
     <style>
-     
         emoji-picker {
             width: 100% !important;
             height: 100%;
@@ -51,6 +50,7 @@
                 /* Larger size for desktop */
             }
         }
+
         /* Dark mode using prefers-color-scheme */
         @media (prefers-color-scheme: dark) {
             emoji-picker {
@@ -78,12 +78,11 @@
             --button-hover-background: #9ca3af
         }
     </style>
-
 @endassets
 
 <div x-data="{
     initializing: true,
-    conversationId:@js($conversation->id),
+    conversationId: @js($conversation->id),
     conversationElement: document.getElementById('conversation'),
     loadEmojiPicker() {
         if (!document.head.querySelector('script[src=\'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js\']')) {
@@ -98,35 +97,49 @@
 
         return $wire.widget == true;
     }
-}" 
-
- x-init="setTimeout(() => {
+}" x-init="setTimeout(() => {
 
     requestAnimationFrame(() => {
         initializing = false;
         $wire.dispatch('focus-input-field');
         loadEmojiPicker();
         {{-- if (isWidget) { --}}
-            //NotifyListeners about chat opened
-            $wire.dispatch('chat-opened',{conversation:conversationId});
+        //NotifyListeners about chat opened
+        $wire.dispatch('chat-opened', { conversation: conversationId });
         {{-- } --}}
     });
 }, 120);"
-    class="w-full transition bg-white/95 dark:bg-gray-900 overflow-hidden h-full relative" style="contain:content">
+    class="relative h-full w-full overflow-hidden bg-white/95 transition dark:bg-gray-900" style="contain:content">
 
-    <div class=" flex flex-col  grow h-full   relative ">
+    <div class="relative flex h-full grow flex-col">
         {{-- ---------- --}}
         {{-- --Header-- --}}
         {{-- ---------- --}}
-        @include('wirechat::livewire.chat.includes.header', [ 'conversation' => $conversation, 'receiver' => $receiver])
+        @include('wirechat::livewire.chat.includes.header', [
+            'conversation' => $conversation,
+            'receiver' => $receiver,
+        ])
         {{-- ---------- --}}
         {{-- -Body----- --}}
         {{-- ---------- --}}
-        @include('wirechat::livewire.chat.includes.body', [ 'conversation' => $conversation, 'authParticipant' => $authParticipant, 'loadedMessages' => $loadedMessages, 'isPrivate' => $conversation->isPrivate(), 'isGroup' => $conversation->isGroup(), 'receiver' => $receiver])
+        @include('wirechat::livewire.chat.includes.body', [
+            'conversation' => $conversation,
+            'authParticipant' => $authParticipant,
+            'loadedMessages' => $loadedMessages,
+            'isPrivate' => $conversation->isPrivate(),
+            'isGroup' => $conversation->isGroup(),
+            'receiver' => $receiver,
+        ])
         {{-- ---------- --}}
         {{-- -Footer--- --}}
         {{-- ---------- --}}
-        @include('wirechat::livewire.chat.includes.footer', [ 'conversation' => $conversation, 'authParticipant' => $authParticipant, 'media' => $media, 'files' => $files, 'replyMessage' => $replyMessage])
+        @include('wirechat::livewire.chat.includes.footer', [
+            'conversation' => $conversation,
+            'authParticipant' => $authParticipant,
+            'media' => $media,
+            'files' => $files,
+            'replyMessage' => $replyMessage,
+        ])
 
     </div>
 

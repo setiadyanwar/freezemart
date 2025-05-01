@@ -1,34 +1,35 @@
 @use('Namu\WireChat\Helpers\Helper')
 
-<footer class="shrink-0 h-auto relative   sticky bottom-0 mt-auto">
+<footer class="relative sticky bottom-0 mt-auto h-auto shrink-0">
 
     {{-- Check if group allows :sending messages --}}
     @if ($conversation->isGroup() && !$conversation->group?->allowsMembersToSendMessages() && !$authParticipant->isAdmin())
         <div
-            class="bg-gray-50 w-full text-center text-gray-600 dark:text-gray-200 justify-center text-sm flex py-4 dark:bg-gray-800">
+            class="flex w-full justify-center bg-gray-50 py-4 text-center text-sm text-gray-600 dark:bg-gray-800 dark:text-gray-200">
             Only admins can send messages
         </div>
     @else
         <div id="chat-footer" x-data="{ 'openEmojiPicker': false }"
-            class=" px-3 md:px-1 border-t shadow   dark:bg-gray-800 bg-gray-50 z-[50]    dark:border-gray-800/80  flex flex-col gap-3 items-center  w-full   mx-auto">
+            class="z-[50] mx-auto flex w-full flex-col items-center gap-3 border-t bg-gray-50 px-3 shadow dark:border-gray-800/80 dark:bg-gray-800 md:px-1">
 
             {{-- Emoji section , we put it seperate to avoid interfering as overlay for form when opened --}}
-            <section wire:ignore x-cloak x-show="openEmojiPicker" x-transition:enter="transition  ease-out duration-180 transform"
+            <section wire:ignore x-cloak x-show="openEmojiPicker"
+                x-transition:enter="transition  ease-out duration-180 transform"
                 x-transition:enter-start=" translate-y-full" x-transition:enter-end=" translate-y-0"
                 x-transition:leave="transition ease-in duration-180 transform" x-transition:leave-start=" translate-y-0"
                 x-transition:leave-end="translate-y-full"
-                class="w-full flex hidden sm:flex   py-2 sm:px-4 py-1.5 border-b dark:border-gray-700  h-96 min-w-full">
+                class="flex hidden h-96 w-full min-w-full border-b py-1.5 py-2 dark:border-gray-700 sm:flex sm:px-4">
 
-                <emoji-picker  dusk="emoji-picker" style="width: 100%"
-                    class=" flex w-full h-full rounded-xl"></emoji-picker>
+                <emoji-picker dusk="emoji-picker" style="width: 100%"
+                    class="flex h-full w-full rounded-xl"></emoji-picker>
             </section>
             {{-- form and detail section  --}}
             <section
-                class=" py-2 sm:px-4 py-1.5    z-[50]  bg-gray-50 dark:bg-gray-800   flex flex-col gap-3 items-center  w-full mx-auto">
+                class="z-[50] mx-auto flex w-full flex-col items-center gap-3 bg-gray-50 py-1.5 py-2 dark:bg-gray-800 sm:px-4">
 
                 {{-- Media preview section --}}
-                <section x-show="$wire.media.length>0 ||$wire.files.length>0" x-cloak
-                    class="  flex flex-col w-full gap-3" wire:loading.class="animate-pulse" wire:target="sendMessage">
+                <section x-show="$wire.media.length>0 ||$wire.files.length>0" x-cloak class="flex w-full flex-col gap-3"
+                    wire:loading.class="animate-pulse" wire:target="sendMessage">
 
 
 
@@ -37,27 +38,27 @@
                             {{-- todo: Implement error handling fromserver during file uploads --}}
                             {{--
                                 @error('media')
-                            <span class="flex text-sm text-red-500 pb-2 bg-gray-100 p-2 w-full justify-between">
+                            <span class="flex justify-between w-full p-2 pb-2 text-sm text-red-500 bg-gray-100">
                                     {{$message}}
                                     <button @click="$wire.resetAttachmentErrors()">X</button>
                             </span>
                             @enderror --}}
-                                                {{-- todo:Show progress when uploading files --}}
-                                                {{-- <div  x-show="isUploading"  class="w-full">
+                            {{-- todo:Show progress when uploading files --}}
+                            {{-- <div  x-show="isUploading"  class="w-full">
                                     <progress class="w-full h-1 rounded-lg" max="100" x-bind:value="progress"></progress>
                                 </div> --}}
                             <section
-                                class=" flex  overflow-x-scroll  ms-overflow-style-none items-center w-full col-span-12 py-2 gap-5 "
+                                class="ms-overflow-style-none col-span-12 flex w-full items-center gap-5 overflow-x-scroll py-2"
                                 style=" scrollbar-width: none; -ms-overflow-style: none;">
 
 
                                 {{-- Loop through media for preview --}}
                                 @foreach ($media as $key => $mediaItem)
                                     @if (str()->startsWith($mediaItem->getMimeType(), 'image/'))
-                                        <div class="relative h-24 sm:h-36 aspect-[4/3] ">
+                                        <div class="relative aspect-[4/3] h-24 sm:h-36">
                                             {{-- Delete image --}}
                                             <button wire:loading.attr="disabled"
-                                                class="disabled:cursor-progress absolute -top-2 -right-2  z-10 dark:text-gray-50"
+                                                class="absolute -right-2 -top-2 z-10 disabled:cursor-progress dark:text-gray-50"
                                                 @click="removeUpload('{{ $mediaItem->getFilename() }}')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
@@ -67,7 +68,7 @@
                                                         d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                                                 </svg>
                                             </button>
-                                            <img class="h-full w-full  rounded-lg object-scale-down"
+                                            <img class="h-full w-full rounded-lg object-scale-down"
                                                 src="{{ $mediaItem->temporaryUrl() }}" alt="mediaItem">
 
                                         </div>
@@ -75,9 +76,9 @@
 
                                     {{-- Attachemnt is Video/ --}}
                                     @if (str()->startsWith($mediaItem->getMimeType(), 'video/'))
-                                        <div class="relative h-24 sm:h-36 ">
+                                        <div class="relative h-24 sm:h-36">
                                             <button wire:loading.attr="disabled"
-                                                class="disabled:cursor-progress absolute -top-2 -right-2  z-10 dark:text-gray-50"
+                                                class="absolute -right-2 -top-2 z-10 disabled:cursor-progress dark:text-gray-50"
                                                 @click="removeUpload('{{ $mediaItem->getFilename() }}')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
@@ -95,14 +96,14 @@
 
 
                                 <label wire:loading.class="cursor-progress"
-                                    class="shrink-0 cursor-pointer relative w-16 h-14 rounded-lg bg-gray-100 dark:bg-gray-700 flex text-center justify-center border dark:border-gray-700 border-gray-50">
+                                    class="relative flex h-14 w-16 shrink-0 cursor-pointer justify-center rounded-lg border border-gray-50 bg-gray-100 text-center dark:border-gray-700 dark:bg-gray-700">
                                     <input wire:loading.attr="disabled"
                                         @change="handleFileSelect(event,{{ count($media) }})" type="file" multiple
                                         accept="{{ Helper::formattedMediaMimesForAcceptAttribute() }}" class="sr-only">
-                                    <span class="m-auto ">
+                                    <span class="m-auto">
 
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                            class="w-7 h-7 text-gray-600 dark:text-gray-100">
+                                            class="h-7 w-7 text-gray-600 dark:text-gray-100">
                                             <path fill-rule="evenodd"
                                                 d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
                                                 clip-rule="evenodd" />
@@ -119,7 +120,7 @@
                     {{-- Files preview section --}}
                     @if (count($files) > 0)
                         <section x-data="attachments('files')"
-                            class="flex  overflow-x-scroll  ms-overflow-style-none items-center w-full col-span-12 py-2 gap-5 "
+                            class="ms-overflow-style-none col-span-12 flex w-full items-center gap-5 overflow-x-scroll py-2"
                             style=" scrollbar-width: none; -ms-overflow-style: none;">
 
                             {{-- Loop through files for preview --}}
@@ -127,11 +128,11 @@
                                 <div class="relative shrink-0">
                                     {{-- Delete file button --}}
                                     <button wire:loading.attr="disabled"
-                                        class="disabled:cursor-progress absolute -top-2 -right-2  z-10"
+                                        class="absolute -right-2 -top-2 z-10 disabled:cursor-progress"
                                         @click="removeUpload('{{ $file->getFilename() }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor"
-                                            class="bi bi-x-circle dark:text-white dark:hover:text-red-500 hover:text-red-500 transition-colors"
+                                            class="bi bi-x-circle transition-colors hover:text-red-500 dark:text-white dark:hover:text-red-500"
                                             viewBox="0 0 16 16">
                                             <path
                                                 d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
@@ -142,11 +143,11 @@
 
                                     {{-- File details --}}
                                     <div
-                                        class="flex items-center group overflow-hidden border dark:border-gray-600 rounded-xl">
-                                        <span class=" p-2">
+                                        class="group flex items-center overflow-hidden rounded-xl border dark:border-gray-600">
+                                        <span class="p-2">
                                             {{-- document svg:HI --}}
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                fill="currentColor" class="w-8 h-8 text-gray-500 dark:text-gray-100">
+                                                fill="currentColor" class="h-8 w-8 text-gray-500 dark:text-gray-100">
                                                 <path
                                                     d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
                                                 <path
@@ -154,7 +155,7 @@
                                             </svg>
                                         </span>
 
-                                        <p class="mt-auto  p-2 text-gray-600 dark:text-gray-100 text-sm">
+                                        <p class="mt-auto p-2 text-sm text-gray-600 dark:text-gray-100">
                                             {{ $file->getClientOriginalName() }}
                                         </p>
                                     </div>
@@ -164,15 +165,15 @@
                             {{-- Add more files --}}
                             {{-- TODO @if "( count($media)< $MAXFILES )" to hide upload button when maz files exceeded --}}
                             <label wire:loading.class="cursor-progress"
-                                class="cursor-pointer shrink-0 relative w-16 h-14 rounded-lg bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors   flex text-center justify-center border dark:border-gray-800 border-gray-50">
+                                class="relative flex h-14 w-16 shrink-0 cursor-pointer justify-center rounded-lg border border-gray-50 bg-gray-100 text-center transition-colors dark:border-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600">
                                 <input wire:loading.attr="disabled"
                                     @change="handleFileSelect(event,{{ count($files) }})" type="file" multiple
                                     accept="{{ Helper::formattedFileMimesForAcceptAttribute() }}" class="sr-only"
                                     hidden>
-                                <span class="  m-auto">
+                                <span class="m-auto">
 
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                        class="w-6 h-6 dark:text-gray-50">
+                                        class="h-6 w-6 dark:text-gray-50">
                                         <path fill-rule="evenodd"
                                             d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z"
                                             clip-rule="evenodd" />
@@ -189,8 +190,8 @@
 
                 {{-- Replying to --}}
                 @if ($replyMessage != null)
-                    <section class="p-px py-1 w-full col-span-12">
-                        <div class="flex justify-between items-center dark:text-white">
+                    <section class="col-span-12 w-full p-px py-1">
+                        <div class="flex items-center justify-between dark:text-white">
                             <h6 class="text-sm">Replying to
                                 <span class="font-bold">
                                     {{ $replyMessage?->ownedBy($this->auth) ? ' Yourself' : $replyMessage->sendable?->name }}
@@ -199,14 +200,14 @@
                             <button wire:loading.attr="disabled" wire:click="removeReply()"
                                 class="disabled:cursor-progress">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    stroke-width="2" stroke="currentColor" class="h-5 w-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                                 </svg>
                             </button>
                         </div>
 
                         {{-- Message being replies to --}}
-                        <p class="truncate text-sm text-gray-500 dark:text-gray-200 max-w-md">
+                        <p class="max-w-md truncate text-sm text-gray-500 dark:text-gray-200">
                             {{ $replyMessage->body != '' ? $replyMessage->body : ($replyMessage->hasAttachment() ? 'Attachment' : '') }}
                         </p>
 
@@ -266,14 +267,14 @@
 
 
                     {{-- Emoji Triggger icon --}}
-                    <div class="w-10 hidden sm:flex max-w-fit  items-center">
+                    <div class="hidden w-10 max-w-fit items-center sm:flex">
                         <button wire:loading.attr="disabled" type="button" dusk="emoji-trigger-button"
                             @click="openEmojiPicker = ! openEmojiPicker" x-ref="emojibutton"
-                            class=" disabled:cursor-progress rounded-full p-px dark:border-gray-700">
+                            class="rounded-full p-px disabled:cursor-progress dark:border-gray-700">
                             <svg x-bind:style="openEmojiPicker && { color: 'var(--wirechat-primary-color)' }"
                                 viewBox="0 0 24 24" height="24" width="24"
                                 preserveAspectRatio="xMidYMid meet"
-                                class="w-7 h-7 text-gray-700 dark:text-gray-300 srtoke-[1.3] dark:stroke-[1.2]"
+                                class="srtoke-[1.3] h-7 w-7 text-gray-700 dark:stroke-[1.2] dark:text-gray-300"
                                 version="1.1" x="0px" y="0px" enable-background="new 0 0 24 24">
                                 <title>smiley</title>
                                 <path fill="currentColor"
@@ -300,15 +301,15 @@
                                         </svg> --}}
                                     {{-- <svg  xmlns="http://www.w3.org/2000/svg"
                                             width="16" height="16" fill="currentColor"
-                                            class="bi bi-plus-lg w-6 h-6 text-gray-600 dark:text-white/90" viewBox="0 0 16 16">
+                                            class="w-6 h-6 text-gray-600 bi bi-plus-lg dark:text-white/90" viewBox="0 0 16 16">
                                             <path fill-rule="evenodd"
                                                 d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
                                         </svg> --}}
 
-                                    {{-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.3" stroke="currentColor" class="size-6 w-7 h-7 text-gray-600 dark:text-white/90">
+                                    {{-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.3" stroke="currentColor" class="text-gray-600 size-6 w-7 h-7 dark:text-white/90">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13" />
                                           </svg> --}}
-                                    <svg class="size-6 w-7 h-7 text-gray-600 dark:text-white/60"
+                                    <svg class="size-6 h-7 w-7 text-gray-600 dark:text-white/60"
                                         xmlns="http://www.w3.org/2000/svg" width="36" height="36"
                                         viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1"
                                         stroke-linecap="round" stroke-linejoin="round" class="ai ai-Attach">
@@ -321,7 +322,7 @@
                             </x-slot>
 
                             {{-- content --}}
-                            <div class="grid gap-2 w-full ">
+                            <div class="grid w-full gap-2">
 
                                 {{-- Upload Files --}}
                                 @if (config('wirechat.allow_file_attachments', true))
@@ -334,18 +335,18 @@
                                             class="sr-only" style="display: none">
 
                                         <div
-                                            class="w-full  flex items-center gap-3 px-1.5 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">
+                                            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-1.5 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 
                                             <span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     fill="currentColor" style="color: var(--wirechat-primary-color);"
-                                                    class="bi bi-folder-fill w-6 h-6" viewBox="0 0 16 16">
+                                                    class="bi bi-folder-fill h-6 w-6" viewBox="0 0 16 16">
                                                     <path
                                                         d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.825a2 2 0 0 1-1.991-1.819l-.637-7a2 2 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3m-8.322.12q.322-.119.684-.12h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981z" />
                                                 </svg>
                                             </span>
 
-                                            <span class=" dark:text-white">
+                                            <span class="dark:text-white">
                                                 File
                                             </span>
                                         </div>
@@ -366,11 +367,11 @@
                                             class="sr-only" style="display: none">
 
                                         <div
-                                            class="w-full flex items-center gap-3 px-1.5 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">
+                                            class="flex w-full cursor-pointer items-center gap-3 rounded-md px-1.5 py-2 hover:bg-gray-100 dark:hover:bg-gray-600">
 
                                             <span class="">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-                                                    fill="currentColor" class="w-6 h-6"
+                                                    fill="currentColor" class="h-6 w-6"
                                                     style="color: var(--wirechat-primary-color);">
                                                     <path fill-rule="evenodd"
                                                         d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
@@ -378,7 +379,7 @@
                                                 </svg>
                                             </span>
 
-                                            <span class=" dark:text-white">
+                                            <span class="dark:text-white">
                                                 Photos & Videos
                                             </span>
                                         </div>
@@ -402,7 +403,7 @@
                             @keydown.shift.enter.prevent="insertNewLine($el)" {{-- @keydown.enter.prevent prevents the
                                default behavior of Enter key press only if Shift is not held down. --}} @keydown.enter.prevent=""
                             @keyup.enter.prevent="$event.shiftKey ? null : (((body && body?.trim().length > 0) || ($wire.media && $wire.media.length > 0)) ? $wire.sendMessage() : null)"
-                            class="w-full disabled:cursor-progress resize-none h-auto max-h-20  sm:max-h-72 flex grow border-0 outline-0 focus:border-0 focus:ring-0  hover:ring-0 rounded-lg   dark:text-white bg-none dark:bg-inherit  focus:outline-none   "
+                            class="flex h-auto max-h-20 w-full grow resize-none rounded-lg border-0 bg-none outline-0 hover:ring-0 focus:border-0 focus:outline-none focus:ring-0 disabled:cursor-progress dark:bg-inherit dark:text-white sm:max-h-72"
                             x-init="document.querySelector('emoji-picker')
                                 .addEventListener('emoji-click', event => {
                                     const emoji = event.detail['unicode'];
@@ -442,46 +443,17 @@
                         <button
                             x-show="((body?.trim()?.length>0) ||  $wire.media.length > 0 || $wire.files.length > 0 )"
                             wire:loading.attr="disabled" wire:target="sendMessage" type="submit"
-                            id="sendMessageButton" class=" ml-auto disabled:cursor-progress font-bold">
+                            id="sendMessageButton" class="ml-auto font-bold disabled:cursor-progress">
 
-                            <svg class="w-7 h-7   dark:text-gray-200" xmlns="http://www.w3.org/2000/svg"
-                                width="36" height="36" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                stroke-linejoin="round" class="ai ai-Send">
+                            <svg class="h-7 w-7 dark:text-gray-200" xmlns="http://www.w3.org/2000/svg" width="36"
+                                height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                                class="ai ai-Send">
                                 <path
                                     d="M9.912 12H4L2.023 4.135A.662.662 0 0 1 2 3.995c-.022-.721.772-1.221 1.46-.891L22 12 3.46 20.896c-.68.327-1.464-.159-1.46-.867a.66.66 0 0 1 .033-.186L3.5 15" />
                             </svg>
 
                         </button>
-
-
-
-                        {{-- send Like button --}}
-                        <button
-                            x-show="!((body?.trim()?.length>0) || $wire.media.length > 0 || $wire.files.length > 0 )"
-                            wire:loading.attr="disabled" wire:target="sendMessage" wire:click='sendLike()'
-                            type="button" class="group disabled:cursor-progress">
-
-                            <!-- outlined heart -->
-                            <span class=" group-hover:hidden transition">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    class="w-7 h-7 text-gray-600 dark:text-white/90 stroke-[1.4] dark:stroke-[1.4]">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                </svg>
-                            </span>
-                            <!--  filled heart -->
-                            <span class="hidden group-hover:block transition " x-bounce>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                    class="size-6 w-7 h-7   text-red-500">
-                                    <path
-                                        d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-                                </svg>
-                            </span>
-
-                        </button>
-
 
                     </div>
 
@@ -599,7 +571,7 @@
                             // Check if total file count exceeds the maximum allowed
                             if (totalFiles > this.MAXFILES) {
                                 files = Array.from(files).slice(0, this.MAXFILES -
-                                count); // Limit files to the allowed number
+                                    count); // Limit files to the allowed number
                                 $dispatch('wirechat-toast', {
                                     type: 'warning',
                                     message: `File limit exceeded, allowed ${this.MAXFILES}`
@@ -610,7 +582,7 @@
                             const invalidFiles = Array.from(files).filter((file) => {
                                 const fileType = file.type.split('/')[1].toLowerCase(); // Extract file extension
                                 return file.size > this.maxSize || !this.allowedFileTypes.includes(
-                                fileType); // Check size and type
+                                    fileType); // Check size and type
                             });
 
                             // Filter valid files
