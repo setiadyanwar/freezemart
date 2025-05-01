@@ -65,3 +65,10 @@ Route::get('/history', [HomeController::class, 'history'])->middleware('auth')->
 
 // route comments
 Route::post('/comments', [HomeController::class, 'actionComments'])->name('comments.store');
+
+// 404
+Route::fallback(function () {
+    return response()->view('404.index', [
+        'title' => 'Halaman Tidak Ditemukan'
+    ], 404);
+});

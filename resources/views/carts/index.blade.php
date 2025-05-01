@@ -183,171 +183,98 @@
             }, 3000);
         </script>
     @endif
+    
 @endsection
 
 @section('js-bottom')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Select all quantity inputs
-            const quantityInputs = document.querySelectorAll('input.quantity');
-            const decrementQty = document.querySelectorAll('button.decrement-qty');
-            const incrementQty = document.querySelectorAll('button.increment-qty');
-            const priceTotalElement = document.getElementById('price-total');
-            const buyTotalElement = document.getElementById('buy-total');
-            const selectAllCheckbox = document.getElementById('select-all');
-            const productCheckboxes = document.querySelectorAll('.product-checkbox');
-            const checkoutButton = document.querySelector('button[type="submit"]');
-            const hiddenInputsContainer = document.getElementById('hidden-inputs-container');
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1) Ambil elemen, cek eksistensi
+    const selectAllCheckbox    = document.getElementById('select-all');
+    const productCheckboxes    = document.querySelectorAll('.product-checkbox');
+    const decrementButtons     = document.querySelectorAll('button.decrement-qty');
+    const incrementButtons     = document.querySelectorAll('button.increment-qty');
+    const priceTotalElement    = document.getElementById('price-total');
+    const buyTotalElement      = document.getElementById('buy-total');
+    const checkoutButton       = document.querySelector('button[type="submit"]');
+    const hiddenInputsContainer= document.getElementById('hidden-inputs-container');
 
-            // Function to update hidden form fields for selected products and quantities
-            function updateHiddenFields() {
-                // Check if container exists
-                if (!hiddenInputsContainer) return;
-                
-                // Clear previous hidden fields
-                hiddenInputsContainer.innerHTML = '';
-                
-                // Create new hidden fields for each selected product
-                quantityInputs.forEach((input, index) => {
-                    const checkbox = productCheckboxes[index];
-                    if (checkbox && checkbox.checked) {
-                        const slug = input.dataset.slug;
-                        const quantity = input.value;
-                        
-                        // Create hidden input for product
-                        const productInput = document.createElement('input');
-                        productInput.type = 'hidden';
-                        productInput.name = 'products[]';
-                        productInput.value = slug;
-                        hiddenInputsContainer.appendChild(productInput);
-                        
-                        // Create hidden input for quantity
-                        const quantityInput = document.createElement('input');
-                        quantityInput.type = 'hidden';
-                        quantityInput.name = 'quantities[]';
-                        quantityInput.value = quantity;
-                        hiddenInputsContainer.appendChild(quantityInput);
-                    }
-                });
-            }
+    console.log({ selectAllCheckbox, productCheckboxes, priceTotalElement, buyTotalElement, checkoutButton, hiddenInputsContainer });
 
-            // Function to calculate total price and update checkout button
-            function calculateTotalPrice() {
-                const quantityInputs = document.querySelectorAll('input.quantity');
-                let totalPrice = 0;
-                let totalSelectedItems = 0;
-                let selectedProductCount = 0;
+    // abort jika elemen inti tidak ditemukan
+    if (!selectAllCheckbox || !priceTotalElement || !buyTotalElement || !checkoutButton || !hiddenInputsContainer) {
+      console.warn('❗️ Elemen inti tidak ditemukan, script dibatalkan');
+      return;
+    }
 
-                quantityInputs.forEach((input, index) => {
-                    const checkbox = productCheckboxes[index];
-                    if (checkbox && checkbox.checked) {
-                        selectedProductCount++;  // Count each selected product
-                        const quantity = parseInt(input.value, 10) || 0;
-                        const price = parseInt(input.dataset.price, 10) || 0;
-                        totalPrice += quantity * price;
-                        totalSelectedItems += quantity;
-                    }
-                });
+    // helper: rebuild hidden inputs
+    function updateHiddenFields() {
+      hiddenInputsContainer.innerHTML = '';
+      productCheckboxes.forEach((cb, i) => {
+        if (cb.checked) {
+          const inputQty = document.querySelectorAll('input.quantity')[i];
+          const slug     = inputQty?.dataset.slug;
+          const qty      = inputQty?.value;
+          if (slug && qty) {
+            hiddenInputsContainer.insertAdjacentHTML('beforeend',
+              `<input type="hidden" name="products[]" value="${slug}">
+               <input type="hidden" name="quantities[]" value="${qty}">`);
+          }
+        }
+      });
+    }
 
-                // Update the total price element
-                if (priceTotalElement) {
-                    priceTotalElement.textContent = `Rp ${totalPrice.toLocaleString('id-ID')}`;
-                }
-                
-                if (buyTotalElement) {
-                    buyTotalElement.textContent = `Rp ${(totalPrice + 2000).toLocaleString('id-ID')}`;
-                }
-                
-                // Update checkout button text with selected product count
-                if (checkoutButton) {
-                    checkoutButton.textContent = `Checkout (${selectedProductCount}) Produk`;
-                }
-                
-                // Update hidden form fields
-                updateHiddenFields();
-            }
+    // helper: hitung & update harga
+    function calculateTotalPrice() {
+      let total = 0, count = 0;
+      document.querySelectorAll('input.quantity').forEach((input, i) => {
+        if (productCheckboxes[i].checked) {
+          const price = parseInt(input.dataset.price, 10) || 0;
+          const qty   = parseInt(input.value, 10) || 0;
+          total += price * qty;
+          count++;
+        }
+      });
+      priceTotalElement.textContent = `Rp ${total.toLocaleString('id-ID')}`;
+      buyTotalElement.textContent   = `Rp ${(total + 2000).toLocaleString('id-ID')}`;
+      checkoutButton.textContent    = `Checkout (${count}) Produk`;
+      updateHiddenFields();
+    }
 
-            // Add event listener to decrement buttons
-            decrementQty.forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const input = document.getElementById(targetId);
+    // event: select all
+    selectAllCheckbox.addEventListener('change', () => {
+      productCheckboxes.forEach(cb => cb.checked = selectAllCheckbox.checked);
+      calculateTotalPrice();
+    });
 
-                    if (input) {
-                        let quantity = parseInt(input.value, 10) || 0;
-                        if (quantity > 1) {
-                            input.value = quantity - 1; // Decrease value by 1
-                            calculateTotalPrice(); // Recalculate total price
-                        }
-                    }
-                });
-            });
+    // event: per-item checkbox
+    productCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+      calculateTotalPrice();
+      selectAllCheckbox.checked = [...productCheckboxes].every(x => x.checked);
+    }));
 
-            // Add event listener to increment buttons
-            incrementQty.forEach(button => {
-                button.addEventListener('click', function() {
-                    const targetId = this.getAttribute('data-target');
-                    const input = document.getElementById(targetId);
+    // event: qty buttons
+    decrementButtons.forEach(btn => btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.target);
+      if (input && parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+        calculateTotalPrice();
+      }
+    }));
+    incrementButtons.forEach(btn => btn.addEventListener('click', () => {
+      const input = document.getElementById(btn.dataset.target);
+      if (input) {
+        input.value = parseInt(input.value) + 1;
+        calculateTotalPrice();
+      }
+    }));
 
-                    if (input) {
-                        let quantity = parseInt(input.value, 10) || 0;
-                        input.value = quantity + 1; // Increase value by 1
-                        calculateTotalPrice(); // Recalculate total price
-                    }
-                });
-            });
-            
-            // Select all checkbox functionality
-            if (selectAllCheckbox) {
-                selectAllCheckbox.addEventListener('change', function() {
-                    productCheckboxes.forEach(checkbox => {
-                        checkbox.checked = this.checked;
-                    });
-                    calculateTotalPrice();
-                });
-            }
-            
-            // Individual checkbox change event
-            productCheckboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    calculateTotalPrice();
-                    
-                    // Check if all checkboxes are checked
-                    if (selectAllCheckbox) {
-                        const allChecked = Array.from(productCheckboxes).every(cb => cb.checked);
-                        selectAllCheckbox.checked = allChecked;
-                    }
-                });
-            });
-
-            // Initialize with first item checked
-            if (productCheckboxes.length > 0) {
-                productCheckboxes[0].checked = true;
-            }
-            
-            calculateTotalPrice();
-            
-            // Add hidden inputs for the original cart items to ensure backward compatibility
-            @foreach ($groupedCarts as $group)
-                @php
-                    $cartItem = $group->first();
-                    $quantity = $group->count();
-                @endphp
-                const productInput{{ $loop->index }} = document.createElement('input');
-                productInput{{ $loop->index }}.type = 'hidden';
-                productInput{{ $loop->index }}.name = 'products[]';
-                productInput{{ $loop->index }}.value = '{{ $cartItem->product->slug }}';
-                
-                const quantityInput{{ $loop->index }} = document.createElement('input');
-                quantityInput{{ $loop->index }}.type = 'hidden';
-                quantityInput{{ $loop->index }}.name = 'quantities[]';
-                quantityInput{{ $loop->index }}.value = '{{ $quantity }}';
-                
-                if (hiddenInputsContainer) {
-                    hiddenInputsContainer.appendChild(productInput{{ $loop->index }});
-                    hiddenInputsContainer.appendChild(quantityInput{{ $loop->index }});
-                }
-            @endforeach
-        });
-    </script>
+    // default: cek 1 item pertama dan hitung sekali
+    if (productCheckboxes.length) {
+      productCheckboxes[0].checked = true;
+      calculateTotalPrice();
+    }
+  });
+</script>
 @endsection
+
