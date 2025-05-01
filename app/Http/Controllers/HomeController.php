@@ -104,11 +104,11 @@ class HomeController extends Controller
                 ->get(),
             // Data lengkap untuk tampilan halaman cart
             'myCarts'  => Cart::with('product')
-            ->where('user_id', request()->user()->id)
-            ->latest()
-            ->get()
-            ->groupBy('product_id'),
-        'cartCount' => Cart::where('user_id', request()->user()->id)->count()
+                ->where('user_id', request()->user()->id)
+                ->latest()
+                ->get(),
+            // Total item di cart untuk badge
+            'cartCount' => Cart::where('user_id', request()->user()->id)->count()
 
         ];
         return view('carts.index', $data);
