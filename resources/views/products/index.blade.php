@@ -59,7 +59,7 @@
                             class="floating-icon absolute top-[8vh] left-[10vw] w-10 h-10 animate-float-slow 
                                     sm:top-[10vh] md:top-[8vh]" />
                     
-                        <img src="/assets/icon/chicken.svg"
+                        <img src="/assets/icon/Chicken.svg"
                             class="floating-icon absolute bottom-[10vh] left-[16vw] w-10 h-10 animate-float-slow 
                                     sm:bottom-[8vh] md:bottom-[12vh]" />
                     
