@@ -39,6 +39,22 @@ class HomeController extends Controller
         return Product::whereIn('id', $recommendedProductIds)->get();
     }
 
+    private function getAlsoBoughtProducts($productId)
+    {
+        $relatedProductIds = DB::table('orders as o1')
+            ->join('orders as o2', 'o1.checkout_id', '=', 'o2.checkout_id')
+            ->where('o1.product_id', $productId)
+            ->where('o2.product_id', '!=', $productId)
+            ->select('o2.product_id', DB::raw('COUNT(*) as frequency'))
+            ->groupBy('o2.product_id')
+            ->orderByDesc('frequency')
+            ->limit(8)
+            ->pluck('o2.product_id');
+
+        return Product::whereIn('id', $relatedProductIds)->get();
+    }
+
+
     public function landing()
     {
         $data = [
@@ -82,9 +98,7 @@ class HomeController extends Controller
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
             'product' => $product,
-            'products' => Product::where('category_id', $product->category_id)
-                ->where('id', '!=', $product->id)
-                ->get(),
+            'products' => $this->getAlsoBoughtProducts($product->id),
         ];
 
         // Ambil average rating & total review
