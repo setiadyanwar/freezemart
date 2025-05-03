@@ -25,18 +25,36 @@ use Illuminate\Auth\Events\PasswordReset;
 
 class HomeController extends Controller
 {
+    private function getFrequentlyBoughtProducts()
+    {
+        $recommendedProductIds = DB::table('orders as o1')
+            ->join('orders as o2', 'o1.checkout_id', '=', 'o2.checkout_id')
+            ->whereColumn('o1.product_id', '!=', 'o2.product_id')
+            ->select('o2.product_id', DB::raw('COUNT(*) as frequency'))
+            ->groupBy('o2.product_id')
+            ->orderByDesc('frequency')
+            ->limit(10)
+            ->pluck('o2.product_id');
+
+        return Product::whereIn('id', $recommendedProductIds)->get();
+    }
+
     public function landing()
     {
         $data = [
             'title' => 'FreezeMart | Belanja Ceria, Semua Ada di Sini!',
             'categories' => Category::all(),
             'products' => Product::with('comments')->limit(12)->get(),
+            'recommended' => $this->getFrequentlyBoughtProducts(),
         ];
+
         if (Auth::check()) {
             $data['carts'] = Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get();
         }
+
         return view('landing', $data);
     }
+
 
     public function products()
     {
