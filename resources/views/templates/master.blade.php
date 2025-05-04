@@ -9,22 +9,6 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
-
-
-    @wirechatStyles
-    <style>
-        :root {
-            --wc-light-primary: #ffffff; /* Warna latar belakang utama untuk mode terang */
-            --wc-light-secondary: #f3f4f6; /* Warna latar belakang sekunder */
-            --wc-light-accent: #e5e7eb; /* Warna aksen */
-            --wc-light-border: #d1d5db; /* Warna border */
-            --wc-dark-primary: #1f2937; /* Warna latar belakang utama untuk mode gelap */
-            --wc-dark-secondary: #374151; /* Warna latar belakang sekunder */
-            --wc-dark-accent: #4b5563; /* Warna aksen */
-            --wc-dark-border: #6b7280; /* Warna border */
-        }
-    </style>
-    
     <link rel="icon" type="image/x-icon" href="{{ asset('/assets/favicon.ico') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/landing.js'])
     @yield('js')

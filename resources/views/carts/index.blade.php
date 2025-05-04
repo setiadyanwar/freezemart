@@ -273,6 +273,8 @@
                     checkoutButton.textContent = `Checkout (${count}) Produk`;
                     // Disable checkout button if no products selected
                     checkoutButton.disabled = count === 0;
+                } else {
+                    console.warn("checkout-button tidak ditemukan di DOM.");
                 }
 
                 updateHiddenFields();

@@ -22,6 +22,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use Xendit\Invoice\CreateInvoiceRequest;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -204,8 +205,8 @@ class HomeController extends Controller
             $indexQty++;
         }
 
-        // setting xenditnya supaya bisa dipake
-        Configuration::setXenditKey(env('XENDIT_API_KEY'));
+        // setting xendit supaya bisa dipake
+        Configuration::setXenditKey(config('services.xendit.secret'));
         $invoiceApi = new InvoiceApi();
 
         // set parameter yang dikirim
@@ -218,8 +219,8 @@ class HomeController extends Controller
                 'given_names' => Auth::user()->name,
                 'email' => Auth::user()->email,
             ],
-            'success_redirect_url' => env('APP_URL') . "/success/$externalId",
-            'failure_redirect_url' => env('APP_URL') . "/failure/$externalId",
+            'success_redirect_url' => config('app.url') . "/success/$externalId",
+            'failure_redirect_url' => config('app.url') . "/failure/$externalId",
             'items' => $items,
             'fees' => [
                 [
@@ -233,7 +234,7 @@ class HomeController extends Controller
         try {
             // tarik resultnya
             $result = $invoiceApi->createInvoice($invoiceRequest);
-
+            
             // bikin data checkout
             $checkout = Checkout::create([
                 'user_id' => Auth::user()->id,
@@ -253,6 +254,8 @@ class HomeController extends Controller
             // redirect
             return redirect($result['invoice_url']);
         } catch (\Xendit\XenditSdkException $e) {
+        
+
             return redirect("/failure/$externalId");
         }
     }
@@ -261,8 +264,9 @@ class HomeController extends Controller
     public function success($checkout)
     {
         // Setting Xendit
-        Configuration::setXenditKey(env('XENDIT_API_KEY'));
+        Configuration::setXenditKey(config('services.xendit.secret'));
         $invoiceApi = new InvoiceApi();
+
 
         // Get invoice berdasarkan external_id
         $result = $invoiceApi->getInvoices(null, $checkout);
