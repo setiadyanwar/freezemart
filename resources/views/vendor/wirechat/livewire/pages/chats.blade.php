@@ -4,7 +4,7 @@
     </div>
     <main class="hidden md:grid h-full min-h-full w-full bg-white dark:bg-gray-900 dark:border-gray-700 h-full relative overflow-y-auto"  style="contain:content">
 
-    <div class="m-auto text-center justify-center flex gap-3 flex-col   items-center  col-span-12">
+    <div class=" m-auto text-center justify-center flex gap-3 flex-col   items-center  col-span-12">
 
              <h4 class="font-medium p-2 px-3 rounded-full font-semibold bg-gray-50 dark:bg-gray-800 dark:text-white dark:font-normal">Select a conversation to start messaging</h4>
           

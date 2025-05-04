@@ -27,7 +27,7 @@ return [
      * Theme Color:
      * The primary color used in the chat interface.
      */
-    'color' => '#a855f7',
+    'color' => '#2761C9',
 
     /**
      * Home Route:

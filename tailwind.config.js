@@ -10,7 +10,8 @@ export default {
         './resources/**/*.vue',
         "./node_modules/flowbite/**/*.js",
         './vendor/namu/wirechat/resources/views/**/*.blade.php',
-'       ./vendor/namu/wirechat/src/Livewire/**/*.php'
+'       ./vendor/namu/wirechat/src/Livewire/**/*.php',
+        
     ],
     safelist: [
         'hidden',

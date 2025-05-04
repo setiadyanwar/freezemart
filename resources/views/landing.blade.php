@@ -2,6 +2,9 @@
 @section('content')
     {{-- hero --}}
     <section class="relative bg-white pt-24 antialiased dark:bg-gray-900">
+        {{-- Floating chat --}}
+        @include('components.floating-chat')
+
         <!-- Background container -->
         <div class="absolute inset-0 h-auto w-full overflow-hidden">
             <img src="/assets/bg-white.png" class="h-[700px] w-full object-cover object-center dark:hidden"
