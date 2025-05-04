@@ -1,4 +1,4 @@
-@props([
+{{-- @props([
     'widget' => false
 ])
 
@@ -8,4 +8,4 @@
         :widget="$widget"
         >
 {{$slot}}
-</x-wirechat::actions.open-modal>
+</x-wirechat::actions.open-modal> --}}

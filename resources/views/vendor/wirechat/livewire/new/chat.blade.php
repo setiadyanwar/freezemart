@@ -2,9 +2,9 @@
 <div id="new-chat-modal ">
 
     <div
-        class="relative mx-auto h-96 w-full overflow-auto border bg-white px-7 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:max-w-lg sm:rounded-lg">
+        class="relative w-full mx-auto overflow-auto bg-white border h-96 px-7 dark:border-gray-700 dark:bg-gray-800 dark:text-white sm:max-w-lg sm:rounded-lg">
 
-        <header class="sticky top-0 z-10 bg-white py-2 dark:bg-gray-800">
+        <header class="sticky top-0 z-10 py-2 bg-white dark:bg-gray-800">
             <div class="flex items-center justify-between pb-2">
 
                 <h3 class="text-lg font-semibold">New Chat</h3>
@@ -12,7 +12,7 @@
                 <x-wirechat::actions.close-modal>
                     {{-- <button
              dusk="close_modal_button"
-                class="p-2  text-gray-600 hover:dark:bg-gray-700 hover:dark:text-white rounded-full hover:text-gray-800 hover:bg-gray-50">
+                class="p-2 text-gray-600 rounded-full hover:dark:bg-gray-700 hover:dark:text-white hover:text-gray-800 hover:bg-gray-50">
                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -23,10 +23,10 @@
 
             </div>
 
-            <section class="flex flex-wrap items-center border-b px-0 dark:border-gray-700">
+            <section class="flex flex-wrap items-center px-0 border-b dark:border-gray-700">
                 <input dusk="search_users_field" autofocus type="search" id="users-search-field"
                     wire:model.live.debounce='search' autocomplete="off" placeholder="Search"
-                    class="w-auto rounded-lg border-0 bg-none px-0 outline-none hover:ring-0 focus:outline-none focus:ring-0 dark:bg-gray-800">
+                    class="w-auto px-0 border-0 rounded-lg outline-none bg-none hover:ring-0 focus:outline-none focus:ring-0 dark:bg-gray-800">
 
             </section>
         </header>
@@ -38,11 +38,11 @@
                 {{-- Buton to trigger opening of new grop modal --}}
                 <x-wirechat::actions.new-group widget="{{ $this->isWidget() }}">
                     <button @dusk="open_new_group_modal_button"
-                        class="my-4 flex w-full items-center gap-3 rounded-lg border p-2 transition-colors hover:border-gray-300 dark:border-gray-800 dark:hover:border-gray-700">
-                        <span style=" color: var(--wirechat-primary-color); " class="rounded-full bg-gray-100 p-1">
+                        class="flex items-center w-full gap-3 p-2 my-4 transition-colors border rounded-lg hover:border-gray-300 dark:border-gray-800 dark:hover:border-gray-700">
+                        <span style=" color: var(--wirechat-primary-color); " class="p-1 bg-gray-100 rounded-full">
 
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-                                class="h-5 w-5">
+                                class="w-5 h-5">
                                 <path fill-rule="evenodd"
                                     d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
                                     clip-rule="evenodd" />
@@ -63,9 +63,9 @@
                         @foreach ($users as $key => $user)
                             <li wire:key="user-{{ $key }}"
                                 wire:click="createConversation('{{ $user->id }}',{{ json_encode(get_class($user)) }})"
-                                class="group flex cursor-pointer items-center gap-2 p-2">
+                                class="flex items-center gap-2 p-2 cursor-pointer group">
 
-                                <x-wirechat::avatar src="{{ $user->cover_url }}" class="h-10 w-10" />
+                                <x-wirechat::avatar src="{{ $user->cover_url }}" class="w-10 h-10" />
 
                                 <p class="transition-all group-hover:underline">
                                     {{ $user->display_name }}</p>

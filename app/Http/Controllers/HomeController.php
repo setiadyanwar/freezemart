@@ -390,6 +390,12 @@ class HomeController extends Controller
 
         Auth::login($user);
 
+        // Kirim pesan sambutan dari admin
+        $admin = User::where('role', 'admin')->first();
+        if ($admin) {
+            $admin->sendMessageTo($user, 'Welcome di Freezemart! Kalau ada yang bikin bingung atau mau tanya-tanya, feel free buat hubungi kami ya 👋');
+        }
+
         // Kirim pesan sukses setelah register
         session()->flash('message', 'Akun berhasil dibuat. Selamat datang, ' . $user->name . '!');
 
