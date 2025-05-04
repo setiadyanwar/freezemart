@@ -3,7 +3,9 @@
     {{-- hero --}}
     <section class="relative bg-white pt-24 antialiased dark:bg-gray-900">
         {{-- Floating chat --}}
-        @include('components.floating-chat')
+        @if (Auth::check())
+            @include('components.floating-chat')
+        @endif
 
         <!-- Background container -->
         <div class="absolute inset-0 h-auto w-full overflow-hidden">
