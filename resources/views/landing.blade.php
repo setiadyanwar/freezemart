@@ -133,68 +133,80 @@
                     </div>
 
                     {{-- Form Personalization --}}
-                    <div x-data="{ submitted: false, input: '' }" class="mb-10 w-full lg:w-1/2" data-aos="fade-up" data-aos-duration="1000"
+                    {{-- <form action="{{ url('/personalize') }}" method="POST">
+                        @csrf
+                        <input type="text" name="input" placeholder="Ketikkan frozen food yang kamu suka?" required
+                            class="...">
+
+                        <div class="space-y-4">
+                            <div id="price-filters" class="flex flex-wrap gap-2">
+                                <button type="submit" name="price" value="lt50" class="filter-btn ...">&lt;
+                                    Rp50.000</button>
+                                <button type="submit" name="price" value="50to100" class="filter-btn ...">Rp50.000 -
+                                    Rp100.000</button>
+                                <button type="submit" name="price" value="gt100" class="filter-btn ...">&gt;
+                                    Rp100.000</button>
+                            </div>
+                        </div>
+                    </form> --}}
+                    {{-- End Form Personalization --}}
+
+                    {{-- Form Personalization --}}
+                    <div x-data="{ input: '', price: '' }" class="mb-10 w-full lg:w-1/2" data-aos="fade-up" data-aos-duration="1000"
                         once="true">
-                        <template x-if="!submitted">
-                            <div x-transition data-aos="fade">
-                                <h2 class="pb-1 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Apa produk
-                                    yang kamu sukai?</h2>
-                                <p class="pb-2 text-sm text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.
-                                </p>
+                        <h2 class="pb-1 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Apa produk yang
+                            kamu sukai?</h2>
+                        <p class="pb-2 text-sm text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.</p>
 
-                                <div class="container-input">
-                                    <div class="relative w-full rounded-lg px-4 py-5 outline outline-1 outline-[#6B7280]">
-                                        <div class="input mb-4">
-                                            <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
-                                                <input x-model="input" type="text"
-                                                    placeholder="Ketikkan frozen food yang kamu suka?"
-                                                    class="input-text-personalisasi w-full flex-1 rounded-2xl p-3 text-sm font-light text-[#000] outline outline-1 outline-[#D8D8D8] placeholder:text-[#C5C6C9] dark:bg-gray-800 dark:text-gray-300 sm:text-base" />
-                                                <button @click="submitted = true"
-                                                    class="send-personalisasi w-full whitespace-nowrap rounded-xl bg-[#2761c9] px-4 py-3 text-sm text-white sm:w-auto sm:text-base">
-                                                    Kirim
-                                                </button>
-                                            </div>
+                        <form action="{{ url('/personalize') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="price" :value="price">
+                            <input type="hidden" name="input" :value="input">
+
+                            <div class="container-input">
+                                <div class="relative w-full rounded-lg px-4 py-5 outline outline-1 outline-[#6B7280]">
+                                    <div class="input mb-4">
+                                        <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+                                            <input x-model="input" type="text"
+                                                placeholder="Ketikkan frozen food yang kamu suka?" required
+                                                class="input-text-personalisasi w-full flex-1 rounded-2xl p-3 text-sm font-light text-[#000] outline outline-1 outline-[#D8D8D8] placeholder:text-[#C5C6C9] dark:bg-gray-800 dark:text-gray-300 sm:text-base" />
+                                            <button type="submit"
+                                                class="send-personalisasi w-full whitespace-nowrap rounded-xl bg-[#2761c9] px-4 py-3 text-sm text-white sm:w-auto sm:text-base">
+                                                Kirim
+                                            </button>
                                         </div>
+                                    </div>
 
-                                        <div class="space-y-4">
-                                            <!-- Filter harga -->
-                                            <div id="price-filters" class="flex flex-wrap gap-2">
-                                                <button data-value="lt50"
-                                                    class="filter-btn rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                                                    &lt; Rp50.000
-                                                </button>
-                                                <button data-value="50to100"
-                                                    class="filter-btn rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300">
-                                                    Rp50.000 - Rp100.000
-                                                </button>
-                                                <button data-value="gt100"
-                                                    class="filter-btn rounded-lg border border-primary-500 bg-[#edf3ff] px-4 py-2 text-sm font-medium text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400">
-                                                    &gt; Rp100.000
-                                                </button>
-                                            </div>
+                                    <div class="space-y-4">
+                                        <!-- Filter harga -->
+                                        <div id="price-filters" class="flex flex-wrap gap-2">
+                                            <button type="button" @click="price = 'lt50'"
+                                                :class="price === 'lt50' ?
+                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' :
+                                                    'border-gray-300 bg-white text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'"
+                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium">
+                                                &lt; Rp50.000
+                                            </button>
+                                            <button type="button" @click="price = '50to100'"
+                                                :class="price === '50to100' ?
+                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' :
+                                                    'border-gray-300 bg-white text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'"
+                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium">
+                                                Rp50.000 - Rp100.000
+                                            </button>
+                                            <button type="button" @click="price = 'gt100'"
+                                                :class="price === 'gt100' ?
+                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' :
+                                                    'border-gray-300 bg-white text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'"
+                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium">
+                                                &gt; Rp100.000
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </template>
-
-                        <!-- Tampilan Setelah Submit -->
-                        <template x-if="submitted">
-                            <div x-transition
-                                class="space-y-4 rounded-lg bg-white p-6 text-center shadow-md dark:bg-gray-800">
-                                <img src="https://media.giphy.com/media/111ebonMs90YLu/giphy.gif" alt="Success"
-                                    class="mx-auto h-20 w-20" />
-                                <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Terima kasih atas
-                                    personalisasinya!</h3>
-                                <p class="text-sm text-[#6B7280]">Kami akan memberikan rekomendasi terbaik untukmu 🎯</p>
-                                <button @click="submitted = false; input = ''"
-                                    class="mt-3 rounded-lg bg-[#2761c9] px-4 py-2 text-sm text-white">
-                                    Kirim ulang personalisasi
-                                </button>
-                            </div>
-                        </template>
+                        </form>
                     </div>
-
                     {{-- End Form Personalization --}}
 
                 </div>
@@ -237,27 +249,29 @@
 
 
     {{-- product --}}
-    @if ($recommended->count())
+    @if (!empty($recommended) && count($recommended) > 0)
         <section class="bg-gray-50 py-6 antialiased dark:bg-gray-900 md:py-8" data-aos="fade-up" data-aos-duration="1000"
             once="true">
             <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+
                 <div class="mb-4 flex items-center justify-between gap-4 md:mb-8">
                     <div class="flex flex-col gap-2">
                         <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Rekomendasi Produk</h2>
                         <p class="text-base text-dark-secondary">Rekomendasi produk terbaik untuk kamu</p>
                     </div>
-                    <a href="/products" title=""
+                    <a href="/products"
                         class="flex items-center rounded-xl border border-primary-500 px-4 py-2 text-base font-medium text-primary-500 hover:bg-primary-50 dark:border-primary-500 dark:bg-primary-500 dark:text-white dark:hover:bg-primary-600">
                         Lihat semua
-                        <svg class="ms-1 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                            height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="ms-1 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 12H5m14 0-4 4m4-4-4-4" />
                         </svg>
                     </a>
                 </div>
-                <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-5">
 
+
+
+                <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-5">
                     @foreach ($recommended as $product)
                         <div
                             class="group rounded-xl border border-gray-200 bg-white shadow-md transition-transform hover:scale-[1.02] hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
@@ -266,7 +280,7 @@
                                     class="aspect-square w-full object-cover transition duration-300 group-hover:scale-105" />
                             </a>
                             <div class="space-y-3 p-4">
-                                <a href="/products/{{ $product->slug }}" title="{{ $product->name }}"
+                                <a href="/products/{{ $product->slug }}"
                                     class="block overflow-hidden truncate whitespace-nowrap text-left text-base font-semibold text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400 md:text-lg">
                                     {{ $product->name }}
                                 </a>
@@ -288,8 +302,6 @@
                                     <span
                                         class="text-gray-400 dark:text-gray-500">({{ $product->comments->count() }})</span>
                                 </div>
-
-
 
                                 <div class="flex flex-col gap-2 pt-2 md:flex-row md:items-center md:justify-between">
                                     <p class="text-lg font-bold text-gray-900 dark:text-white md:text-xl">
