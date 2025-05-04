@@ -1,3 +1,4 @@
+@auth
 <!-- Floating Chat Button -->
 <button id="chatButton" class="fixed bottom-6 right-6 bg-primary-50 border border-1 p-4 rounded-full shadow-xl shadow-primary-400 z-50 hover; text-white">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,6 +19,7 @@
     <iframe src="{{ url('/chats') }}" class="w-full h-full border-none"></iframe>
 
 </div>
+@endauth
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
