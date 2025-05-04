@@ -19,7 +19,7 @@
             @if ($showNewChatModalButton)
                 <x-wirechat::actions.new-chat widget="{{ $this->isWidget() }}">
                     <button id="open-new-chat-modal-button" class="flex items-center focus:outline-none">
-                        <svg class="-mb-1 h-8 w-8 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-200"
+                        <svg class="w-8 h-8 -mb-1 text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-gray-200"
                             xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
                             <g fill="none" stroke="currentColor">
                                 <path
@@ -62,25 +62,28 @@
     </section>
 
     {{-- Search input --}}
-    @if ($allowChatsSearch)
-        <section class="mt-4">
-            <div class="grid grid-cols-12 items-center rounded-lg bg-gray-100 px-2 dark:bg-gray-800">
+    @if (auth()->user()->role === 'admin')
+        @if ($allowChatsSearch)
+            <section class="mt-4">
+                <div class="grid items-center grid-cols-12 px-2 bg-gray-100 rounded-lg dark:bg-gray-800">
 
-                <label for="chats-search-field" class="col-span-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-5 h-5 w-5 dark:text-gray-300">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </label>
+                    <label for="chats-search-field" class="col-span-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5 size-5 dark:text-gray-300">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                        </svg>
+                    </label>
 
-                <input id="chats-search-field" name="chats_search" maxlength="100" type="search"
-                    wire:model.live.debounce='search' placeholder="Search" autocomplete="off"
-                    class="col-span-11 w-full border-0 bg-inherit outline-none hover:ring-0 focus:outline-none focus:ring-0 dark:text-white">
+                    <input id="chats-search-field" name="chats_search" maxlength="100" type="search"
+                        wire:model.live.debounce='search' placeholder="Search" autocomplete="off"
+                        class="w-full col-span-11 border-0 outline-none bg-inherit hover:ring-0 focus:outline-none focus:ring-0 dark:text-white">
 
-            </div>
+                </div>
 
-        </section>
+            </section>
+        @endif
     @endif
+
 
 </header>

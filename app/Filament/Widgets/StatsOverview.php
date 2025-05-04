@@ -47,16 +47,10 @@ class StatsOverview extends BaseWidget
 
         return [
             Stat::make('Terjual Bulan Ini', number_format($totalSoldThisMonth, 0, '', '.'))
-                ->description('Jumlah produk terjual bulan ini')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart($salesChartData)
-                ->color('success'),
+                ->description('Jumlah produk terjual bulan ini'),
 
             Stat::make('Pendapatan Hari Ini', 'Rp ' . number_format($totalIncomeToday, 0, '', '.'))
-                ->description('Total pendapatan hari ini')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->chart($incomeChartData)
-                ->color('success'),
+                ->description('Total pendapatan hari ini'),
         ];
     }
 }
