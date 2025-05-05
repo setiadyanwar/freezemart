@@ -15,6 +15,7 @@ use Xendit\Configuration;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
+use App\Models\Personalization;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -63,15 +64,57 @@ class HomeController extends Controller
             'title' => 'FreezeMart | Belanja Ceria, Semua Ada di Sini!',
             'categories' => Category::all(),
             'products' => Product::with('comments')->limit(12)->get(),
-            'recommended' => $this->getFrequentlyBoughtProducts(),
+            'recommended' => [], // Default kosong
         ];
 
         if (Auth::check()) {
-            $data['carts'] = Cart::with(['product'])->where('user_id', request()->user()->id)->latest()->limit(10)->get();
+            $user = Auth::user();
+
+            // Ambil histori pembelian user
+            $historiProduk = Product::whereIn('id', function ($query) use ($user) {
+                $query->select('product_id')
+                    ->from('orders')
+                    ->join('checkouts', 'orders.checkout_id', '=', 'checkouts.id')
+                    ->where('checkouts.user_id', $user->id);
+            })->get();
+
+            // Ambil personalisasi yang terbaru
+            $latestPersonalization = Personalization::where('user_id', $user->id)
+                ->orderBy('created_at', 'desc') // Mengurutkan berdasarkan waktu terbaru
+                ->first();
+
+            // Jika ada personalisasi, ambil rekomendasi berdasarkan input terbaru
+            if ($latestPersonalization) {
+                $recommendedIds = json_decode($latestPersonalization->recommended_ids);
+
+                // Ambil produk yang direkomendasikan
+                $recommendedProducts = Product::with('comments')->whereIn('id', $recommendedIds)->get();
+
+                // Gabungkan produk yang relevan, pertama yang dibeli terakhir
+                $relevantProducts = $recommendedProducts->merge($historiProduk)
+                    ->unique('id') // Pastikan produk yang sama hanya muncul sekali
+                    ->sortByDesc(function ($product) use ($historiProduk) {
+                        // Menambahkan logika untuk memprioritaskan produk yang relevan dengan pembelian terakhir
+                        return $historiProduk->pluck('id')->contains($product->id) ? 1 : 0;
+                    })
+                    ->values(); // Mengatur ulang index setelah merge
+
+                // Menyimpan rekomendasi terbaru ke dalam data
+                $data['recommended'] = $relevantProducts;
+            }
+
+            // Cart tetap dimuat
+            $data['carts'] = Cart::with(['product'])->where('user_id', $user->id)->latest()->limit(10)->get();
         }
 
         return view('landing', $data);
     }
+
+
+
+
+
+
 
 
     public function products()
@@ -570,26 +613,43 @@ class HomeController extends Controller
         })->get();
 
         // Bangun profil teks dari histori pembelian
-        $profilPengguna = $historiProduk->map(function ($p) {
-            return $p->description . ' ' . $p->name . ' Rp' . $p->price;
-        })->implode('. ');
+        // Cek apakah histori produk tidak kosong
+        $profilPengguna = $historiProduk->isNotEmpty()
+            ? $historiProduk->map(function ($p) {
+                return $p->description . ' ' . $p->name . ' Rp' . $p->price;
+            })->implode('. ')
+            : ''; // Jika kosong, profil pengguna di-set kosong
 
-        // Kirim ke Flask API
+        // Kirim ke Flask API untuk mendapatkan rekomendasi produk
         $response = Http::post('http://127.0.0.1:5001/recommend', [
             'produk' => $produk,
             'input_teks' => $inputText,
             'harga_maks' => $hargaMaks,
-            'user_profile' => $profilPengguna, // ⬅️ Tambahan penting
+            'user_profile' => $profilPengguna, // Data profil pengguna
         ]);
 
+        // Jika API Flask tidak berhasil
         if (!$response->successful()) {
             return back()->with('error', 'Gagal mengambil rekomendasi. Coba lagi nanti.');
         }
 
+        // Ambil hasil rekomendasi dari API Flask
         $recommended = $response->json();
         $recommendedIds = collect($recommended)->pluck('id')->toArray();
+
+        // Ambil produk yang direkomendasikan dari database
         $recommendedProducts = Product::with('comments')->whereIn('id', $recommendedIds)->get();
 
+        // Simpan personalisasi di database
+        Personalization::create([
+            'user_id' => $user->id,
+            'input_text' => $inputText,
+            'user_profile' => $profilPengguna ?? '', // Fallback profil pengguna jika kosong
+            'recommended_ids' => json_encode($recommendedIds),
+            'price_filter' => $hargaMaks,
+        ]);
+
+        // Return hasil rekomendasi ke tampilan
         return view('landing', [
             'title' => 'Hasil Rekomendasi',
             'products' => Product::with('comments')->limit(10)->get(),

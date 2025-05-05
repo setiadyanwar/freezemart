@@ -73,4 +73,4 @@ Route::fallback(function () {
     ], 404);
 });
 
-Route::post('/personalize', [HomeController::class, 'personalize']);
+Route::post('/personalize', [HomeController::class, 'personalize'])->middleware('auth');
