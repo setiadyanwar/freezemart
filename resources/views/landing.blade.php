@@ -158,7 +158,7 @@
                             kamu sukai?</h2>
                         <p class="pb-2 text-sm text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.</p>
 
-                        <form action="{{ url('/personalize') }}" method="POST">
+                        <form action="{{ url('/personalize') }}" method="GET">
                             @csrf
                             <input type="hidden" name="price" :value="price">
                             <input type="hidden" name="input" :value="input">
@@ -308,7 +308,7 @@
                                         Rp {{ number_format($product->price, 0, ',', '.') }}
                                     </p>
 
-                                    <form action="{{ url('/carts/' . $product->slug) }}" method="post">
+                                    <form action="/carts/{{ $product->slug }}" method="POST">
                                         @csrf
                                         <button type="submit"
                                             class="inline-flex items-center justify-center px-3 py-2 text-xs text-white transition rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800 md:px-4 md:text-sm">
@@ -319,6 +319,7 @@
                                             </svg>
                                         </button>
                                     </form>
+
                                 </div>
                             </div>
                         </div>

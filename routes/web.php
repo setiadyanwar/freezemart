@@ -10,7 +10,8 @@ Route::get('/products', [HomeController::class, 'products']);
 Route::get('/products/{product}', [HomeController::class, 'showProduct']);
 
 Route::get('/carts', [HomeController::class, 'carts'])->middleware('auth');
-Route::post('/carts/{product}', [HomeController::class, 'addToCart'])->middleware('auth');
+Route::post('/carts/{product:slug}', [HomeController::class, 'addToCart'])->middleware('auth')->name('carts.add');
+
 Route::get('/cart-remove/{cart}', [HomeController::class, 'removeCart'])->middleware('auth');
 
 
@@ -73,4 +74,4 @@ Route::fallback(function () {
     ], 404);
 });
 
-Route::post('/personalize', [HomeController::class, 'personalize'])->middleware('auth');
+Route::get('/personalize', [HomeController::class, 'personalize'])->middleware('auth');
