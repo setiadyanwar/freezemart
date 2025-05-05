@@ -14,10 +14,11 @@
     <!-- Product Detail -->
     <div class="mx-auto max-w-screen-xl px-4">
         <div class="flex flex-col lg:flex-row lg:gap-16">
-            <!-- Product Image -->
-            <div class="lg:w-5/12">
-                <div class="overflow-hidden rounded-lg bg-gray-50 p-4">
-                    <img class="w-full" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+            <!-- Product Image with Magnifier -->
+            <div class="lg:w-3/5">
+                <div class="overflow-hidden rounded-lg bg-gray-50 p-4 relative" id="img-container">
+                    <img id="product-img" class="w-full" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+                    <div id="magnifier-lens" class="hidden absolute pointer-events-none border-2 border-primary-500 rounded-full w-32 h-32 bg-white opacity-0 transition-opacity duration-200"></div>
                 </div>
             </div>
 
@@ -264,7 +265,6 @@
     </div>
 </section>
 
-
 @if (session('success'))
     <div id="toast-bottom-right"
         class="fixed bottom-5 right-5 z-50 flex w-auto max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow-lg dark:bg-gray-800 dark:text-gray-400"
@@ -283,17 +283,107 @@
             </svg>
         </button>
     </div>
-
-    <script>
-        // Auto-hide toast after 3 seconds
-        setTimeout(() => {
-            const toast = document.getElementById('toast-bottom-right');
-            if (toast) {
-                toast.classList.add('opacity-0', 'translate-x-full');
-                toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                setTimeout(() => toast.remove(), 500);
-            }
-        }, 3000);
-    </script>
 @endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Magnifier functionality
+        const container = document.getElementById('img-container');
+        const img = document.getElementById('product-img');
+        const lens = document.getElementById('magnifier-lens');
+        
+        if (container && img && lens) {
+            // Magnification level
+            const zoom = 2;
+            
+            // Initialize magnifier
+            function initMagnifier() {
+                // Show lens on mouse enter
+                container.addEventListener('mouseenter', function() {
+                    lens.classList.remove('hidden');
+                    setTimeout(() => {
+                        lens.style.opacity = '1';
+                    }, 50);
+                });
+                
+                // Hide lens on mouse leave
+                container.addEventListener('mouseleave', function() {
+                    lens.style.opacity = '0';
+                    setTimeout(() => {
+                        lens.classList.add('hidden');
+                    }, 200);
+                });
+                
+                // Move lens with mouse
+                container.addEventListener('mousemove', moveMagnifier);
+            }
+            
+            // Move magnifier function
+            function moveMagnifier(e) {
+                e.preventDefault();
+                
+                // Get cursor position
+                const pos = getCursorPos(e);
+                
+                // Calculate lens position
+                let x = pos.x - (lens.offsetWidth / 2);
+                let y = pos.y - (lens.offsetHeight / 2);
+                
+                // Prevent lens from going outside the image
+                if (x > container.offsetWidth - lens.offsetWidth) {
+                    x = container.offsetWidth - lens.offsetWidth;
+                }
+                if (x < 0) {
+                    x = 0;
+                }
+                if (y > container.offsetHeight - lens.offsetHeight) {
+                    y = container.offsetHeight - lens.offsetHeight;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
+                
+                // Set lens position
+                lens.style.left = x + "px";
+                lens.style.top = y + "px";
+                
+                // Calculate background position for the lens
+                const bgX = x * zoom;
+                const bgY = y * zoom;
+                
+                // Set background image and position for the lens
+                lens.style.backgroundImage = `url('${img.src}')`;
+                lens.style.backgroundSize = (container.offsetWidth * zoom) + "px " + (container.offsetHeight * zoom) + "px";
+                lens.style.backgroundPosition = "-" + (bgX) + "px -" + (bgY) + "px";
+            }
+            
+            // Get cursor position relative to container
+            function getCursorPos(e) {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                return { x, y };
+            }
+            
+            // Initialize magnifier if image exists
+            if (img.complete) {
+                initMagnifier();
+            } else {
+                img.onload = initMagnifier;
+            }
+        }
+        
+        // Toast notification
+        if (document.getElementById('toast-bottom-right')) {
+            setTimeout(() => {
+                const toast = document.getElementById('toast-bottom-right');
+                if (toast) {
+                    toast.classList.add('opacity-0', 'translate-x-full');
+                    toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 3000);
+        }
+    });
+</script>
 @endsection
