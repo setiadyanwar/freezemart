@@ -78,29 +78,32 @@
 </section>
 
 <!-- Reviews Section -->
-<section class="bg-white py-8">
+<section class="bg-white py-4 sm:py-8">
     <div class="mx-auto max-w-screen-xl px-4">
-        <h2 class="mb-6 text-xl font-semibold text-gray-900">Ulasan Pembeli</h2>
+        <h2 class="mb-4 sm:mb-6 text-xl font-semibold text-gray-900">Ulasan Pembeli</h2>
         
-        <div class="rounded-lg border border-gray-200 p-6">
+        <div class="rounded-lg border border-gray-200 p-4 sm:p-6">
             <!-- Rating Summary -->
-            <div class="flex md:flex-row">
-                <div class="mb-6 md:mb-0 md:mr-8 w-1/4 grid grid-cols-1">
+            <div class="flex flex-col sm:flex-row">
+                <!-- Star Rating -->
+                <div class="mb-4 sm:mb-0 sm:mr-8 sm:w-1/4">
                     <div class="flex items-center">
-                        <svg class="h-10 w-10 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        <svg class="h-8 w-8 sm:h-10 sm:w-10 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24">
                             <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                         </svg>
-                        <span class="ml-2 text-4xl font-bold text-gray-900">4.8</span>
+                        <span class="ml-2 text-3xl sm:text-4xl font-bold text-gray-900">4.8</span>
                         <span class="ml-1 text-gray-500">/5.0</span>
                     </div>
                     
-                    <div class="mt-2 text-sm text-gray-500">
+                    <div class="mt-1 text-sm text-gray-500">
                         <span>50 ulasan • 210 rating</span>
                     </div>
                 </div>
-                    <!-- Rating Bars -->
-                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-2 w-full">
+                
+                <!-- Rating Bars -->
+                <div class="w-full">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 sm:gap-x-16 gap-y-2">
                         <div class="flex items-center">
                             <span class="mr-2 text-sm">5</span>
                             <svg class="h-4 w-4 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -110,31 +113,31 @@
                             <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
                                 <div class="h-2 rounded-full bg-primary-600" style="width: 70%"></div>
                             </div>
-                            <span class="text-xs text-gray-500">(120)</span>
+                            <span class="text-xs text-gray-500 min-w-[30px] text-right">(120)</span>
                         </div>
                         
                         <div class="flex items-center">
                             <span class="mr-2 text-sm">4</span>
-                            <svg class="h-4 w-4 text-[#FFCA00]"" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            <svg class="h-4 w-4 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                             </svg>
                             <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
                                 <div class="h-2 rounded-full bg-primary-600" style="width: 80%"></div>
                             </div>
-                            <span class="text-xs text-gray-500">(200)</span>
+                            <span class="text-xs text-gray-500 min-w-[30px] text-right">(200)</span>
                         </div>
                         
                         <div class="flex items-center">
                             <span class="mr-2 text-sm">3</span>
-                            <svg class="h-4 w-4 text-[#FFCA00]"" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            <svg class="h-4 w-4 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                             </svg>
                             <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
-                                <div class="h-2 rounded-full text-[#FFCA00]"" style="width: 25%"></div>
+                                <div class="h-2 rounded-full bg-primary-600" style="width: 25%"></div>
                             </div>
-                            <span class="text-xs text-gray-500">(10)</span>
+                            <span class="text-xs text-gray-500 min-w-[30px] text-right">(10)</span>
                         </div>
                         
                         <div class="flex items-center">
@@ -144,42 +147,44 @@
                                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                             </svg>
                             <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
-                                <div class="h-2 rounded-full text-[#FFCA00]"" style="width: 5%"></div>
+                                <div class="h-2 rounded-full bg-primary-600" style="width: 5%"></div>
                             </div>
-                            <span class="text-xs text-gray-500">(1)</span>
+                            <span class="text-xs text-gray-500 min-w-[30px] text-right">(1)</span>
                         </div>
                         
                         <div class="flex items-center">
                             <span class="mr-2 text-sm">1</span>
-                            <svg class="h-4 w-4 text-[#FFCA00]"" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            <svg class="h-4 w-4 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                 fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                             </svg>
                             <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
                                 <div class="h-2 rounded-full bg-primary-600" style="width: 5%"></div>
                             </div>
-                            <span class="text-xs text-gray-500">(1)</span>
+                            <span class="text-xs text-gray-500 min-w-[30px] text-right">(1)</span>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
+        
         <!-- Reviews List -->
-        <div class="w-auto my-8">
+        <div class="w-auto my-4 sm:my-8">
             <!-- Review Item 1 -->
-            <div class="mb-6 border-b border-gray-200 pb-6">
+            <div class="mb-4 sm:mb-6 border-b border-gray-200 pb-4 sm:pb-6">
                 <div class="flex">
-                    <div class="mr-4">
-                        <div class="h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                    <div class="mr-3 sm:mr-4 flex-shrink-0">
+                        <div class="h-8 w-8 sm:h-10 sm:w-10 overflow-hidden rounded-full bg-gray-100">
                             <img src="https://via.placeholder.com/40" alt="Anton H.d" class="h-full w-full object-cover" />
                         </div>
                     </div>
-                    <div class="flex-1">
-                        <div class="flex items-center justify-between">
-                            <p class="font-medium text-gray-900">Anton H.d <span class="ml-1 text-xs text-gray-500">kemarin</span></p>
-                            <div class="rounded-full border border-gray-200 px-3 py-1 text-xs">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <p class="font-medium text-gray-900 text-sm sm:text-base">Anton H.d <span class="ml-1 text-xs text-gray-500">kemarin</span></p>
+                            <div class="rounded-full border border-gray-200 px-2 py-1 sm:px-3 sm:py-1 text-xs">
                                 <button class="flex items-center">
                                     <span>Terbaru</span>
-                                    <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="ml-1 h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                     </svg>
                                 </button>
@@ -187,17 +192,17 @@
                         </div>
                         <div class="mt-1 flex">
                             @for ($i = 1; $i <= 5; $i++)
-                                <svg class="h-4 w-4 text-primary-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <svg class="h-3 w-3 sm:h-4 sm:w-4 text-primary-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                                 </svg>
                             @endfor
                         </div>
-                        <p class="mt-2 text-gray-700">Sangat recomended banget, otw jadi langganan nih.</p>
+                        <p class="mt-2 text-gray-700 text-sm sm:text-base break-words">Sangat recomended banget, otw jadi langganan nih.</p>
                         <div class="mt-2">
                             <button class="flex items-center text-xs text-gray-500 hover:text-gray-700">
                                 <span>lihat balasan</span>
-                                <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="ml-1 h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
@@ -207,28 +212,28 @@
             </div>
             
             <!-- Review Item 2 -->
-            <div class="border-b border-gray-200 pb-6">
+            <div class="border-b border-gray-200 pb-4 sm:pb-6">
                 <div class="flex">
-                    <div class="mr-4">
-                        <div class="h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                    <div class="mr-3 sm:mr-4 flex-shrink-0">
+                        <div class="h-8 w-8 sm:h-10 sm:w-10 overflow-hidden rounded-full bg-gray-100">
                             <img src="https://via.placeholder.com/40" alt="Anton H.d" class="h-full w-full object-cover" />
                         </div>
                     </div>
-                    <div class="flex-1">
-                        <p class="font-medium text-gray-900">Anton H.d <span class="ml-1 text-xs text-gray-500">kemarin</span></p>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-medium text-gray-900 text-sm sm:text-base">Anton H.d <span class="ml-1 text-xs text-gray-500">kemarin</span></p>
                         <div class="mt-1 flex">
                             @for ($i = 1; $i <= 5; $i++)
-                                <svg class="h-4 w-4 text-primary-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                <svg class="h-3 w-3 sm:h-4 sm:w-4 text-primary-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                                 </svg>
                             @endfor
                         </div>
-                        <p class="mt-2 text-gray-700">Sangat recomended banget, otw jadi langganan nih.</p>
+                        <p class="mt-2 text-gray-700 text-sm sm:text-base break-words">Sangat recomended banget, otw jadi langganan nih.</p>
                         <div class="mt-2">
                             <button class="flex items-center text-xs text-gray-500 hover:text-gray-700">
                                 <span>lihat balasan</span>
-                                <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="ml-1 h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
@@ -238,31 +243,27 @@
             </div>
             
             <!-- Pagination -->
-            <div class="mt-6 flex items-center justify-between">
-                <button class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100">
-                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div class="mt-4 sm:mt-6 flex items-center gap-2">
+                <button class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">
+                    <svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                     </svg>
                 </button>
                 
-                <div class="flex items-center space-x-2">
-                    <button class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-white">1</button>
-                    <button class="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">2</button>
-                    <button class="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <button class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-primary-600 text-white">1</button>
+                    <button class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">2</button>
+                    <button class="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">
+                        <svg class="h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                         </svg>
                     </button>
                 </div>
-                
-                <a href="#" class="text-sm font-medium text-primary-600 hover:underline">
-                    Lihat Semua
-                </a>
             </div>
         </div>
     </div>
-    
 </section>
+
 
 @if (session('success'))
     <div id="toast-bottom-right"
