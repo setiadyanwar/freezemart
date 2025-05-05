@@ -10,8 +10,12 @@ def recommend():
     deskripsi_produk = data['produk']
     input_teks = data['input_teks']
     harga_maks = data['harga_maks']
+    user_profile = data.get('user_profile', '')
 
-    corpus = [p['description'] for p in deskripsi_produk] + [input_teks]
+    # Gabungkan input user + histori user
+    full_input = input_teks + ' ' + user_profile
+
+    corpus = [p['description'] for p in deskripsi_produk] + [full_input]
 
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(corpus)
@@ -24,7 +28,7 @@ def recommend():
     hasil = []
     for i, p in enumerate(deskripsi_produk):
         similarity_score = float(similarities[i])
-        if similarity_score > 0 and p['price'] <= harga_maks:  # Filter similarity 0
+        if similarity_score > 0 and p['price'] <= harga_maks:
             hasil.append({
                 'id': p['id'],
                 'name': p['name'],

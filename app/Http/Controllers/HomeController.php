@@ -546,6 +546,7 @@ class HomeController extends Controller
 
     public function personalize(Request $request)
     {
+        $user = auth()->user(); // Asumsi kamu pakai auth
         $inputText = $request->input('input');
         $priceFilter = $request->input('price'); // lt50, 50to100, gt100
 
@@ -560,12 +561,30 @@ class HomeController extends Controller
         // Ambil produk dari database
         $produk = Product::select('id', 'name', 'description', 'price', 'image')->get()->toArray();
 
-        // Kirim ke API Python
+        // Ambil histori pembelian user (via orders -> checkouts)
+        $historiProduk = Product::whereIn('id', function ($query) use ($user) {
+            $query->select('product_id')
+                ->from('orders')
+                ->join('checkouts', 'orders.checkout_id', '=', 'checkouts.id')
+                ->where('checkouts.user_id', $user->id);
+        })->get();
+
+        // Bangun profil teks dari histori pembelian
+        $profilPengguna = $historiProduk->map(function ($p) {
+            return $p->description . ' ' . $p->name . ' Rp' . $p->price;
+        })->implode('. ');
+
+        // Kirim ke Flask API
         $response = Http::post('http://127.0.0.1:5001/recommend', [
             'produk' => $produk,
             'input_teks' => $inputText,
             'harga_maks' => $hargaMaks,
+            'user_profile' => $profilPengguna, // ⬅️ Tambahan penting
         ]);
+
+        if (!$response->successful()) {
+            return back()->with('error', 'Gagal mengambil rekomendasi. Coba lagi nanti.');
+        }
 
         $recommended = $response->json();
         $recommendedIds = collect($recommended)->pluck('id')->toArray();
