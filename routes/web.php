@@ -72,3 +72,5 @@ Route::fallback(function () {
         'title' => 'Halaman Tidak Ditemukan'
     ], 404);
 });
+
+Route::post('/personalize', [HomeController::class, 'personalize']);

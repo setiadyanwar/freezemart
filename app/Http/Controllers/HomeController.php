@@ -16,13 +16,14 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Xendit\Invoice\InvoiceApi;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use Xendit\Invoice\CreateInvoiceRequest;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -234,7 +235,7 @@ class HomeController extends Controller
         try {
             // tarik resultnya
             $result = $invoiceApi->createInvoice($invoiceRequest);
-            
+
             // bikin data checkout
             $checkout = Checkout::create([
                 'user_id' => Auth::user()->id,
@@ -254,7 +255,7 @@ class HomeController extends Controller
             // redirect
             return redirect($result['invoice_url']);
         } catch (\Xendit\XenditSdkException $e) {
-        
+
 
             return redirect("/failure/$externalId");
         }
@@ -541,5 +542,40 @@ class HomeController extends Controller
         ]);
 
         return back()->with('success', 'Komentar berhasil dikirim!');
+    }
+
+    public function personalize(Request $request)
+    {
+        $inputText = $request->input('input');
+        $priceFilter = $request->input('price'); // lt50, 50to100, gt100
+
+        // Ubah filter harga jadi angka
+        $hargaMaks = match ($priceFilter) {
+            'lt50' => 50000,
+            '50to100' => 100000,
+            'gt100' => PHP_INT_MAX,
+            default => PHP_INT_MAX
+        };
+
+        // Ambil produk dari database
+        $produk = Product::select('id', 'name', 'description', 'price', 'image')->get()->toArray();
+
+        // Kirim ke API Python
+        $response = Http::post('http://127.0.0.1:5001/recommend', [
+            'produk' => $produk,
+            'input_teks' => $inputText,
+            'harga_maks' => $hargaMaks,
+        ]);
+
+        $recommended = $response->json();
+        $recommendedIds = collect($recommended)->pluck('id')->toArray();
+        $recommendedProducts = Product::with('comments')->whereIn('id', $recommendedIds)->get();
+
+        return view('landing', [
+            'title' => 'Hasil Rekomendasi',
+            'products' => Product::with('comments')->limit(10)->get(),
+            'recommended' => $recommendedProducts,
+            'categories' => Category::all()
+        ]);
     }
 }
