@@ -304,7 +304,7 @@ class HomeController extends Controller
                 'error_trace' => $e->getTraceAsString()
             ]);
 
-            return redirect("/failure/$externalId");
+            // return redirect("/failure/$externalId");
         }
     }
 
