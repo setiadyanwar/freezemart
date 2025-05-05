@@ -1,169 +1,298 @@
 @extends('templates.master')
 
 @section('content')
-    <section class="mt-16 bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-        <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-            <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-                <div class="mx-auto max-w-md shrink-0 lg:max-w-lg">
-                    <img class="w-full rounded" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+<section class="bg-white">
+    <!-- Breadcrumb -->
+    <div class="mx-auto max-w-screen-xl px-4 py-4 pt-28">
+        <div class="flex items-center text-sm">
+            <a href="/products" class="text-gray-500 hover:text-gray-700">Produk</a>
+            <span class="mx-2 text-gray-500">></span>
+            <span class="text-gray-700">{{ $product->name }}</span>
+        </div>
+    </div>
+
+    <!-- Product Detail -->
+    <div class="mx-auto max-w-screen-xl px-4">
+        <div class="flex flex-col lg:flex-row lg:gap-16">
+            <!-- Product Image -->
+            <div class="lg:w-5/12">
+                <div class="overflow-hidden rounded-lg bg-gray-50 p-4">
+                    <img class="w-full" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="mt-6 lg:mt-0 lg:w-7/12">
+                <h1 class="text-2xl font-semibold text-gray-900">{{ $product->name }}</h1>
+                
+                <div class="mt-2 flex items-center">
+                    <div class="flex items-center text-primary-500">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <svg class="{{ $i <= round($average_rating) ? 'text-primary-500' : 'text-gray-300' }} h-5 w-5"
+                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495
+                                                            2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992
+                                                            2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39
+                                                            3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                        @endfor
+                    </div>
+                    <p class="ml-2 text-sm text-gray-500">
+                        {{ $average_rating }} | {{ $total_reviews }} ulasan
+                    </p>
                 </div>
 
-                <div class="mt-6 sm:mt-8 lg:mt-0">
-                    <h1 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{ $product->name }}</h1>
-                    <div class="mt-4 sm:flex sm:items-center sm:gap-4">
-                        <p class="text-2xl font-extrabold text-gray-900 dark:text-white sm:text-3xl">Rp
-                            {{ number_format($product->price, 0, ',', '.') }}</p>
+                <div class="mt-4">
+                    <p class="text-3xl font-bold text-gray-900">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                </div>
 
-                        <div class="mt-2 flex items-center gap-2 sm:mt-0">
-                            <div class="flex items-center gap-1">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <svg class="{{ $i <= round($average_rating) ? 'text-yellow-300' : 'text-gray-300' }} h-4 w-4"
-                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        fill="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495
-                                                                                    2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992
-                                                                                    2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39
-                                                                                    3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                <div class="mt-6">
+                    <form action="/carts/{{ $product->slug }}" method="post">
+                        @csrf
+                        <button type="submit"
+                            class="w-full rounded-lg bg-primary-600 px-5 py-3 text-center text-sm font-medium text-white hover:bg-primary-700 focus:outline-none focus:ring-4 focus:ring-primary-300"
+                            role="button">
+                            <svg class="-ms-1 me-2 inline h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                            </svg>
+                            Tambahkan Keranjang
+                        </button>
+                    </form>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-medium text-gray-900">Deskripsi Produk</h3>
+                    <p class="mt-2 text-gray-600">
+                        Nikmati sensasi panas yang tak tertandingi dengan Chicken Nugget Hotaz! Setiap potongan nugget yang renyah ini dibumbui dengan campuran rahasia rempah-rempah pedas kami, memberikan tendangan berani dan memuaskan yang akan membuat lidah Anda berdansa. Renyah di luar dan lembut di dalam, nugget ini sempurna untuk Anda yang menginginkan petualangan di setiap gigitan. 
+                        <a href="#" class="text-primary-600 hover:underline">Selengkapnya</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="bg-white py-8">
+    <div class="mx-auto max-w-screen-xl px-4">
+        <h2 class="mb-6 text-xl font-semibold text-gray-900">Ulasan Pembeli</h2>
+        
+        <div class="rounded-lg border border-gray-200 p-6">
+            <!-- Rating Summary -->
+            <div class="flex md:flex-row">
+                <div class="mb-6 md:mb-0 md:mr-8 w-1/4 grid grid-cols-1">
+                    <div class="flex items-center">
+                        <svg class="h-10 w-10 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                        </svg>
+                        <span class="ml-2 text-4xl font-bold text-gray-900">4.8</span>
+                        <span class="ml-1 text-gray-500">/5.0</span>
+                    </div>
+                    
+                    <div class="mt-2 text-sm text-gray-500">
+                        <span>50 ulasan • 210 rating</span>
+                    </div>
+                </div>
+                    <!-- Rating Bars -->
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-2 w-full">
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm">5</span>
+                            <svg class="h-4 w-4 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                            <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
+                                <div class="h-2 rounded-full bg-primary-600" style="width: 70%"></div>
+                            </div>
+                            <span class="text-xs text-gray-500">(120)</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm">4</span>
+                            <svg class="h-4 w-4 text-[#FFCA00]"" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                            <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
+                                <div class="h-2 rounded-full bg-primary-600" style="width: 80%"></div>
+                            </div>
+                            <span class="text-xs text-gray-500">(200)</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm">3</span>
+                            <svg class="h-4 w-4 text-[#FFCA00]"" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                            <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
+                                <div class="h-2 rounded-full text-[#FFCA00]"" style="width: 25%"></div>
+                            </div>
+                            <span class="text-xs text-gray-500">(10)</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm">2</span>
+                            <svg class="h-4 w-4 text-[#FFCA00]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                            <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
+                                <div class="h-2 rounded-full text-[#FFCA00]"" style="width: 5%"></div>
+                            </div>
+                            <span class="text-xs text-gray-500">(1)</span>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <span class="mr-2 text-sm">1</span>
+                            <svg class="h-4 w-4 text-[#FFCA00]"" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                            </svg>
+                            <div class="mx-2 h-2 w-full rounded-full bg-gray-200">
+                                <div class="h-2 rounded-full bg-primary-600" style="width: 5%"></div>
+                            </div>
+                            <span class="text-xs text-gray-500">(1)</span>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <!-- Reviews List -->
+        <div class="w-auto my-8">
+            <!-- Review Item 1 -->
+            <div class="mb-6 border-b border-gray-200 pb-6">
+                <div class="flex">
+                    <div class="mr-4">
+                        <div class="h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                            <img src="https://via.placeholder.com/40" alt="Anton H.d" class="h-full w-full object-cover" />
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between">
+                            <p class="font-medium text-gray-900">Anton H.d <span class="ml-1 text-xs text-gray-500">kemarin</span></p>
+                            <div class="rounded-full border border-gray-200 px-3 py-1 text-xs">
+                                <button class="flex items-center">
+                                    <span>Terbaru</span>
+                                    <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                     </svg>
-                                @endfor
+                                </button>
                             </div>
-                            <p class="text-sm font-medium leading-none text-gray-500 dark:text-gray-400">
-                                ({{ $average_rating }})
-                            </p>
-                            <a href="#"
-                                class="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white">
-                                {{ $total_reviews }} Reviews
-                            </a>
                         </div>
-
-                    </div>
-
-                    <div class="mt-6 sm:mt-8 sm:flex sm:items-center sm:gap-4">
-                        <form action="/carts/{{ $product->slug }}" method="post">
-                            @csrf
-                            <button type="submit"
-                                class="mt-4 flex items-center justify-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-500 sm:mt-0"
-                                role="button">
-                                <svg class="-ms-2 me-2 h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
+                        <div class="mt-1 flex">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <svg class="h-4 w-4 text-primary-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                                 </svg>
-                                Tambah ke keranjang
-                            </button>
-                        </form>
-                    </div>
-
-                    <hr class="my-6 border-gray-200 dark:border-gray-800 md:my-8" />
-
-                    <p class="mb-6 text-gray-500 dark:text-gray-400">{{ $product->description }}</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- releated --}}
-    @if (count($products))
-        <section class="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
-            <div class="mx-auto max-w-screen-xl px-4 pt-5 2xl:px-0">
-
-                <!-- Heading & Filters -->
-                <div class="mb-4 mt-8 items-end justify-start space-y-4 sm:flex sm:space-y-0 md:mb-8">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Produk Terkait</h2>
-                </div>
-
-                <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-
-                    @foreach ($products as $product)
-                        <div
-                            class="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                            <div class="h-56 w-full">
-                                <a href="/products/{{ $product->slug }}">
-                                    <img class="mx-auto h-full rounded-t" src="{{ asset('storage/' . $product->image) }}"
-                                        alt="{{ $product->name }}" />
-                                </a>
-                            </div>
-                            <div class="pt-6">
-                                <a href="/products/{{ $product->slug }}"
-                                    class="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{{ $product->name }}</a>
-                                <div class="mt-2 flex items-center gap-2">
-                                    <div class="flex items-center gap-1">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <svg class="{{ $i <= round($product->average_rating) ? 'text-yellow-300' : 'text-gray-300' }} h-4 w-4"
-                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                                                height="24" fill="currentColor" viewBox="0 0 24 24">
-                                                <path
-                                                    d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495
-                                                                2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992
-                                                                2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39
-                                                                3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-                                            </svg>
-                                        @endfor
-                                    </div>
-                                    <p class="text-sm font-medium text-gray-900 dark:text-white">
-                                        {{ number_format($product->average_rating, 1) }}</p>
-                                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                        ({{ $product->total_reviews > 0 ? $product->total_reviews . ' Reviews' : '0 Reviews' }})
-                                    </p>
-                                </div>
-
-
-                                <div class="mt-4 flex items-center justify-between gap-4">
-                                    <p class="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">Rp
-                                        {{ number_format($product->price, 0, ',', '.') }}</p>
-
-                                    <form action="/carts/{{ $product->slug }}" method="post">
-                                        @csrf
-                                        <button type="submit"
-                                            class="inline-flex items-center rounded-lg bg-primary-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800">
-                                            <svg class="me-0 ms-0 h-5 w-5" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="none" viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2"
-                                                    d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
+                            @endfor
                         </div>
-                    @endforeach
+                        <p class="mt-2 text-gray-700">Sangat recomended banget, otw jadi langganan nih.</p>
+                        <div class="mt-2">
+                            <button class="flex items-center text-xs text-gray-500 hover:text-gray-700">
+                                <span>lihat balasan</span>
+                                <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-    @endif
-    {{-- end releated --}}
-
-    {{-- TOAST --}}
-    @if (session('success'))
-        <div id="toast-bottom-right"
-            class="fixed bottom-5 right-5 flex w-auto max-w-xs translate-x-0 transform items-center space-x-3 rounded-lg border-2 border-green-300 bg-green-50 p-4 text-green-500 transition-all duration-1000 ease-in-out dark:border-green-800 dark:bg-gray-800 dark:text-green-400"
-            role="alert">
-            <div class="flex h-8 w-8 items-center justify-center rounded-full bg-green-100 p-2 dark:bg-green-900">
-                <svg aria-hidden="true" class="h-6 w-6 text-green-500 dark:text-green-400" fill="currentColor"
-                    viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd"
-                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                        clip-rule="evenodd"></path>
-                </svg>
+            
+            <!-- Review Item 2 -->
+            <div class="border-b border-gray-200 pb-6">
+                <div class="flex">
+                    <div class="mr-4">
+                        <div class="h-10 w-10 overflow-hidden rounded-full bg-gray-100">
+                            <img src="https://via.placeholder.com/40" alt="Anton H.d" class="h-full w-full object-cover" />
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-gray-900">Anton H.d <span class="ml-1 text-xs text-gray-500">kemarin</span></p>
+                        <div class="mt-1 flex">
+                            @for ($i = 1; $i <= 5; $i++)
+                                <svg class="h-4 w-4 text-primary-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                                </svg>
+                            @endfor
+                        </div>
+                        <p class="mt-2 text-gray-700">Sangat recomended banget, otw jadi langganan nih.</p>
+                        <div class="mt-2">
+                            <button class="flex items-center text-xs text-gray-500 hover:text-gray-700">
+                                <span>lihat balasan</span>
+                                <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="text-sm font-normal">
-                {{ session('success') }}
+            
+            <!-- Pagination -->
+            <div class="mt-6 flex items-center justify-between">
+                <button class="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 text-gray-500 hover:bg-gray-100">
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                </button>
+                
+                <div class="flex items-center space-x-2">
+                    <button class="flex h-8 w-8 items-center justify-center rounded-full bg-primary-600 text-white">1</button>
+                    <button class="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">2</button>
+                    <button class="flex h-8 w-8 items-center justify-center rounded-full text-gray-500 hover:bg-gray-100">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <a href="#" class="text-sm font-medium text-primary-600 hover:underline">
+                    Lihat Semua
+                </a>
             </div>
         </div>
+    </div>
+    
+</section>
 
-        <script>
-            // Hilangkan toast setelah 3 detik (3000 ms)
-            setTimeout(() => {
-                const toast = document.getElementById('toast-bottom-right');
-                if (toast) {
-                    toast.classList.add('translate-x-full', 'opacity-0'); // Geser ke kanan & fade out
-                    setTimeout(() => toast.remove(), 1000); // Hapus elemen setelah animasi selesai
-                }
-            }, 3000);
-        </script>
-    @endif
+@if (session('success'))
+    <div id="toast-bottom-right"
+        class="fixed bottom-5 right-5 z-50 flex w-auto max-w-xs items-center rounded-lg bg-white p-4 text-gray-500 shadow-lg dark:bg-gray-800 dark:text-gray-400"
+        role="alert">
+        <div class="inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+            <svg class="h-5 w-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+            </svg>
+            <span class="sr-only">Check icon</span>
+        </div>
+        <div class="ml-3 text-sm font-normal">{{ session('success') }}</div>
+        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-bottom-right" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+            </svg>
+        </button>
+    </div>
+
+    <script>
+        // Auto-hide toast after 3 seconds
+        setTimeout(() => {
+            const toast = document.getElementById('toast-bottom-right');
+            if (toast) {
+                toast.classList.add('opacity-0', 'translate-x-full');
+                toast.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                setTimeout(() => toast.remove(), 500);
+            }
+        }, 3000);
+    </script>
+@endif
 @endsection
