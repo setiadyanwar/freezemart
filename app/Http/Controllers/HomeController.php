@@ -250,7 +250,7 @@ class HomeController extends Controller
         }
 
         // setting xendit supaya bisa dipake
-        Configuration::setXenditKey('xnd_development_4gM7zePPKlHVKGj4jcbex4hdo4kKaWDMWeGl3fkCBXDvxK8QI9Y5sUeBAkhM0');
+        Configuration::setXenditKey(config('services.xendit.secret'));
         $invoiceApi = new InvoiceApi();
 
         // set parameter yang dikirim
@@ -298,7 +298,11 @@ class HomeController extends Controller
             // redirect
             return redirect($result['invoice_url']);
         } catch (\Xendit\XenditSdkException $e) {
-
+            Log::error('Xendit API Error:', [
+                'error_message' => $e->getMessage(),
+                'error_code' => $e->getCode(),
+                'error_trace' => $e->getTraceAsString()
+            ]);
 
             return redirect("/failure/$externalId");
         }
