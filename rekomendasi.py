@@ -4,7 +4,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
-@app.route('/recommend', methods=['POST'])
+@app.route('/recommend', methods=['GET', 'POST'], strict_slashes=False)
 def recommend():
     data = request.json
     deskripsi_produk = data['produk']
