@@ -17,7 +17,7 @@
             <!-- Product Image with Magnifier -->
             <div class="lg:w-3/5">
                 <div class="overflow-hidden rounded-lg bg-gray-50 p-4 relative" id="img-container">
-                    <img id="product-img" class="w-full" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
+                    <img id="product-img" class="w-full h-auto object-contain max-h-[400px]" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" />
                     <div id="magnifier-lens" class="hidden absolute pointer-events-none border-2 border-primary-500 rounded-full w-32 h-32 bg-white opacity-0 transition-opacity duration-200"></div>
                 </div>
             </div>
