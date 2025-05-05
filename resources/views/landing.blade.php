@@ -209,37 +209,39 @@
 
                 </div>
             </div>
-
-            <div class="mb-4 flex max-w-full items-center gap-4 overflow-x-auto pb-2 pl-2 pr-4 scrollbar-hide"
-                data-aos="fade-up" data-aos-duration="1000" once="true">
-                {{-- Semua Kategori --}}
-                <a href="/products"
-                    class="{{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600' }} flex items-center gap-2 rounded-xl border px-4 py-2 dark:bg-gray-800"
-                    title="Semua Kategori">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M18.416 10.8335C20.2109 10.8335 21.666 9.37842 21.666 7.5835C21.666 5.78857 20.2109 4.3335 18.416 4.3335C16.6211 4.3335 15.166 5.78857 15.166 7.5835C15.166 9.37842 16.6211 10.8335 18.416 10.8335Z"
-                            stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path
-                            d="M7.58301 21.6669C9.37793 21.6669 10.833 20.2118 10.833 18.4169C10.833 16.6219 9.37793 15.1669 7.58301 15.1669C5.78808 15.1669 4.33301 16.6219 4.33301 18.4169C4.33301 20.2118 5.78808 21.6669 7.58301 21.6669Z"
-                            stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path
-                            d="M15.1663 15.1668H21.6663V20.5835C21.6663 20.8708 21.5522 21.1464 21.349 21.3495C21.1459 21.5527 20.8703 21.6668 20.583 21.6668H16.2497C15.9624 21.6668 15.6868 21.5527 15.4836 21.3495C15.2805 21.1464 15.1663 20.8708 15.1663 20.5835V15.1668ZM4.33301 4.3335H10.833V9.75016C10.833 10.0375 10.7189 10.313 10.5157 10.5162C10.3125 10.7194 10.037 10.8335 9.74967 10.8335H5.41634C5.12902 10.8335 4.85347 10.7194 4.65031 10.5162C4.44714 10.313 4.33301 10.0375 4.33301 9.75016V4.3335Z"
-                            stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <p class="whitespace-nowrap text-sm font-medium">Semua Kategori</p>
-                </a>
-
-                {{-- List Kategori --}}
-                @foreach ($categories as $category)
-                    <a href="/products?category={{ $category->slug }}"
-                        class="{{ request('category') === $category->slug ? 'border-dark-black text-gray-900 dark:text-white dark:border-gray-700' : 'border-gray-200 text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }} flex items-center gap-2 rounded-xl border px-4 py-2">
-                        <img class="h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
-                            alt="{{ $category->name }} Icon">
-                        <p class="min-w-0 truncate text-sm font-medium">{{ $category->name }}</p>
+            <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+                <div class="mb-4 flex max-w-full items-center gap-4 overflow-x-auto pb-2 pl-2 pr-4 scrollbar-hide"
+                    data-aos="fade-up" data-aos-duration="1000" once="true">
+                    {{-- Semua Kategori --}}
+                    
+                    <a href="/products"
+                        class="{{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600' }} flex items-center gap-2 rounded-xl border px-4 py-2 dark:bg-gray-800"
+                        title="Semua Kategori">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M18.416 10.8335C20.2109 10.8335 21.666 9.37842 21.666 7.5835C21.666 5.78857 20.2109 4.3335 18.416 4.3335C16.6211 4.3335 15.166 5.78857 15.166 7.5835C15.166 9.37842 16.6211 10.8335 18.416 10.8335Z"
+                                stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M7.58301 21.6669C9.37793 21.6669 10.833 20.2118 10.833 18.4169C10.833 16.6219 9.37793 15.1669 7.58301 15.1669C5.78808 15.1669 4.33301 16.6219 4.33301 18.4169C4.33301 20.2118 5.78808 21.6669 7.58301 21.6669Z"
+                                stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M15.1663 15.1668H21.6663V20.5835C21.6663 20.8708 21.5522 21.1464 21.349 21.3495C21.1459 21.5527 20.8703 21.6668 20.583 21.6668H16.2497C15.9624 21.6668 15.6868 21.5527 15.4836 21.3495C15.2805 21.1464 15.1663 20.8708 15.1663 20.5835V15.1668ZM4.33301 4.3335H10.833V9.75016C10.833 10.0375 10.7189 10.313 10.5157 10.5162C10.3125 10.7194 10.037 10.8335 9.74967 10.8335H5.41634C5.12902 10.8335 4.85347 10.7194 4.65031 10.5162C4.44714 10.313 4.33301 10.0375 4.33301 9.75016V4.3335Z"
+                                stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="whitespace-nowrap text-sm font-medium">Semua Kategori</p>
                     </a>
-                @endforeach
+
+                    {{-- List Kategori --}}
+                    @foreach ($categories as $category)
+                        <a href="/products?category={{ $category->slug }}"
+                            class="{{ request('category') === $category->slug ? 'border-dark-black text-gray-900 dark:text-white dark:border-gray-700' : 'border-gray-200 text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }} flex items-center gap-2 rounded-xl border px-4 py-2">
+                            <img class="h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
+                                alt="{{ $category->name }} Icon">
+                            <p class="min-w-0 truncate text-sm font-medium">{{ $category->name }}</p>
+                        </a>
+                    @endforeach
+                </div>
             </div>
         </div>
     </section>
