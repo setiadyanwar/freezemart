@@ -250,7 +250,7 @@ class HomeController extends Controller
         }
 
         // setting xendit supaya bisa dipake
-        Configuration::setXenditKey(config('services.xendit.secret'));
+        Configuration::setXenditKey('xnd_development_4gM7zePPKlHVKGj4jcbex4hdo4kKaWDMWeGl3fkCBXDvxK8QI9Y5sUeBAkhM0');
         $invoiceApi = new InvoiceApi();
 
         // set parameter yang dikirim
