@@ -209,13 +209,107 @@ class HomeController extends Controller
         return back()->with('success', 'Produk berhasil dihapus dari keranjang.');
     }
 
+    // public function buyFromCart(Request $request)
+    // {
+    //     $products = Product::whereIn('slug', $request->products)
+    //         ->orderByRaw("FIELD(slug, '" . implode("','", $request->products) . "')")
+    //         ->get();
+    //     $quantities = $request->quantities;
+
+    //     // hitung hitungan
+    //     $emailPart = explode('@', Auth::user()->email)[0];
+    //     $externalId = 'invoice-' . $emailPart . '-' . Str::uuid() . '-' . time();
+    //     $admin = 2000;
+    //     $amount = $admin;
+    //     $qtyAmount = 0;
+    //     $indexQty = 0;
+    //     $items = [];
+    //     $orders = [];
+
+    //     foreach ($products as $product) {
+    //         $amount += $product->price * $quantities[$indexQty];
+    //         $qtyAmount += $quantities[$indexQty];
+
+    //         $items[] = [
+    //             "name" => $product->name,
+    //             "quantity" => $quantities[$indexQty],
+    //             "price" => $product->price,
+    //             "category" => $product->category->name,
+    //             "url" => config('app.url') . "/products/$product->slug"
+    //         ];
+
+    //         $orders[] = [
+    //             'product_id' => $product->id,
+    //             'price' => $product->price,
+    //             'quantity' => $quantities[$indexQty],
+    //             'created_at' => Carbon::now(),
+    //             'updated_at' => Carbon::now()
+    //         ];
+
+    //         $indexQty++;
+    //     }
+
+    //     // setting xendit supaya bisa dipake
+    //     Configuration::setXenditKey('');
+    //     $invoiceApi = new InvoiceApi();
+
+    //     // set parameter yang dikirim
+    //     $invoiceRequest = new CreateInvoiceRequest([
+    //         'external_id' => $externalId,
+    //         'amount' => $amount,
+    //         'currency' => 'IDR',
+    //         'description' => 'Pembelian produk sebanyak ' . $qtyAmount . ', dengan total harga Rp ' . number_format($amount, 2, ',', '.'),
+    //         'customer' => [
+    //             'given_names' => Auth::user()->name,
+    //             'email' => Auth::user()->email,
+    //         ],
+    //         'success_redirect_url' => config('app.url') . "/success/$externalId",
+    //         'failure_redirect_url' => config('app.url') . "/failure/$externalId",
+    //         'items' => $items,
+    //         'fees' => [
+    //             [
+    //                 'type' => 'ADMIN',
+    //                 'value' => $admin,
+    //             ]
+    //         ]
+    //     ]);
+
+    //     // lakukan uji coba
+    //     try {
+    //         // tarik resultnya
+    //         $result = $invoiceApi->createInvoice($invoiceRequest);
+
+    //         // bikin data checkout
+    //         $checkout = Checkout::create([
+    //             'user_id' => Auth::user()->id,
+    //             'service' => $admin,
+    //             'price_total' => $amount,
+    //             'checkout_link' => $result['invoice_url'],
+    //             'external_id' => $externalId,
+    //             'status' => $result['status']
+    //         ]);
+
+    //         // store data orders + ambil id checkout
+    //         foreach ($orders as $order) {
+    //             $order['checkout_id'] = $checkout->id;
+    //             Order::create($order);
+    //         }
+
+    //         // redirect
+    //         return redirect($result['invoice_url']);
+    //     } catch (\Xendit\XenditSdkException $e) {
+
+
+    //         return redirect("/failure/$externalId");
+    //     }
+    // }
     public function buyFromCart(Request $request)
     {
         $products = Product::whereIn('slug', $request->products)
             ->orderByRaw("FIELD(slug, '" . implode("','", $request->products) . "')")
             ->get();
         $quantities = $request->quantities;
-
+    
         // hitung hitungan
         $emailPart = explode('@', Auth::user()->email)[0];
         $externalId = 'invoice-' . $emailPart . '-' . Str::uuid() . '-' . time();
@@ -225,11 +319,11 @@ class HomeController extends Controller
         $indexQty = 0;
         $items = [];
         $orders = [];
-
+    
         foreach ($products as $product) {
             $amount += $product->price * $quantities[$indexQty];
             $qtyAmount += $quantities[$indexQty];
-
+    
             $items[] = [
                 "name" => $product->name,
                 "quantity" => $quantities[$indexQty],
@@ -237,7 +331,7 @@ class HomeController extends Controller
                 "category" => $product->category->name,
                 "url" => config('app.url') . "/products/$product->slug"
             ];
-
+    
             $orders[] = [
                 'product_id' => $product->id,
                 'price' => $product->price,
@@ -245,14 +339,14 @@ class HomeController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
-
+    
             $indexQty++;
         }
-
+    
         // setting xendit supaya bisa dipake
         Configuration::setXenditKey(config('services.xendit.secret'));
         $invoiceApi = new InvoiceApi();
-
+    
         // set parameter yang dikirim
         $invoiceRequest = new CreateInvoiceRequest([
             'external_id' => $externalId,
@@ -273,12 +367,12 @@ class HomeController extends Controller
                 ]
             ]
         ]);
-
+    
         // lakukan uji coba
         try {
             // tarik resultnya
             $result = $invoiceApi->createInvoice($invoiceRequest);
-
+    
             // bikin data checkout
             $checkout = Checkout::create([
                 'user_id' => Auth::user()->id,
@@ -288,26 +382,28 @@ class HomeController extends Controller
                 'external_id' => $externalId,
                 'status' => $result['status']
             ]);
-
+    
             // store data orders + ambil id checkout
             foreach ($orders as $order) {
                 $order['checkout_id'] = $checkout->id;
                 Order::create($order);
             }
-
+    
             // redirect
             return redirect($result['invoice_url']);
         } catch (\Xendit\XenditSdkException $e) {
-            Log::error('Xendit API Error:', [
-                'error_message' => $e->getMessage(),
-                'error_code' => $e->getCode(),
-                'error_trace' => $e->getTraceAsString()
-            ]);
-
+            // Tangkap error dan tampilkan
+            // Bisa gunakan dd() untuk debug atau log error
+            dd($e->getMessage()); // Menampilkan pesan error dari Xendit
+    
+            // Atau log error
+            // Log::error('Xendit Error: ' . $e->getMessage());
+    
+            // Anda masih bisa mengalihkan user ke halaman failure jika perlu
             // return redirect("/failure/$externalId");
         }
     }
-
+    
 
     public function success($checkout)
     {
