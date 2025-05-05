@@ -192,7 +192,7 @@ class HomeController extends Controller
                 "quantity" => $quantities[$indexQty],
                 "price" => $product->price,
                 "category" => $product->category->name,
-                "url" => env('APP_URL') . "/products/$product->slug"
+                "url" => config('app.url') . "/products/$product->slug"
             ];
 
             $orders[] = [
