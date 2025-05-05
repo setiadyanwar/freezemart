@@ -589,7 +589,7 @@ class HomeController extends Controller
 
     public function personalize(Request $request)
     {
-        $user = auth()->user(); // Asumsi kamu pakai auth
+        $user = Auth::user(); // Menggunakan Auth facade untuk mendapatkan user
         $inputText = $request->input('input');
         $priceFilter = $request->input('price'); // lt50, 50to100, gt100
 

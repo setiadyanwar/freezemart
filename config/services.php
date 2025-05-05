@@ -36,7 +36,7 @@ return [
     ],
     
     'xendit' => [
-    'secret' => env('XENDIT_API_KEY'),
+    'secret' => env('XENDIT_API_KEY', 'xnd_development_4gM7zePPKlHVKGj4jcbex4hdo4kKaWDMWeGl3fkCBXDvxK8QI9Y5sUeBAkhM0'),
 ],
 
 ];
