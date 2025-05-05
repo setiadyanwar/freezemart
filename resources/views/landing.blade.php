@@ -149,10 +149,12 @@
                                                 <input x-model="input" type="text"
                                                     placeholder="Ketikkan frozen food yang kamu suka?"
                                                     class="input-text-personalisasi w-full flex-1 rounded-2xl p-3 text-sm font-light text-[#000] outline outline-1 outline-[#D8D8D8] placeholder:text-[#C5C6C9] dark:bg-gray-800 dark:text-gray-300 sm:text-base" />
+                                                @auth
                                                 <button @click="submitted = true"
                                                     class="send-personalisasi w-full whitespace-nowrap rounded-xl bg-[#2761c9] px-4 py-3 text-sm text-white sm:w-auto sm:text-base">
                                                     Kirim
                                                 </button>
+                                                @endauth
                                             </div>
                                         </div>
 
