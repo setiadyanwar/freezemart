@@ -42,9 +42,10 @@ class OrderResource extends Resource
                     ->label('Nama Pembeli')
                     ->content(fn($record) => $record?->checkout?->user?->name ?? '-'),
 
-                Placeholder::make('product_name')
+                Select::make('product_id')
                     ->label('Produk')
-                    ->content(fn($record) => $record?->product?->name ?? '-'),
+                    ->relationship('product', 'name')
+                    ->disabled(),
 
                 TextInput::make('price')
                     ->label('Harga')

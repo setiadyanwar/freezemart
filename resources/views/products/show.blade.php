@@ -37,9 +37,9 @@
                                     fill="currentColor" viewBox="0 0 24 24">
                                     <path
                                         d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495
-                                                                                                                                                                                                                                        2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992
-                                                                                                                                                                                                                                        2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39
-                                                                                                                                                                                                                                        3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
+                                                                                                                                                                                                                                            2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992
+                                                                                                                                                                                                                                            2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39
+                                                                                                                                                                                                                                            3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
                                 </svg>
                             @endfor
                         </div>
@@ -184,17 +184,30 @@
                                     {{ $comment->content }}
                                 </p>
 
-                                <!-- Reply Button -->
-                                <div class="mt-2">
-                                    <button class="flex items-center text-xs text-gray-500 hover:text-gray-700">
-                                        <span>lihat balasan</span>
+                                <!-- Reply Toggle -->
+                                <div x-data="{ open: false }" class="mt-2">
+                                    <button @click="open = !open"
+                                        class="flex items-center text-xs text-gray-500 hover:text-gray-700 focus:outline-none">
+                                        <span x-text="open ? 'sembunyikan balasan' : 'lihat balasan'"></span>
                                         <svg class="ml-1 h-3 w-3 sm:h-4 sm:w-4" fill="none" stroke="currentColor"
                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     </button>
+
+                                    <!-- Admin Feedback -->
+                                    <div x-show="open" x-transition
+                                        class="mt-2 rounded-md bg-gray-100 p-3 text-sm text-gray-700">
+                                        @if ($comment->admin_feedback)
+                                            <p><span class="font-semibold">Balasan Admin:</span>
+                                                {{ $comment->admin_feedback }}</p>
+                                        @else
+                                            <p class="italic text-gray-400">Belum ada balasan dari admin.</p>
+                                        @endif
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
