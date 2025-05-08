@@ -158,7 +158,7 @@
                             kamu sukai?</h2>
                         <p class="pb-2 text-sm text-[#6B7280]">*membantu kami merekomendasikan produk yang sesuai.</p>
 
-                        <form action="{{ url('/personalize') }}" method="GET">
+                        <form action="{{ url('/') }}" method="POST">
                             @csrf
                             <input type="hidden" name="price" :value="price">
                             <input type="hidden" name="input" :value="input">
@@ -271,8 +271,6 @@
                     </a>
                 </div>
 
-
-
                 <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-5">
                     @foreach ($recommended as $product)
                         <div
@@ -321,7 +319,11 @@
                                             </svg>
                                         </button>
                                     </form>
+                                </div>
 
+                                {{-- Tampilkan Similarity --}}
+                                <div class="text-sm text-gray-600 dark:text-gray-400">
+                                    Similarity: {{ round($product->similarity, 3) }} <!-- Menampilkan similarity -->
                                 </div>
                             </div>
                         </div>
@@ -331,6 +333,7 @@
         </section>
     @endif
     {{-- end product --}}
+
 
 
     {{-- TOAST --}}

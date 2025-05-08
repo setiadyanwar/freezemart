@@ -25,6 +25,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Password;
 use Xendit\Invoice\CreateInvoiceRequest;
 use Illuminate\Auth\Events\PasswordReset;
+use App\Models\PersonalizationDetail;
 
 class HomeController extends Controller
 {
@@ -309,7 +310,7 @@ class HomeController extends Controller
             ->orderByRaw("FIELD(slug, '" . implode("','", $request->products) . "')")
             ->get();
         $quantities = $request->quantities;
-    
+
         // hitung hitungan
         $emailPart = explode('@', Auth::user()->email)[0];
         $externalId = 'invoice-' . $emailPart . '-' . Str::uuid() . '-' . time();
@@ -319,11 +320,11 @@ class HomeController extends Controller
         $indexQty = 0;
         $items = [];
         $orders = [];
-    
+
         foreach ($products as $product) {
             $amount += $product->price * $quantities[$indexQty];
             $qtyAmount += $quantities[$indexQty];
-    
+
             $items[] = [
                 "name" => $product->name,
                 "quantity" => $quantities[$indexQty],
@@ -331,7 +332,7 @@ class HomeController extends Controller
                 "category" => $product->category->name,
                 "url" => config('app.url') . "/products/$product->slug"
             ];
-    
+
             $orders[] = [
                 'product_id' => $product->id,
                 'price' => $product->price,
@@ -339,14 +340,14 @@ class HomeController extends Controller
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
-    
+
             $indexQty++;
         }
-    
+
         // setting xendit supaya bisa dipake
         Configuration::setXenditKey(config('services.xendit.secret'));
         $invoiceApi = new InvoiceApi();
-    
+
         // set parameter yang dikirim
         $invoiceRequest = new CreateInvoiceRequest([
             'external_id' => $externalId,
@@ -367,12 +368,12 @@ class HomeController extends Controller
                 ]
             ]
         ]);
-    
+
         // lakukan uji coba
         try {
             // tarik resultnya
             $result = $invoiceApi->createInvoice($invoiceRequest);
-    
+
             // bikin data checkout
             $checkout = Checkout::create([
                 'user_id' => Auth::user()->id,
@@ -382,28 +383,28 @@ class HomeController extends Controller
                 'external_id' => $externalId,
                 'status' => $result['status']
             ]);
-    
+
             // store data orders + ambil id checkout
             foreach ($orders as $order) {
                 $order['checkout_id'] = $checkout->id;
                 Order::create($order);
             }
-    
+
             // redirect
             return redirect($result['invoice_url']);
         } catch (\Xendit\XenditSdkException $e) {
             // Tangkap error dan tampilkan
             // Bisa gunakan dd() untuk debug atau log error
             dd($e->getMessage()); // Menampilkan pesan error dari Xendit
-    
+
             // Atau log error
             // Log::error('Xendit Error: ' . $e->getMessage());
-    
+
             // Anda masih bisa mengalihkan user ke halaman failure jika perlu
             // return redirect("/failure/$externalId");
         }
     }
-    
+
 
     public function success($checkout)
     {
@@ -689,7 +690,7 @@ class HomeController extends Controller
 
     public function personalize(Request $request)
     {
-        $user = Auth::user(); // Menggunakan Auth facade untuk mendapatkan user
+        $user = Auth::user();
         $inputText = $request->input('input');
         $priceFilter = $request->input('price'); // lt50, 50to100, gt100
 
@@ -735,13 +736,27 @@ class HomeController extends Controller
 
         // Ambil hasil rekomendasi dari API Flask
         $recommended = $response->json();
+
         $recommendedIds = collect($recommended)->pluck('id')->toArray();
 
         // Ambil produk yang direkomendasikan dari database
-        $recommendedProducts = Product::with('comments')->whereIn('id', $recommendedIds)->get();
+        $similarityMap = collect($recommended)->mapWithKeys(function ($item) {
+            return [$item['id'] => $item['similarity']];
+        });
+
+        $recommendedProducts = Product::with('comments')
+            ->whereIn('id', $recommendedIds)
+            ->get()
+            ->map(function ($product) use ($similarityMap) {
+                $product->similarity = $similarityMap[$product->id] ?? null;
+                return $product;
+            })
+            ->sortByDesc('similarity') // ⬅️ sort dari similarity paling tinggi
+            ->values(); // reset index (optional, supaya clean);
+
 
         // Simpan personalisasi di database
-        Personalization::create([
+        $personalization = Personalization::create([
             'user_id' => $user->id,
             'input_text' => $inputText,
             'user_profile' => $profilPengguna ?? '', // Fallback profil pengguna jika kosong
@@ -749,9 +764,18 @@ class HomeController extends Controller
             'price_filter' => $hargaMaks,
         ]);
 
+        // Simpan detail similarity ke personalization_details
+        foreach ($recommended as $item) {
+            PersonalizationDetail::create([
+                'personalization_id' => $personalization->id,
+                'product_id' => $item['id'],
+                'similarity' => $item['similarity'],
+            ]);
+        }
+
         // Return hasil rekomendasi ke tampilan
         return view('landing', [
-            'title' => 'Hasil Rekomendasi',
+            'title' => 'Freezemart | Hasil Rekomendasi',
             'products' => Product::with('comments')->limit(10)->get(),
             'recommended' => $recommendedProducts,
             'categories' => Category::all()
