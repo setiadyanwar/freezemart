@@ -2,7 +2,7 @@
     @php
         $firstOrder = $orders->first();
     @endphp
-    <div class="w-full p-4 mx-auto mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
+    <div class="mx-auto mb-6 w-full rounded-lg border border-gray-100 bg-white p-4 shadow-sm">
         <!-- Header section with toggle button -->
         <div class="flex items-center justify-between">
             @php
@@ -16,9 +16,9 @@
                     dan {{ $totalProducts - 1 }} lainnya
                 @endif
             </div>
-            <div class="flex items-center text-sm text-blue-600 cursor-pointer" onclick="toggleDetails(this)">
+            <div class="flex cursor-pointer items-center text-sm text-blue-600" onclick="toggleDetails(this)">
                 <span class="toggleText">Lihat selengkapnya</span>
-                <svg class="w-4 h-4 ml-1 transform toggleIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <svg class="toggleIcon ml-1 h-4 w-4 transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
@@ -26,22 +26,22 @@
         </div>
 
         <!-- Produk pertama (langsung kelihatan) -->
-        <div class="flex items-center mt-4">
+        <div class="mt-4 flex items-center">
             <div class="flex-shrink-0">
-                <div class="flex items-center justify-center w-20 h-20 overflow-hidden bg-orange-100 rounded-md">
-                    <img class="object-cover w-16 h-16" src="{{ asset('storage/' . $firstOrder->product->image) }}"
+                <div class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-md bg-orange-100">
+                    <img class="h-16 w-16 object-cover" src="{{ asset('storage/' . $firstOrder->product->image) }}"
                         alt="Product Image" />
                 </div>
             </div>
 
-            <div class="flex-grow ml-4">
+            <div class="ml-4 flex-grow">
                 <div class="text-lg font-medium text-gray-800">{{ $firstOrder->product->name }}</div>
                 <div class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
                     Completed
                 </div>
                 <div class="flex">
                     <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
-                    <div class="mt-2 text-sm text-gray-600 ms-2">
+                    <div class="ms-2 mt-2 text-sm text-gray-600">
                         {{ \Carbon\Carbon::parse($firstOrder->checkout->created_at)->format('d M Y') }}
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <button {{ $hasReviewed ? 'disabled' : '' }} data-modal-target="authentication-modal"
                     data-modal-toggle="authentication-modal" data-product-name="{{ $firstOrder->product->name }}"
                     data-product-id="{{ $firstOrder->product->id }}" data-total-products="{{ $totalProducts }}"
-                    class="block w-full px-3 py-2 mt-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg btn-review hover:bg-blue-800 disabled:bg-gray-400"
+                    class="btn-review mt-2 block w-full rounded-lg bg-blue-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 disabled:bg-gray-400"
                     type="button">
                     {{ $hasReviewed ? 'Sudah diulas' : 'Beri ulasan' }}
                 </button>
@@ -69,25 +69,25 @@
         </div>
 
         <!-- Produk lainnya (disembunyikan dulu, tampil setelah klik "Lihat Selengkapnya") -->
-        <div class="hidden detailsSection">
+        <div class="detailsSection hidden">
             @foreach ($orders->skip(1) as $order)
-                <div class="flex items-center pt-4 mt-4 border-t">
+                <div class="mt-4 flex items-center border-t pt-4">
                     <div class="flex-shrink-0">
                         <div
-                            class="flex items-center justify-center w-20 h-20 overflow-hidden bg-orange-100 rounded-md">
-                            <img class="object-cover w-16 h-16" src="{{ asset('storage/' . $order->product->image) }}"
+                            class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-md bg-orange-100">
+                            <img class="h-16 w-16 object-cover" src="{{ asset('storage/' . $order->product->image) }}"
                                 alt="Product Image" />
                         </div>
                     </div>
 
-                    <div class="flex-grow ml-4">
+                    <div class="ml-4 flex-grow">
                         <div class="text-lg font-medium text-gray-800">{{ $order->product->name }}</div>
                         <div class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
                             Completed
                         </div>
                         <div class="flex">
                             <div class="mt-2 text-sm text-black">Tanggal pembelian:</div>
-                            <div class="mt-2 text-sm text-gray-600 ms-2">
+                            <div class="ms-2 mt-2 text-sm text-gray-600">
                                 {{ \Carbon\Carbon::parse($order->checkout->created_at)->format('d M Y') }}
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                         <button {{ $hasReviewed ? 'disabled' : '' }} data-modal-target="authentication-modal"
                             data-modal-toggle="authentication-modal" data-product-name="{{ $order->product->name }}"
                             data-product-id="{{ $order->product->id }}" data-total-products="{{ $totalProducts }}"
-                            class="block w-full px-3 py-2 mt-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg btn-review hover:bg-blue-800 disabled:bg-gray-400"
+                            class="btn-review mt-2 block w-full rounded-lg bg-blue-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 disabled:bg-gray-400"
                             type="button">
                             {{ $hasReviewed ? 'Sudah diulas' : 'Beri ulasan' }}
                         </button>
@@ -134,7 +134,7 @@
 
                     <div>
                         <p class="text-sm text-gray-600">Status:</p>
-                        <div class="flex items-center mt-1">
+                        <div class="mt-1 flex items-center">
                             <div
                                 class="mr-2 mt-1 inline-block rounded-[14px] bg-gray-100 px-2 py-1 text-xs text-gray-600">
                                 Completed
@@ -178,7 +178,7 @@
 
 
         <!-- Expanded details section -->
-        <div class="hidden detailsSection">
+        <div class="detailsSection hidden">
             <div class="my-4 border-t border-gray-200"></div>
 
             <!-- Detail Pembelian -->
@@ -193,7 +193,7 @@
                     </div>
                     <div>
                         <p class="text-sm text-gray-600">Status:</p>
-                        <div class="flex items-center mt-1">
+                        <div class="mt-1 flex items-center">
                             <div class="mr-2 inline-block rounded-[14px] bg-[#DEFFCA] px-2 py-1 text-xs text-[#67A544]">
                                 Compeleted
                             </div>
@@ -236,12 +236,12 @@
 <!-- Main modal -->
 <div id="authentication-modal" tabindex="-1" aria-hidden="true"
     class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0">
-    <div class="relative w-full max-w-md max-h-full p-4">
+    <div class="relative max-h-full w-full max-w-md p-4">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow-sm dark:bg-gray-700">
+        <div class="relative rounded-lg bg-white shadow-sm dark:bg-gray-700">
             <!-- Modal header -->
             <div
-                class="flex items-center justify-between p-4 border-b border-gray-200 rounded-t dark:border-gray-600 md:p-5">
+                class="flex items-center justify-between rounded-t border-b border-gray-200 p-4 dark:border-gray-600 md:p-5">
                 <div class="flex-1 text-center">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Beri Review Produk
@@ -251,14 +251,15 @@
 
             <!-- Modal body -->
             <div class="p-4 md:p-5">
-                <div class="flex justify-center mb-4">
-                    <img id="profile-pic" src="{{ asset('assets/Avatars.png') }}" class="object-cover w-24 h-24"
-                        alt="Default Avatar">
+                <div class="mb-4 flex justify-center">
+                    <img id="profile-pic"
+                        src="{{ $comment->user && $comment->user->photo ? asset('storage/photos/' . $comment->user->photo) : asset('assets/Avatars.png') }}"
+                        class="h-24 w-24 object-cover" alt="Default Avatar">
                 </div>
                 <div class="flex justify-center">
                     <h4 class="text-xl font-semibold">{{ Auth::user()->name }}</h4>
                 </div>
-                <div class="flex justify-center mb-2">
+                <div class="mb-2 flex justify-center">
                     <p class="text-base text-gray-500" id="product-name-text">
                     </p>
                 </div>
@@ -270,11 +271,11 @@
 
                     <!-- Rating Section -->
                     <div class="flex justify-center space-x-1">
-                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="1">&#9733;</span>
-                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="2">&#9733;</span>
-                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="3">&#9733;</span>
-                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="4">&#9733;</span>
-                        <span class="text-3xl text-gray-400 cursor-pointer star" data-value="5">&#9733;</span>
+                        <span class="star cursor-pointer text-3xl text-gray-400" data-value="1">&#9733;</span>
+                        <span class="star cursor-pointer text-3xl text-gray-400" data-value="2">&#9733;</span>
+                        <span class="star cursor-pointer text-3xl text-gray-400" data-value="3">&#9733;</span>
+                        <span class="star cursor-pointer text-3xl text-gray-400" data-value="4">&#9733;</span>
+                        <span class="star cursor-pointer text-3xl text-gray-400" data-value="5">&#9733;</span>
                     </div>
 
                     <input type="hidden" id="rating" name="rating" value="0">

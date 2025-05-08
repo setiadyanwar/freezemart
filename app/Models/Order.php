@@ -11,12 +11,12 @@ class Order extends Model
     protected $guarded = ['id'];
 
     // relationship
-    public function checkout() : BelongsTo
+    public function checkout(): BelongsTo
     {
         return $this->belongsTo(Checkout::class);
     }
 
-    public function product() : BelongsTo
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }
