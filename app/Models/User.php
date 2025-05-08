@@ -28,6 +28,7 @@ class User extends Authenticatable
         'phone',
         'role',
         'password',
+        'role',
     ];
 
     public function carts()
