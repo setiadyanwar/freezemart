@@ -176,7 +176,7 @@ class HomeController extends Controller
         $comments = Comment::with('user')
             ->where('product_id', $product->id)
             ->latest()
-            ->paginate(1); // paginate sesuai kebutuhan
+            ->paginate(10); // paginate sesuai kebutuhan
 
         $data['comments'] = $comments;
 
