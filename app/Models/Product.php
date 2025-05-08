@@ -37,13 +37,11 @@ class Product extends Model
         );
 
         $query->when(
-            !empty($filters['categories']) && is_array($filters['categories']),
-            function ($query) use ($filters) {
-                $query->whereHas('category', function ($q) use ($filters) {
-                    $q->whereIn('slug', $filters['categories']);
-                });
-            }
+            $filters['categories'] ?? false,
+            fn($query, $categories) =>
+            $query->whereHas('category', fn($q) => $q->where('slug', $categories))
         );
+
 
         $query->when(
             $filters['sort_by'] ?? false,
