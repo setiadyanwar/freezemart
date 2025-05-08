@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'landing']);
+
 Route::get('/products', [HomeController::class, 'products']);
 Route::get('/products/{product}', [HomeController::class, 'showProduct']);
 
@@ -74,4 +75,4 @@ Route::fallback(function () {
     ], 404);
 });
 
-Route::get('/personalize', [HomeController::class, 'personalize'])->middleware('auth');
+Route::post('/', [HomeController::class, 'personalize'])->middleware('auth');
