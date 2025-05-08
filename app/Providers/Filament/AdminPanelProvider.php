@@ -25,7 +25,9 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->brandName('FreezeMart')
+            ->brandLogo(asset('logo/logo.png'))
+            ->brandLogoHeight('40px')
+            ->brandName('Freezemart')
             ->default()
             ->id('admin')
             ->path('admin')
