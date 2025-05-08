@@ -32,44 +32,44 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                ->label('Nama Lengkap')
-                ->required()
-                ->maxLength(255),
+                    ->label('Nama Lengkap')
+                    ->required()
+                    ->maxLength(255),
 
-            TextInput::make('email')
-                ->label('Email')
-                ->email()
-                ->required()
-                ->maxLength(255),
+                TextInput::make('email')
+                    ->label('Email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255),
 
-            Select::make('role')
-                ->options([
-                    'user' => 'Pengguna',
-                    'admin' => 'Administrator',
-                ])
-                ->required(),
+                Select::make('role')
+                    ->options([
+                        'user' => 'Pengguna',
+                        'admin' => 'Administrator',
+                    ])
+                    ->required(),
 
-            Textarea::make('address')
-                ->label('Alamat')
-                ->required(),
+                Textarea::make('address')
+                    ->label('Alamat')
+                    ->required(),
 
-            TextInput::make('password')
-                ->label('Password')
-                ->password()
-                ->visible(fn ($context) => $context === 'create') 
-                ->required(fn ($context) => $context === 'create')
-                ->dehydrateStateUsing(fn ($state) => filled($state) ? Hash::make($state) : null)
-                ->dehydrated(fn ($state) => filled($state))
-                ->minLength(6)
-                ->maxLength(255)
-                ->same('passwordConfirmation'),
-            
-            TextInput::make('passwordConfirmation')
-                ->label('Konfirmasi Password')
-                ->password()
-                ->visible(fn ($context) => $context === 'create') 
-                ->required(fn ($context) => $context === 'create')
-                ->dehydrated(false),
+                TextInput::make('password')
+                    ->label('Password')
+                    ->password()
+                    ->visible(fn($context) => $context === 'create')
+                    ->required(fn($context) => $context === 'create')
+                    ->dehydrateStateUsing(fn($state) => filled($state) ? Hash::make($state) : null)
+                    ->dehydrated(fn($state) => filled($state))
+                    ->minLength(6)
+                    ->maxLength(255)
+                    ->same('passwordConfirmation'),
+
+                TextInput::make('passwordConfirmation')
+                    ->label('Konfirmasi Password')
+                    ->password()
+                    ->visible(fn($context) => $context === 'create')
+                    ->required(fn($context) => $context === 'create')
+                    ->dehydrated(false),
             ]);
     }
 

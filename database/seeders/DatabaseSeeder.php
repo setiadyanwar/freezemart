@@ -59,26 +59,31 @@ class DatabaseSeeder extends Seeder
         Category::insert([
             [
                 'name' => 'Makanan Beku Olahan',
+                'slug' => 'makanan-beku-olahan',
                 'path' => 'category/makanan-beku-olahan.svg',
                 'is_active' => 1,
             ],
             [
                 'name' => 'Daging Beku',
+                'slug' => 'daging-beku',
                 'path' => 'category/daging-beku.svg',
                 'is_active' => 1,
             ],
             [
                 'name' => 'Seafood Beku',
+                'slug' => 'seafood-beku',
                 'path' => 'category/seafood-beku.svg',
                 'is_active' => 1,
             ],
             [
                 'name' => 'Sayur Beku',
+                'slug' => 'sayur-beku',
                 'path' => 'category/sayur-beku.svg',
                 'is_active' => 1,
             ],
             [
                 'name' => 'Buah Beku',
+                'slug' => 'buah-beku',
                 'path' => 'category/buah-beku.svg',
                 'is_active' => 1,
             ],

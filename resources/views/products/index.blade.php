@@ -1,14 +1,13 @@
 @extends('templates.master')
 
 @section('content')
-    <section class="relative py-28 antialiased bg-gray-50 dark:bg-gray-900 overflow-hidden">
+    <section class="relative overflow-hidden bg-gray-50 py-28 antialiased dark:bg-gray-900">
         <!-- Gradient Background -->
-            <img class="absolute left-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
-            <img class="absolute right-[-500px] z-0 top-[-80px]" src="/assets/light.png"></img>
-        
-            <div class="max-w-screen-xl px-4 mx-auto text-center 2xl:px-0">
-            <div class="relative h-auto overflow-hidden" data-aos="fade-up"
-             data-aos-anchor-placement="bottom-bottom">
+        <img class="absolute left-[-500px] top-[-80px] z-0" src="/assets/light.png"></img>
+        <img class="absolute right-[-500px] top-[-80px] z-0" src="/assets/light.png"></img>
+
+        <div class="mx-auto max-w-screen-xl px-4 text-center 2xl:px-0">
+            <div class="relative h-auto overflow-hidden" data-aos="fade-up" data-aos-anchor-placement="bottom-bottom">
                 <!-- Heading -->
                 <div class="mb-6">
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white md:text-4xl">
@@ -21,74 +20,73 @@
                 </div>
 
                 <!-- Search -->
-                <form action="/products" method="get" class="max-w-2xl px-4 mx-auto mb-8">
+                <form action="/products" method="get" class="mx-auto mb-8 max-w-2xl px-4">
                     <div class="relative w-full">
                         <!-- Search Icon -->
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
                                     d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM14 8a6 6 0 11-12 0 6 6 0 0112 0z"
                                     clip-rule="evenodd" />
                             </svg>
                         </div>
-                
+
                         <!-- Input Field -->
                         <input type="text" name="search" id="search"
-                            class="w-full py-3 pl-12 pr-24 text-sm text-gray-900 bg-white border border-gray-300 rounded-full focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
-                            placeholder="Ketikkan frozen food yang kamu suka?" />
-                
+                            class="w-full rounded-full border border-gray-300 bg-white py-3 pl-12 pr-24 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            placeholder="Ketikkan frozen food yang kamu suka?" value="{{ request('search') }}" />
+
+                        <!-- Hidden Input untuk kategori -->
+                        <input type="hidden" name="categories" value="{{ request('categories') }}" />
+
                         <!-- Button inside input -->
                         <button type="submit"
-                            class="absolute top-1/2 right-1 transform -translate-y-1/2 px-6 py-2 text-sm font-semibold text-white bg-primary-500 rounded-full hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600">
+                            class="absolute right-1 top-1/2 -translate-y-1/2 transform rounded-full bg-primary-500 px-6 py-2 text-sm font-semibold text-white hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600">
                             Cari
                         </button>
                     </div>
                 </form>
-                
+
+
+
 
 
                 <!-- Icon Floating (absolute) -->
-                <div class="absolute inset-0 pointer-events-none">
-                    <div class="relative w-full h-[300px] overflow-hidden hidden sm:block">
+                <div class="pointer-events-none absolute inset-0">
+                    <div class="relative hidden h-[300px] w-full overflow-hidden sm:block">
                         <!-- Icon Floating (responsive) -->
                         <img src="/assets/icon/sapi.svg"
-                            class="floating-icon absolute top-[1vh] left-[10vw] w-10 h-10 animate-float-slow 
-                                    sm:left-[14vw] md:left-[16vw]" />
-                    
+                            class="floating-icon absolute left-[10vw] top-[1vh] h-10 w-10 animate-float-slow sm:left-[14vw] md:left-[16vw]" />
+
                         <img src="/assets/icon/semangka.svg"
-                            class="floating-icon absolute top-[8vh] left-[10vw] w-10 h-10 animate-float-slow 
-                                    sm:top-[10vh] md:top-[8vh]" />
-                    
+                            class="floating-icon absolute left-[10vw] top-[8vh] h-10 w-10 animate-float-slow sm:top-[10vh] md:top-[8vh]" />
+
                         <img src="/assets/icon/Chicken.svg"
-                            class="floating-icon absolute bottom-[10vh] left-[16vw] w-10 h-10 animate-float-slow 
-                                    sm:bottom-[8vh] md:bottom-[12vh]" />
-                    
+                            class="floating-icon absolute bottom-[10vh] left-[16vw] h-10 w-10 animate-float-slow sm:bottom-[8vh] md:bottom-[12vh]" />
+
                         <img src="/assets/icon/sosis.svg"
-                            class="floating-icon absolute bottom-[14vh] right-[20vw] w-10 h-10 animate-float-medium 
-                                    sm:right-[10vw] md:right-[14vw]" />
-                    
+                            class="floating-icon absolute bottom-[14vh] right-[20vw] h-10 w-10 animate-float-medium sm:right-[10vw] md:right-[14vw]" />
+
                         <img src="/assets/icon/ayam.svg"
-                            class="floating-icon absolute top-[8vh] right-[10vw] w-10 h-10 animate-float-medium 
-                                    sm:top-[6vh] md:top-[8vh]" />
-                    
+                            class="floating-icon absolute right-[10vw] top-[8vh] h-10 w-10 animate-float-medium sm:top-[6vh] md:top-[8vh]" />
+
                         <img src="/assets/icon/ikan.svg"
-                            class="floating-icon absolute top-[1vh] right-[30vw] w-10 h-10 animate-float-medium 
-                                    sm:right-[20vw] md:right-[16vw]" />
+                            class="floating-icon absolute right-[30vw] top-[1vh] h-10 w-10 animate-float-medium sm:right-[20vw] md:right-[16vw]" />
                     </div>
                 </div>
-                
-  
+
+
             </div>
 
-            <section class="py-5 mb-10 antialiased bg-gray-50 dark:bg-gray-900 md:py-4" id="category" >
-                <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-                    <div class="relative flex items-center justify-between max-w-full overflow-x-auto scrollbar-hide">
+            <section class="mb-10 bg-gray-50 py-5 antialiased dark:bg-gray-900 md:py-4" id="category">
+                <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+                    <div class="relative flex max-w-full items-center justify-between overflow-x-auto scrollbar-hide">
                         <!-- List Kategori -->
                         <div
                             class="relative flex max-w-[88%] items-center gap-4 overflow-x-auto scrollbar-hide [mask-image:linear-gradient(to_right,black_90%,transparent)]">
                             <!-- Semua Kategori -->
                             <a href="/products"
-                                class="{{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600' }} flex items-center gap-2 rounded-xl border px-4 py-2 dark:bg-gray-800"
+                                class="{{ request('categories') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600 dark:border-primary-400 dark:bg-primary-600/10 dark:text-primary-300' }} flex items-center gap-2 rounded-xl border px-4 py-2"
                                 title="Semua Kategori">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -102,26 +100,28 @@
                                         d="M15.1663 15.1668H21.6663V20.5835C21.6663 20.8708 21.5522 21.1464 21.349 21.3495C21.1459 21.5527 20.8703 21.6668 20.583 21.6668H16.2497C15.9624 21.6668 15.6868 21.5527 15.4836 21.3495C15.2805 21.1464 15.1663 20.8708 15.1663 20.5835V15.1668ZM4.33301 4.3335H10.833V9.75016C10.833 10.0375 10.7189 10.313 10.5157 10.5162C10.3125 10.7194 10.037 10.8335 9.74967 10.8335H5.41634C5.12902 10.8335 4.85347 10.7194 4.65031 10.5162C4.44714 10.313 4.33301 10.0375 4.33301 9.75016V4.3335Z"
                                         stroke="#2761C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <p class="text-sm font-medium whitespace-nowrap">Semua Kategori</p>
+                                <p class="whitespace-nowrap text-sm font-medium">Semua Kategori</p>
                             </a>
                             @foreach ($categories as $category)
-                                <a href="/products?category={{ $category->slug }}"
-                                    class="{{ request('category') === $category->slug ? 'border-dark-black text-gray-900 dark:text-white dark:border-gray-700' : 'border-gray-200 text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }} flex items-center gap-2 rounded-xl border px-4 py-2">
-                                    <img class="w-4 h-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
+                                <a href="/products?categories={{ $category->slug }}"
+                                    class="{{ request('categories') === $category->slug ? 'border-primary-500 bg-primary-50 text-primary-600 dark:border-primary-400 dark:bg-primary-600/10 dark:text-primary-300' : 'border-gray-200 text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }} flex items-center gap-2 rounded-xl border px-4 py-2">
+                                    <img class="h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
                                         alt="{{ $category->name }} Icon">
-                                    <p class="min-w-0 text-sm font-medium truncate">{{ $category->name }}</p>
+                                    <p class="min-w-0 truncate text-sm font-medium">{{ $category->name }}</p>
                                 </a>
                             @endforeach
+
                         </div>
 
                         {{-- Filter Button --}}
                         <button data-modal-target="filterModal" data-modal-toggle="filterModal" type="button"
                             type="button"
-                            class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-xl hover:bg-primary-50 hover:text-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
+                            class="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm text-gray-700 hover:bg-primary-50 hover:text-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700">
                             <svg width="26" height="26" viewBox="0 0 26 26" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.625 7.3125H24.375M5.6875 13H20.3125M10.5625 18.6875H15.4375" stroke="#313131"class="dark:stroke-white" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M1.625 7.3125H24.375M5.6875 13H20.3125M10.5625 18.6875H15.4375"
+                                    stroke="#313131"class="dark:stroke-white" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
                             </svg>
                             Filter
                         </button>
@@ -131,30 +131,33 @@
 
             {{-- Modal Filter --}}
             <div id="filterModal"
-                class="fixed inset-0 z-50 flex items-center justify-center hidden overflow-y-auto bg-black/50">
+                class="fixed inset-0 z-50 flex hidden items-center justify-center overflow-y-auto bg-black/50">
                 <div class="relative w-full max-w-md p-4">
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
-                        <div class="flex items-start justify-between p-4 border-b dark:border-gray-700">
+                    <div class="relative rounded-lg bg-white shadow dark:bg-gray-800">
+                        <div class="flex items-start justify-between border-b p-4 dark:border-gray-700">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Filter & Urutkan</h3>
                             <!-- Tombol Close -->
                             <button type="button"
                                 class="absolute right-2.5 top-3 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
                                 data-modal-hide="filterModal">
-                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20"
                                     xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414
-                                                    1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
-                                                    1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586
-                                                    10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                    <path fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414
+                                                                                                1.414L11.414 10l4.293 4.293a1 1 0 01-1.414
+                                                                                                1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586
+                                                                                                10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd">
+                                    </path>
                                 </svg>
                                 <span class="sr-only">Close modal</span>
                             </button>
                         </div>
-                        <div class="p-4 space-y-4">
+                        <div class="space-y-4 p-4">
                             <!-- Filter Content di sini kalau mau -->
                             <div>
                                 <label for="sort"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Urutkan</label>
+                                    class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Urutkan</label>
                                 <select id="sort" name="sort"
                                     class="block w-full rounded-lg border border-primary-500 bg-gray-50 p-2.5 text-sm text-gray-900 dark:bg-gray-700 dark:text-white">
                                     <option value="">Pilih urutan</option>
@@ -166,9 +169,9 @@
                             </div>
                             <!-- Kamu bisa tambahkan filter tambahan di sini -->
                         </div>
-                        <div class="flex justify-end p-4 border-t dark:border-gray-700">
+                        <div class="flex justify-end border-t p-4 dark:border-gray-700">
                             <button type="button"
-                                class="px-4 py-2 text-white rounded-lg bg-primary-500 hover:bg-primary-600"
+                                class="rounded-lg bg-primary-500 px-4 py-2 text-white hover:bg-primary-600"
                                 data-modal-hide="filterModal">
                                 Terapkan
                             </button>
@@ -178,24 +181,25 @@
             </div>
 
             <!-- Product Grid -->
-            <div class="grid grid-cols-2 gap-4 mb-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4"  data-aos="fade-up" data-aos-duration="1000" once="true">
+            <div class="mb-4 grid grid-cols-2 gap-4 md:mb-8 lg:grid-cols-3 xl:grid-cols-4" data-aos="fade-up"
+                data-aos-duration="1000" once="true">
                 @forelse ($products as $product)
                     <div
                         class="group rounded-xl border border-gray-200 bg-white shadow-md transition-transform hover:scale-[1.02] hover:shadow-lg dark:border-gray-700 dark:bg-gray-800">
                         <a href="/products/{{ $product->slug }}" class="block overflow-hidden rounded-t-xl">
                             <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
-                                class="object-cover w-full transition duration-300 aspect-square group-hover:scale-105" />
+                                class="aspect-square w-full object-cover transition duration-300 group-hover:scale-105" />
                         </a>
-                        <div class="p-4 space-y-3">
+                        <div class="space-y-3 p-4">
                             <a href="/products/{{ $product->slug }}" title="{{ $product->name }}"
-                                class="block overflow-hidden text-base font-semibold text-left text-gray-900 truncate whitespace-nowrap hover:text-primary-600 dark:text-white dark:hover:text-primary-400 md:text-lg">
+                                class="block overflow-hidden truncate whitespace-nowrap text-left text-base font-semibold text-gray-900 hover:text-primary-600 dark:text-white dark:hover:text-primary-400 md:text-lg">
                                 {{ $product->name }}
                             </a>
 
                             <div class="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-300 md:text-sm">
                                 <div
                                     class="{{ $product->comments->count() > 0 ? 'text-yellow-400' : 'text-gray-300' }} flex items-center">
-                                    <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                                    <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path
                                             d="M13.8 4.2a2 2 0 0 0-3.6 0L8.4 8.4l-4.6.3a2 2 0 0 0-1.1 3.5l3.5 3-1 4.4c-.5 1.7 1.4 3 2.9 2.1l3.9-2.3 3.9 2.3c1.5 1 3.4-.4 3-2.1l-1-4.4 3.4-3a2 2 0 0 0-1.1-3.5l-4.6-.3-1.8-4.2Z" />
@@ -209,16 +213,16 @@
                             </div>
 
                             <div class="flex flex-col gap-2 pt-2 md:flex-row md:items-center md:justify-between">
-                                <div class="flex flex-col justify-between w-full md:flex-row">
-                                    <p class="text-lg font-bold text-gray-900 text-start dark:text-white md:text-xl">
+                                <div class="flex w-full flex-col justify-between md:flex-row">
+                                    <p class="text-start text-lg font-bold text-gray-900 dark:text-white md:text-xl">
                                         Rp {{ number_format($product->price, 0, ',', '.') }}
                                     </p>
 
-                                    <form action="/carts/{{ $product->slug }}" method="post" class="inline-flex m-0">
+                                    <form action="/carts/{{ $product->slug }}" method="post" class="m-0 inline-flex">
                                         @csrf
                                         <button type="submit"
-                                            class="inline-flex items-center justify-center px-3 py-2 mt-2 text-xs text-white transition rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800 md:px-4 md:text-sm">
-                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                            class="mt-2 inline-flex items-center justify-center rounded-lg bg-primary-600 px-3 py-2 text-xs text-white transition hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 dark:bg-primary-500 dark:hover:bg-primary-600 dark:focus:ring-primary-800 md:px-4 md:text-sm">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                                 stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M4 4h1.5L8 16h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6" />
@@ -230,7 +234,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="text-center col-span-full">
+                    <div class="col-span-full text-center">
                         <p class="text-gray-500 dark:text-gray-400">Produk tidak ditemukan</p>
                     </div>
                 @endforelse

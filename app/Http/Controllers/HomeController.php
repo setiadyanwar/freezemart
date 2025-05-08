@@ -111,13 +111,6 @@ class HomeController extends Controller
         return view('landing', $data);
     }
 
-
-
-
-
-
-
-
     public function products()
     {
         $products = Product::with('comments'); // Menambahkan with untuk comments
