@@ -20,7 +20,7 @@ Route::get('/success/{checkout}', [HomeController::class, 'success'])->middlewar
 Route::get('/failure/{checkout}', [HomeController::class, 'failure'])->middleware('auth');
 
 // route FAQ
-Route::get('/faq', [HomeController::class, 'faq'])->middleware('auth');
+Route::get('/faq', [HomeController::class, 'faq']);
 
 // route profile
 Route::resource('/profile', ProfileController::class)->middleware('auth');;

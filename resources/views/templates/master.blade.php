@@ -89,7 +89,7 @@
             <div class="flex flex-col items-center justify-between max-w-screen-xl px-4 mx-auto text-sm text-white md:flex-row">
                 <p>© 2025 FreezeMart. Hak Cipta Dilindungi.</p>
                 <div class="mt-2 space-x-4 md:mt-0">
-                    <a href="#" class="hover:underline">FAQ</a>
+                    <a href="/faq" class="hover:underline">FAQ</a>
                     <a href="#" class="hover:underline">Privacy Policy</a>
                     <a href="#" class="hover:underline">Term of Service</a>
                 </div>
