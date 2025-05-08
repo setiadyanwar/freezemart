@@ -322,9 +322,9 @@
                                 </div>
 
                                 {{-- Tampilkan Similarity --}}
-                                <div class="text-sm text-gray-600 dark:text-gray-400">
+                                {{-- <div class="text-sm text-gray-600 dark:text-gray-400">
                                     Similarity: {{ round($product->similarity, 3) }} <!-- Menampilkan similarity -->
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     @endforeach
