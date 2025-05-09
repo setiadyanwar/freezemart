@@ -801,7 +801,7 @@ class HomeController extends Controller
         // Return hasil rekomendasi ke tampilan
         return view('landing', [
             'title' => 'Freezemart | Hasil Rekomendasi',
-            'products' => Product::with('comments')->limit(10)->get(),
+            'products' => Product::with('comments')->filter(request(['categories']))->limit(10)->get(),
             'recommended' => $recommendedProducts,
             'categories' => Category::all()
         ]);
