@@ -253,7 +253,7 @@
             <div class="p-4 md:p-5">
                 <div class="mb-4 flex justify-center">
                     <img id="profile-pic"
-                        src="{{ $comment->user && $comment->user->photo ? asset('storage/photos/' . $comment->user->photo) : asset('assets/Avatars.png') }}"
+                        src="{{ $firstOrder->user && $firstOrder->user->photo ? asset('storage/photos/' . $firstOrder->user->photo) : asset('assets/Avatars.png') }}"
                         class="h-24 w-24 object-cover" alt="Default Avatar">
                 </div>
                 <div class="flex justify-center">
