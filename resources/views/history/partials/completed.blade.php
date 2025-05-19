@@ -1,4 +1,4 @@
-@foreach ($groupedOrders as $groupTime => $orders)
+@forelse ($groupedOrders as $groupTime => $orders)
     @php
         $firstOrder = $orders->first();
     @endphp
@@ -231,7 +231,19 @@
             </div>
         </div>
     </div>
-@endforeach
+    @empty
+    <div class="rounded-lg border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+        <div class="flex flex-col items-center justify-center py-12 text-center">
+            <div class="mb-4 rounded-full bg-gray-100 p-6 dark:bg-gray-800">
+                <svg class="h-12 w-12 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                </svg>
+            </div>
+            <h3 class="mb-2 text-xl font-medium text-gray-900 dark:text-white">Tidak ada pesanan yang telah selesai</h3>
+            <p class="max-w-md text-gray-500 dark:text-gray-400">Anda belum memiliki pesanan yang telah selesai.</p>
+        </div>
+    </div>
+@endforelse
 
 <!-- Main modal -->
 <div id="authentication-modal" tabindex="-1" aria-hidden="true"
