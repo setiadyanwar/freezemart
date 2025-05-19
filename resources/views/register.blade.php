@@ -78,7 +78,7 @@
                            focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
                 <!-- Tombol Mata -->
                 <button type="button" onclick="togglePassword('password', 'eyeOpen1', 'eyeClosed1')"
-                    class="absolute inset-y-0 flex items-center justify-center w-10 h-full text-gray-600 right-3 dark:text-gray-400">
+                    class="absolute top-6 flex items-center justify-center w-10 h-10 text-gray-600 right-3 dark:text-gray-400">
                     <svg id="eyeClosed1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" class="hidden w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -107,7 +107,7 @@
                            focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
                 <!-- Tombol Mata -->
                 <button type="button" onclick="togglePassword('password_confirm', 'eyeOpen2', 'eyeClosed2')"
-                    class="absolute inset-y-0 flex items-center justify-center w-10 h-full text-gray-600 right-3 dark:text-gray-400">
+                    class="absolute top-6 flex items-center justify-center w-10 h-full text-gray-600 right-3 dark:text-gray-400">
                     <svg id="eyeClosed2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" class="hidden w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"

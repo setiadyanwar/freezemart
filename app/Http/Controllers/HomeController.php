@@ -527,7 +527,10 @@ class HomeController extends Controller
             return redirect('/');
         }
 
-        return back()->withErrors('status', 'Login Gagal!. Harap periksa kembali email dan password');
+        return redirect()->back()->withErrors([
+            'status' => 'Login Gagal! Harap periksa kembali email dan password.',
+        ]);
+
     }
 
     public function register()
