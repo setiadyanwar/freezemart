@@ -38,12 +38,13 @@ class OrderResource extends Resource
     {
         return $form->schema([
             Section::make('Informasi Pesanan')->schema([
-                TextInput::make('checkout.user.name')
+                Placeholder::make('nama_pembeli')
                     ->label('Nama Pembeli')
-                    ->disabled(),
+                    ->content(fn($record) => $record?->checkout?->user?->name ?? '-'),
 
-                TextInput::make('product.nama_produk')
+                Select::make('product_id')
                     ->label('Produk')
+                    ->relationship('product', 'name')
                     ->disabled(),
 
                 TextInput::make('price')
@@ -77,7 +78,7 @@ class OrderResource extends Resource
                 ->label('Nama Pembeli')
                 ->searchable(),
 
-            TextColumn::make('product.nama_produk')
+            TextColumn::make('product.name')
                 ->label('Produk'),
 
             TextColumn::make('price')

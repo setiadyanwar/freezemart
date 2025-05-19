@@ -134,6 +134,7 @@ class HomeController extends Controller
 
     public function showProduct(Product $product)
     {
+        // Data dasar
         $data = [
             'title' => 'FreezeMart | Produk Terbaik yang Kami Tawarkan',
             'product' => $product,
@@ -146,9 +147,40 @@ class HomeController extends Controller
             ->where('product_id', $product->id)
             ->first();
 
-        $data['average_rating'] = round($ratingData->average_rating ?? 0, 1); // Ex: 4.7
-        $data['total_reviews'] = $ratingData->total_reviews ?? 0;             // Ex: 123
+        $data['average_rating'] = round($ratingData->average_rating ?? 0, 1);
+        $data['total_reviews'] = $ratingData->total_reviews ?? 0;
 
+        // Ambil distribusi rating untuk rating bar
+        $ratingCounts = DB::table('comments')
+            ->select('rating', DB::raw('COUNT(*) as count'))
+            ->where('product_id', $product->id)
+            ->groupBy('rating')
+            ->pluck('count', 'rating')
+            ->toArray();
+
+        $total = array_sum($ratingCounts);
+        $ratingPercentages = [];
+
+        for ($i = 5; $i >= 1; $i--) {
+            $count = $ratingCounts[$i] ?? 0;
+            $percentage = $total > 0 ? round(($count / $total) * 100) : 0;
+            $ratingPercentages[$i] = [
+                'count' => $count,
+                'percentage' => $percentage,
+            ];
+        }
+
+        $data['ratingBars'] = $ratingPercentages;
+
+        // Ambil komentar dengan relasi user, dan paginasi 10 per halaman
+        $comments = Comment::with('user')
+            ->where('product_id', $product->id)
+            ->latest()
+            ->paginate(10); // paginate sesuai kebutuhan
+
+        $data['comments'] = $comments;
+
+        // Jika user login, ambil data cart
         if (Auth::check()) {
             $data['carts'] = Cart::with('product')
                 ->where('user_id', request()->user()->id)
@@ -770,7 +802,7 @@ class HomeController extends Controller
         // Return hasil rekomendasi ke tampilan
         return view('landing', [
             'title' => 'Freezemart | Hasil Rekomendasi',
-            'products' => Product::with('comments')->limit(10)->get(),
+            'products' => Product::with('comments')->filter(request(['categories']))->limit(10)->get(),
             'recommended' => $recommendedProducts,
             'categories' => Category::all()
         ]);

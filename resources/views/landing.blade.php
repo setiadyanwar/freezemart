@@ -115,7 +115,7 @@
                             </div>
                             <div class="mr-8 flex max-w-full gap-4 overflow-x-auto p-2 pb-2 scrollbar-hide">
                                 @foreach ($categories->take(3) as $category)
-                                    <a href="/products?category={{ $category->slug }}" class="flex-none">
+                                    <a href="/products?categories={{ $category->slug }}" class="flex-none">
                                         <div
                                             class="flex h-32 w-32 flex-col items-center justify-center rounded-2xl bg-white p-4 text-center outline outline-1 outline-[#6B7280] scrollbar-hide dark:bg-gray-800">
                                             {{-- Icon default atau icon dari DB --}}
@@ -211,11 +211,11 @@
 
                 </div>
             </div>
-            <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
+            <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
                 <div class="mb-4 flex max-w-full items-center gap-4 overflow-x-auto pb-2 pl-2 pr-4 scrollbar-hide"
                     data-aos="fade-up" data-aos-duration="1000" once="true">
                     {{-- Semua Kategori --}}
-                    
+
                     <a href="/products"
                         class="{{ request('category') ? 'border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' : 'border-primary-500 bg-primary-50 text-primary-600' }} flex items-center gap-2 rounded-xl border px-4 py-2 dark:bg-gray-800"
                         title="Semua Kategori">
@@ -236,7 +236,7 @@
 
                     {{-- List Kategori --}}
                     @foreach ($categories as $category)
-                        <a href="/products?category={{ $category->slug }}"
+                        <a href="/products?categories={{ $category->slug }}"
                             class="{{ request('category') === $category->slug ? 'border-dark-black text-gray-900 dark:text-white dark:border-gray-700' : 'border-gray-200 text-gray-900 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700' }} flex items-center gap-2 rounded-xl border px-4 py-2">
                             <img class="h-4 w-4 shrink-0" src="{{ asset('storage/' . $category->path) }}"
                                 alt="{{ $category->name }} Icon">
