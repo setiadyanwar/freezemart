@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3c403c71f5c09aae16149329d25f2311",
+    "content-hash": "22b4683a5b9a06a467c9d50c59b55344",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -8515,16 +8515,16 @@
         },
         {
             "name": "xendit/xendit-php",
-            "version": "6.2.0",
+            "version": "6.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/xendit/xendit-php.git",
-                "reference": "aeff09e78307604e3111f272d361f66d6f511f71"
+                "reference": "1b525c90f88578d05593f7a714363544cd752620"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/xendit/xendit-php/zipball/aeff09e78307604e3111f272d361f66d6f511f71",
-                "reference": "aeff09e78307604e3111f272d361f66d6f511f71",
+                "url": "https://api.github.com/repos/xendit/xendit-php/zipball/1b525c90f88578d05593f7a714363544cd752620",
+                "reference": "1b525c90f88578d05593f7a714363544cd752620",
                 "shasum": ""
             },
             "require": {
@@ -8569,9 +8569,9 @@
             ],
             "support": {
                 "issues": "https://github.com/xendit/xendit-php/issues",
-                "source": "https://github.com/xendit/xendit-php/tree/6.2.0"
+                "source": "https://github.com/xendit/xendit-php/tree/6.4.0"
             },
-            "time": "2025-02-17T09:10:25+00:00"
+            "time": "2025-05-16T04:31:28+00:00"
         }
     ],
     "packages-dev": [
@@ -11008,12 +11008,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

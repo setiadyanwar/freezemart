@@ -322,7 +322,7 @@ class HomeController extends Controller
                 "name" => $product->name,
                 "quantity" => $quantities[$indexQty],
                 "price" => $product->price,
-                "category" => $product->category->name,
+                "category" => optional($product->category)->name ?? 'Uncategorized',
                 "url" => config('app.url') . "/products/$product->slug"
             ];
 
@@ -388,7 +388,8 @@ class HomeController extends Controller
         } catch (\Xendit\XenditSdkException $e) {
             // Tangkap error dan tampilkan
             // Bisa gunakan dd() untuk debug atau log error
-            dd($e->getMessage()); // Menampilkan pesan error dari Xendit
+            dd($e->getMessage()); 
+            dd('General Error: ' . $e->getMessage());
 
             // Atau log error
             // Log::error('Xendit Error: ' . $e->getMessage());
