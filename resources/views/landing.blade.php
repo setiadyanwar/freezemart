@@ -132,24 +132,7 @@
                         </div>
                     </div>
 
-                    {{-- Form Personalization --}}
-                    {{-- <form action="{{ url('/personalize') }}" method="POST">
-                        @csrf
-                        <input type="text" name="input" placeholder="Ketikkan frozen food yang kamu suka?" required
-                            class="...">
 
-                        <div class="space-y-4">
-                            <div id="price-filters" class="flex flex-wrap gap-2">
-                                <button type="submit" name="price" value="lt50" class="filter-btn ...">&lt;
-                                    Rp50.000</button>
-                                <button type="submit" name="price" value="50to100" class="filter-btn ...">Rp50.000 -
-                                    Rp100.000</button>
-                                <button type="submit" name="price" value="gt100" class="filter-btn ...">&gt;
-                                    Rp100.000</button>
-                            </div>
-                        </div>
-                    </form> --}}
-                    {{-- End Form Personalization --}}
 
                     {{-- Form Personalization --}}
                     <div x-data="{ input: '', price: '' }" class="mb-10 w-full lg:w-1/2" data-aos="fade-up" data-aos-duration="1000"
@@ -163,6 +146,22 @@
                             <input type="hidden" name="price" :value="price">
                             <input type="hidden" name="input" :value="input">
 
+
+                        <div x-data="{
+                            price: '', 
+                            error: '', 
+                            submitHandler() {
+                            if (!this.price) {
+                                this.error = 'Filter harga maksimal harus dipilih!';
+                                return;
+                            }
+                            this.error = '';
+                                console.log('Filter harga sudah dipilih: ' + this.price);
+                                // Lanjutkan proses lainnya
+                            }
+                        }"
+                        class="space-y-4"
+                        >
                             <div class="container-input">
                                 <div class="relative w-full rounded-lg px-4 py-5 outline outline-1 outline-[#6B7280]">
                                     <div class="input mb-4">
@@ -170,35 +169,40 @@
                                             <input x-model="input" type="text"
                                                 placeholder="Ketikkan frozen food yang kamu suka?" required
                                                 class="input-text-personalisasi w-full flex-1 rounded-2xl p-3 text-sm font-light text-[#000] outline outline-1 outline-[#D8D8D8] placeholder:text-[#C5C6C9] dark:bg-gray-800 dark:text-gray-300 sm:text-base" />
-                                            <button type="submit"
-                                                class="send-personalisasi w-full whitespace-nowrap rounded-xl bg-[#2761c9] px-4 py-3 text-sm text-white sm:w-auto sm:text-base">
+                                            <button 
+                                                type="submit"
+                                                :disabled="!price"
+                                                @click="submitHandler()"
+                                                class="send-personalisasi w-full whitespace-nowrap rounded-xl bg-[#2761c9] px-4 py-3 disabled:opacity-25 disabled:cursor-not-allowed text-sm text-white sm:w-auto sm:text-base">
                                                 Kirim
                                             </button>
                                         </div>
                                     </div>
 
-                                    <div class="space-y-4">
                                         <!-- Filter harga -->
                                         <div id="price-filters" class="flex flex-wrap gap-2">
-                                            <button type="button" @click="price = 'lt50'"
-                                                :class="price === 'lt50' ?
-                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' :
+                                            <button type="button" @click="price = 'lt50'; error = ''"
+                                                :class="price === 'lt50' ? 
+                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' : 
                                                     'border-gray-300 bg-white text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'"
-                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium">
+                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium"
+                                            >
                                                 &lt; Rp50.000
                                             </button>
-                                            <button type="button" @click="price = '50to100'"
-                                                :class="price === '50to100' ?
-                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' :
+                                            <button type="button" @click="price = '50to100'; error = ''"
+                                                :class="price === '50to100' ? 
+                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' : 
                                                     'border-gray-300 bg-white text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'"
-                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium">
+                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium"
+                                            >
                                                 Rp50.000 - Rp100.000
                                             </button>
-                                            <button type="button" @click="price = 'gt100'"
-                                                :class="price === 'gt100' ?
-                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' :
+                                            <button type="button" @click="price = 'gt100'; error = ''"
+                                                :class="price === 'gt100' ? 
+                                                    'border-primary-500 bg-[#edf3ff] text-primary-500 dark:border-primary-400 dark:bg-gray-700 dark:text-primary-400' : 
                                                     'border-gray-300 bg-white text-gray-600 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300'"
-                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium">
+                                                class="filter-btn rounded-lg border px-4 py-2 text-sm font-medium"
+                                            >
                                                 &gt; Rp100.000
                                             </button>
                                         </div>
@@ -355,6 +359,17 @@
         </div>
         <script>
             // Hilangkan toast setelah 3 detik (3000 ms)
+            function submitHandler() {
+            if (!this.price) {
+                this.error = 'Filter harga maksimal harus dipilih!';
+                return;
+            }
+            this.error = '';
+            // Lanjutkan proses submit, misal fetch API / submit form
+            console.log('Filter harga sudah dipilih: ' + this.price);
+            // Contoh: kirim data ke API recommend di sini
+            }
+
             setTimeout(() => {
                 const toast = document.getElementById('toast-bottom-right');
                 if (toast) {
