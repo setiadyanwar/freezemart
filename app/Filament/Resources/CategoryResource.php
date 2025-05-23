@@ -49,6 +49,7 @@ class CategoryResource extends Resource
                     ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/svg+xml'])
                     ->disk('public')
                     ->directory('category')
+                    ->required()
                     ->imageCropAspectRatio('1:1'),
                 Toggle::make('is_active')
                     ->onColor('primary')
